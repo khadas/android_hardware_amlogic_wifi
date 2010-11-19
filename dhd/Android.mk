@@ -32,4 +32,11 @@ file := $(TARGET_OUT)/etc/sdio-g-cdc-full11n-reclaim-roml-wme-idsup.bin
 ALL_PREBUILT += $(file)
 $(file) : $(LOCAL_PATH)/sdio-g-cdc-full11n-reclaim-roml-wme-idsup.bin | $(ACP)
 	$(transform-prebuilt-to-target)
+else
+ifeq ($(strip $(WIFI_DRIVER_MODULE_DHD_INTERNAL)),true)
+file := $(TARGET_OUT)/etc/wifi/wpa_supplicant.conf
+ALL_PREBUILT += $(file)
+$(file) : $(LOCAL_PATH)/wpa_supplicant.conf | $(ACP)
+	$(transform-prebuilt-to-target)
+endif
 endif
