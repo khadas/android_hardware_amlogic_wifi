@@ -1,0 +1,16 @@
+To support TI-WGT7310 Wifi Driver, you MUST:
+1) update tiwlan_drv.ko(eth0 for mid, wlan0 for mbox) when kernel changed
+2) enable WIFI_DRIVER_MODULE_WGT7310 in BoardConfig.mk:
+		WIFI_DRIVER_MODULE_WGT7310 := true
+		ifeq ($(WIFI_DRIVER_MODULE_WGT7310),true)
+		WIFI_DRIVER_MODULE_PATH := /system/lib/tiwlan_drv.ko
+		WIFI_DRIVER_MODULE_NAME := tiwlan_drv
+		WIFI_FIRMWARE_LOADER := tiwlan_loader
+		endif
+3) have tiwlan_loader service in init.rc:
+		service tiwlan_loader /system/etc/wifi/tiwlan_loader -i /system/etc/wifi/tiwlan.ini -f /system/etc/wifi/firmware.bin
+			group system wifi
+			disabled
+			oneshot
+4) make sure hardware/libhardware_legacy/wifi/wifi.c support driver and firmware load
+			
