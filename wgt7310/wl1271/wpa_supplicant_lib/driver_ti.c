@@ -152,6 +152,7 @@ static int wpa_driver_tista_private_send( void *priv, u32 ioctl_cmd, void *bufIn
 
 static int wpa_driver_tista_driver_start( void *priv )
 {
+#if 0
 	struct wpa_driver_ti_data *drv = (struct wpa_driver_ti_data *)priv;
 	u32 uDummyBuf;
 	s32 res;
@@ -167,10 +168,14 @@ static int wpa_driver_tista_driver_start( void *priv )
 		wpa_printf(MSG_DEBUG, "wpa_driver_tista_driver_start success");
 	}
 	return res;
+#else
+	return 0;
+#endif
 }
 
 static int wpa_driver_tista_driver_stop( void *priv )
 {
+#if 0	
 	struct wpa_driver_ti_data *drv = (struct wpa_driver_ti_data *)priv;
 	u32 uDummyBuf;
 	s32 res;
@@ -185,6 +190,9 @@ static int wpa_driver_tista_driver_stop( void *priv )
 		wpa_printf(MSG_DEBUG, "wpa_driver_tista_driver_stop success");
 
 	return res;
+#else
+	return 0;
+#endif	
 }
 
 int wpa_driver_tista_parse_custom(void *ctx, const void *custom)
