@@ -150,6 +150,10 @@ static int wpa_driver_tista_private_send( void *priv, u32 ioctl_cmd, void *bufIn
 	return 0;
 }
 
+static const char WLAN_SUSPEND[]    = "wlan_suspend";
+static const char WLAN_RESUME[]     = "wlan_resume";
+#include "cutils/properties.h"
+
 static int wpa_driver_tista_driver_start( void *priv )
 {
 #if 0
@@ -169,6 +173,7 @@ static int wpa_driver_tista_driver_start( void *priv )
 	}
 	return res;
 #else
+	property_set("ctl.start", WLAN_RESUME);
 	return 0;
 #endif
 }
@@ -191,6 +196,7 @@ static int wpa_driver_tista_driver_stop( void *priv )
 
 	return res;
 #else
+	property_set("ctl.start", WLAN_SUSPEND);
 	return 0;
 #endif	
 }
