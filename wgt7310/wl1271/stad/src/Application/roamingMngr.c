@@ -82,12 +82,12 @@
 #define ROAMING_MNGR_CONTEXT_INIT_BIT       1
 #define ROAMING_MNGR_SM_INIT_BIT            2
 
-#define DEFAULT_AP_QUALITY                  (-70)
-#define DEFAULT_LOW_PASS_FILTER             (30)
+#define DEFAULT_AP_QUALITY                  (-65)
+#define DEFAULT_LOW_PASS_FILTER             (10)
 #define DEFAULT_DATA_RETRY_THRESHOLD        (20)
 #define DEFAULT_LOW_QUALITY_SCAN_COND       (-60)
 #define DEFAULT_NORMAL_QUALITY_SCAN_COND    (-50)
-#define DEFAULT_LOW_RSSI                    (-70)
+#define DEFAULT_LOW_RSSI                    (-60)
 #define DEFAULT_LOW_SNR                     (0)
 #define DEFAULT_TBTT_4_BSS_LOSS             (10)
 #define DEFAULT_LOW_TX_RATE                 (2)
@@ -740,16 +740,16 @@ TI_STATUS roamingMngr_setDefaults (TI_HANDLE hRoamingMngr, TRoamScanMngrInitPara
 	if (pInitParam->RoamingScanning_2_4G_enable)
     {
         param.content.roamingConfigBuffer.roamingMngrConfig.enableDisable =  ROAMING_ENABLED ;
-        param.content.roamingConfigBuffer.roamingMngrConfig.lowPassFilterRoamingAttempt = 30;
-        param.content.roamingConfigBuffer.roamingMngrConfig.apQualityThreshold = -70;
+        param.content.roamingConfigBuffer.roamingMngrConfig.lowPassFilterRoamingAttempt = 10;
+        param.content.roamingConfigBuffer.roamingMngrConfig.apQualityThreshold = -65;
 
         param.content.roamingConfigBuffer.roamingMngrThresholdsConfig.dataRetryThreshold = 20;
         param.content.roamingConfigBuffer.roamingMngrThresholdsConfig.numExpectedTbttForBSSLoss = 10;
         param.content.roamingConfigBuffer.roamingMngrThresholdsConfig.txRateThreshold = 2;
-        param.content.roamingConfigBuffer.roamingMngrThresholdsConfig.lowRssiThreshold = -80;
+        param.content.roamingConfigBuffer.roamingMngrThresholdsConfig.lowRssiThreshold = -60;
         param.content.roamingConfigBuffer.roamingMngrThresholdsConfig.lowSnrThreshold = 0;
-        param.content.roamingConfigBuffer.roamingMngrThresholdsConfig.lowQualityForBackgroungScanCondition = -80;
-        param.content.roamingConfigBuffer.roamingMngrThresholdsConfig.normalQualityForBackgroungScanCondition = -70;
+        param.content.roamingConfigBuffer.roamingMngrThresholdsConfig.lowQualityForBackgroungScanCondition = -60;
+        param.content.roamingConfigBuffer.roamingMngrThresholdsConfig.normalQualityForBackgroungScanCondition = -60;
 
         param.paramType = ROAMING_MNGR_APPLICATION_CONFIGURATION;
         param.paramLength = sizeof(roamingMngrConfigParams_t);

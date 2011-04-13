@@ -302,7 +302,7 @@
 /* TX_POWER is in Dbm/10 units */
 #define MAX_TX_POWER					250 
 #define MIN_TX_POWER					0   
-#define DEF_TX_POWER					205   
+#define DEF_TX_POWER					185   
 
 
 #define MIN_DEFAULT_KEY_ID              0
