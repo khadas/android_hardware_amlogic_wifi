@@ -603,6 +603,10 @@ static int wpa_driver_tista_driver_cmd( void *priv, char *cmd, char *buf, size_t
 
 	wpa_printf(MSG_DEBUG, "%s %s", __func__, cmd);
 
+	if (os_strcasecmp(cmd, "RSSI-APPROX") == 0) {
+		os_strncpy(cmd, "RSSI", MAX_DRV_CMD_SIZE);
+	}
+
 	if( os_strcasecmp(cmd, "start") == 0 ) {
 		wpa_printf(MSG_DEBUG,"Start command");
 		ret = wpa_driver_tista_driver_start(priv);
