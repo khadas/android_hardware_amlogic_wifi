@@ -174,6 +174,7 @@ static int wpa_driver_tista_driver_start( void *priv )
 	return res;
 #else
 	property_set("ctl.start", WLAN_RESUME);
+	os_sleep(0, 100000); /* delay 100 ms */
 	return 0;
 #endif
 }
@@ -197,6 +198,7 @@ static int wpa_driver_tista_driver_stop( void *priv )
 	return res;
 #else
 	property_set("ctl.start", WLAN_SUSPEND);
+	os_sleep(0, 100000); /* delay 100 ms */
 	return 0;
 #endif	
 }
