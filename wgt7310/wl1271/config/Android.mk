@@ -15,94 +15,47 @@
 #
 LOCAL_PATH := $(call my-dir)
 
-########################
+file := $(TARGET_OUT)/lib/tiwlan_drv.ko
+ALL_PREBUILT += $(file)
+$(file) : $(LOCAL_PATH)/tiwlan_drv.ko | $(ACP)
+	$(transform-prebuilt-to-target)
 
-include $(CLEAR_VARS)
-LOCAL_MODULE := wpa_supplicant.conf
-LOCAL_MODULE_TAGS := user
-LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
-LOCAL_SRC_FILES := $(LOCAL_MODULE)
-include $(BUILD_PREBUILT)
+file := $(TARGET_OUT)/etc/wifi/wpa_supplicant.conf
+ALL_PREBUILT += $(file)
+$(file) : $(LOCAL_PATH)/wpa_supplicant.conf | $(ACP)
+	$(transform-prebuilt-to-target)
 
-########################
+file := $(TARGET_OUT)/etc/wifi/firmware.bin
+ALL_PREBUILT += $(file)
+$(file) : $(LOCAL_PATH)/firmware.bin | $(ACP)
+	$(transform-prebuilt-to-target)
 
-include $(CLEAR_VARS)
-LOCAL_MODULE := tiwlan.ini
-LOCAL_MODULE_TAGS := user
-LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
-LOCAL_SRC_FILES := $(LOCAL_MODULE)
-include $(BUILD_PREBUILT)
+file := $(TARGET_OUT)/etc/wifi/tiwlan.ini
+ALL_PREBUILT += $(file)
+$(file) : $(LOCAL_PATH)/tiwlan.ini | $(ACP)
+	$(transform-prebuilt-to-target)
 
-########################
+file := $(TARGET_OUT)/etc/wifi/wlan_cu_cmd
+ALL_PREBUILT += $(file)
+$(file) : $(LOCAL_PATH)/wlan_cu_cmd | $(ACP)
+	$(transform-prebuilt-to-target)
 
-include $(CLEAR_VARS)
-LOCAL_MODULE := firmware.bin
-LOCAL_MODULE_TAGS := user
-LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
-LOCAL_SRC_FILES := $(LOCAL_MODULE)
-include $(BUILD_PREBUILT)
+file := $(TARGET_OUT)/etc/wifi/tiwlan_cali.sh
+ALL_PREBUILT += $(file)
+$(file) : $(LOCAL_PATH)/tiwlan_cali.sh | $(ACP)
+	$(transform-prebuilt-to-target)
 
-########################
+file := $(TARGET_OUT)/etc/wifi/tiwlan_cali2.sh
+ALL_PREBUILT += $(file)
+$(file) : $(LOCAL_PATH)/tiwlan_cali2.sh | $(ACP)
+	$(transform-prebuilt-to-target)
 
-include $(CLEAR_VARS)
-LOCAL_MODULE := tiwlan_cali.sh
-LOCAL_MODULE_TAGS := user
-LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
-LOCAL_SRC_FILES := $(LOCAL_MODULE)
-include $(BUILD_PREBUILT)
+file := $(TARGET_OUT)/etc/wifi/defpower.sh
+ALL_PREBUILT += $(file)
+$(file) : $(LOCAL_PATH)/defpower.sh | $(ACP)
+	$(transform-prebuilt-to-target)
 
-########################
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := tiwlan_cali2.sh
-LOCAL_MODULE_TAGS := user
-LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
-LOCAL_SRC_FILES := $(LOCAL_MODULE)
-include $(BUILD_PREBUILT)
-
-########################
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := wlan_cu_cmd
-LOCAL_MODULE_TAGS := user
-LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
-LOCAL_SRC_FILES := $(LOCAL_MODULE)
-include $(BUILD_PREBUILT)
-
-########################
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := tiwlan_drv.ko
-LOCAL_MODULE_TAGS := user
-LOCAL_MODULE_CLASS := SHARED_LIBRARIES
-LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)
-LOCAL_SRC_FILES := $(LOCAL_MODULE)
-include $(BUILD_PREBUILT)
-
-########################
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := defpower.sh
-LOCAL_MODULE_TAGS := user
-LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
-LOCAL_SRC_FILES := $(LOCAL_MODULE)
-include $(BUILD_PREBUILT)
-
-########################
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := lowpower.sh
-LOCAL_MODULE_TAGS := user
-LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
-LOCAL_SRC_FILES := $(LOCAL_MODULE)
-include $(BUILD_PREBUILT)
-
-########################
+file := $(TARGET_OUT)/etc/wifi/lowpower.sh
+ALL_PREBUILT += $(file)
+$(file) : $(LOCAL_PATH)/lowpower.sh | $(ACP)
+	$(transform-prebuilt-to-target)
