@@ -1,3 +1,3 @@
-ifeq ($(BOARD_WLAN_DEVICE),wl1271)
+ifeq ($(WIFI_DRIVER),wl1271)
     include $(call all-subdir-makefiles)
 endif
