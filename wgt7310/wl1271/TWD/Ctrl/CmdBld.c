@@ -1322,7 +1322,7 @@ static TI_STATUS __cfg_radio_params (TI_HANDLE hCmdBld)
 		return TI_NOK;
 
     return cmdBld_CfgIeRadioParams (hCmdBld, 
-                                    &DB_RADIO(hCmdBld), 
+                                    DB_RADIO(hCmdBld), 
                                     (void *)cmdBld_ConfigSeq, 
                                     hCmdBld);
 }
@@ -1334,7 +1334,7 @@ static TI_STATUS __cfg_extended_radio_params (TI_HANDLE hCmdBld)
 		return TI_NOK;
 
     return cmdBld_CfgIeExtendedRadioParams (hCmdBld,
-											&DB_EXT_RADIO(hCmdBld),
+											DB_EXT_RADIO(hCmdBld),
 											(void *)cmdBld_ConfigSeq,
 											hCmdBld);
 }

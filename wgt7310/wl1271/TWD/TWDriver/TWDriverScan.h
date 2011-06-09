@@ -64,7 +64,7 @@ This file is included by the TWDriver.h , it should not be included apart. !!!!!
 #define SCAN_DEFAULT_EARLY_TERMINATION_EVENT                SCAN_ET_COND_DISABLE
 #define SCAN_DEFAULT_EARLY_TERMINATION_NUM_OF_FRAMES        0
 
-#define PERIODIC_SCAN_MAX_SSID_NUM      					8
+#define PERIODIC_SCAN_MAX_SSID_NUM      					CONN_SCAN_MAX_NUMBER_OF_SSID_ENTRIES
 #define PERIODIC_SCAN_MAX_INTERVAL_NUM  					16
 #define PERIODIC_SCAN_MAX_CHANNEL_NUM   					37 /* G-14 + A-23 */
 

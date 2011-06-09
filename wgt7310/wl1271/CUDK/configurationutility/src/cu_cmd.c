@@ -399,6 +399,11 @@ static named_value_t tKeepAliveTriggerTypes[] = {
         { KEEP_ALIVE_TRIG_TYPE_PERIOD_ONLY,     (PS8)"Always" }
 };
 
+static named_value_t nvs_version_val[] = {
+	{ eCHANGE_TO_NVS_VERSION_2,          (PS8)"version 2" },
+	{ eCHANGE_TO_NVS_VERSION_2_1,        (PS8)"Version 2.1" },
+};
+
 #if 0 /* need to create debug logic for CLI */
 static named_value_t cli_level_type[] = {
         { CU_MSG_DEBUG,                         (PS8)"CU_MSG_DEBUG" },
@@ -5442,7 +5447,7 @@ VOID nvsWriteEndNVS(FILE *nvsBinFile)
 	os_fwrite(&lengthToSet, sizeof(TI_UINT16), 1, nvsBinFile);
 }
 
-VOID nvsUpdateFile(THandle hCuCmd, TNvsStruct nvsStruct, TI_UINT8 version,  S8 updatedProtocol)
+VOID nvsUpdateFile(THandle hCuCmd, TNvsStruct nvsStruct, TI_UINT32 version,  S8 updatedProtocol)
 {
 #ifdef _WINDOWS
     PS8 nvsFilePath = (PS8)"/windows/nvs_map.bin";
@@ -5659,7 +5664,7 @@ VOID CuCmd_BIP_StartBIP(THandle hCuCmd, ConParm_t parm[], U16 nParms)
 		return;
 	}
 
-	nvsUpdateFile(hCuCmd,data.testCmd_u.P2GCal.oNvsStruct , (TI_UINT8)data.testCmd_u.P2GCal.oNVSVersion, NVS_FILE_TX_PARAMETERS_UPDATE);
+	nvsUpdateFile(hCuCmd,data.testCmd_u.P2GCal.oNvsStruct , (TI_UINT32)data.testCmd_u.P2GCal.oNVSVersion, NVS_FILE_TX_PARAMETERS_UPDATE);
 
 }
 
@@ -5734,7 +5739,40 @@ VOID CuCmd_BIP_ExitRxBIP(THandle hCuCmd, ConParm_t parm[], U16 nParms)
 
 }
 
+VOID CuCmd_BIP_SetNVSVersion(THandle hCuCmd, ConParm_t parm[], U16 nParms)
+{
+	CuCmd_t* pCuCmd = (CuCmd_t*)hCuCmd;
+    TTestCmd data;
+    S32 i;
+    if( nParms )
+    {
+        CU_CMD_FIND_NAME_ARRAY(i, nvs_version_val, parm[0].value);
+        if(i == SIZE_ARR(nvs_version_val))
+        {
+            os_error_printf(CU_MSG_INFO2, (PS8)"CuCmd_BIP_SetNVSVersion, value %d is not defined!\n", parm[0].value);
+            return;
+        }
+        os_memset(&data, 0, sizeof(TTestCmd));
+    	data.testCmdId = TEST_CMD_SET_NVS_VERSION;
+        data.testCmd_u.changeNVSVersion.nvsVersionChange =  parm[0].value;
+		
+     	if(OK != CuCommon_Radio_Test(pCuCmd->hCuCommon, &data)) 
+    	{
+    		os_error_printf(CU_MSG_INFO2, (PS8)"Set NVS version failed\n");        
+    		return;
+    	}
+        if (TI_OK != data.testCmd_u.RxPlt.oRadioStatus) 
+		{
+    		os_error_printf(CU_MSG_INFO2, (PS8)"Set NVS version returned status: %d\n", data.testCmd_u.RxPlt.oRadioStatus);        
+    		return;
+    	}
+    }
+    else
+    {
+        print_available_values(nvs_version_val);
+	}
 
+}
 
 VOID CuCmd_SetPrivacyAuth(THandle hCuCmd, ConParm_t parm[], U16 nParms)
 {

@@ -217,6 +217,7 @@ VOID CuCmd_BIP_StartBIP(THandle hCuCmd, ConParm_t parm[], U16 nParms);
 VOID CuCmd_BIP_EnterRxBIP(THandle hCuCmd, ConParm_t parm[], U16 nParms); 
 VOID CuCmd_BIP_StartRxBIP(THandle hCuCmd, ConParm_t parm[], U16 nParms);
 VOID CuCmd_BIP_ExitRxBIP(THandle hCuCmd, ConParm_t parm[], U16 nParms);
+VOID CuCmd_BIP_SetNVSVersion(THandle hCuCmd, ConParm_t parm[], U16 nParms);
 VOID CuCmd_BIP_BufferCalReferencePoint(THandle hCuCmd, ConParm_t parm[], U16 nParms);
 
 VOID CuCmd_SetPrivacyAuth(THandle hCuCmd, ConParm_t parm[], U16 nParms);

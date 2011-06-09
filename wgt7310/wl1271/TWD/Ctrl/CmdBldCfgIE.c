@@ -1860,6 +1860,7 @@ TI_STATUS cmdBld_CfgIeRadioParams (TI_HANDLE hCmdBld, IniFileRadioParam *pIniFil
     TCmdBld *pCmdBld = (TCmdBld *)hCmdBld;
     TI_STATUS status = TI_NOK;
     TTestCmd *pTestCmd;
+    uint8 uFemIndex;	
 
     pTestCmd = os_memoryAlloc(pCmdBld->hOs, sizeof(TTestCmd));
     if (!pTestCmd)
@@ -1869,7 +1870,12 @@ TI_STATUS cmdBld_CfgIeRadioParams (TI_HANDLE hCmdBld, IniFileRadioParam *pIniFil
 
     pTestCmd->testCmdId = TEST_CMD_INI_FILE_RADIO_PARAM;
 
-    os_memoryCopy(pCmdBld->hOs, &pTestCmd->testCmd_u.IniFileRadioParams, pIniFileRadioParams, sizeof(IniFileRadioParam));
+    uFemIndex = pCmdBld->tDb.tPlatformGenParams.TXBiPFEMManufacturer;
+
+    TRACE1(pCmdBld->hReport, REPORT_SEVERITY_INFORMATION, ": cmdBld_CfgIeRadioParams - FEM type = %d.\n", uFemIndex);
+
+
+    os_memoryCopy(pCmdBld->hOs, &pTestCmd->testCmd_u.IniFileRadioParams, &pIniFileRadioParams[uFemIndex], sizeof(IniFileRadioParam));
 
     status = cmdQueue_SendCommand (pCmdBld->hCmdQueue, 
                              CMD_TEST, 
@@ -1900,6 +1906,7 @@ TI_STATUS cmdBld_CfgIeExtendedRadioParams (TI_HANDLE hCmdBld,
     TCmdBld *pCmdBld = (TCmdBld *)hCmdBld;
     TI_STATUS status = TI_NOK;
     TTestCmd *pTestCmd;
+    uint8 uFemIndex;	
 
     pTestCmd = os_memoryAlloc(pCmdBld->hOs, sizeof(TTestCmd));
     if (!pTestCmd)
@@ -1908,9 +1915,13 @@ TI_STATUS cmdBld_CfgIeExtendedRadioParams (TI_HANDLE hCmdBld,
     }
 
     pTestCmd->testCmdId = TEST_CMD_INI_FILE_RF_EXTENDED_PARAM;
+
+    uFemIndex = pCmdBld->tDb.tPlatformGenParams.TXBiPFEMManufacturer;
+
+    TRACE1(pCmdBld->hReport, REPORT_SEVERITY_INFORMATION, ": cmdBld_CfgIeExtendedRadioParams - FEM type = %d.\n", uFemIndex);
     
     os_memoryCopy(pCmdBld->hOs, &pTestCmd->testCmd_u.IniFileExtendedRadioParams,
-				  pIniFileExtRadioParams, sizeof(IniFileExtendedRadioParam));
+				  &pIniFileExtRadioParams[uFemIndex], sizeof(IniFileExtendedRadioParam));
 
     status = cmdQueue_SendCommand (pCmdBld->hCmdQueue, 
                              CMD_TEST, 
@@ -1923,6 +1934,32 @@ TI_STATUS cmdBld_CfgIeExtendedRadioParams (TI_HANDLE hCmdBld,
     return status;
 }
 
+/****************************************************************************
+ *                      interrogate_callback()
+ ****************************************************************************
+ * DESCRIPTION: CB function for TEST_CMD_INI_FILE_GENERAL_PARAM command,
+ *              In case that result is required.
+ *
+ * INPUTS:  hCmdBld   - handle to command builder object
+ *          status    - status
+ *          pItrBuf   - pointer to the result buffer
+ ****************************************************************************/
+
+static void autoDetectCb(TI_HANDLE hCmdBld, TI_UINT16 status, void *pItrBuf)
+{
+    TCmdBld *pCmdBld = (TCmdBld *)hCmdBld;
+
+    /* Update DB according to result from FW */
+    pCmdBld->tDb.tPlatformGenParams.TXBiPFEMManufacturer = ((TTestCmd *)((uint32)pItrBuf))->testCmd_u.IniFileGeneralParams.TXBiPFEMManufacturer;
+
+    if (pCmdBld->fInitSeqCB != NULL)
+    {
+        /* Go back to init sequence*/
+        ((InitSeqCB)pCmdBld->fInitSeqCB)(hCmdBld);
+    }
+
+    os_memoryFree(pCmdBld->hOs, pItrBuf, sizeof(TTestCmd));
+}
 
 TI_STATUS cmdBld_CfgPlatformGenParams (TI_HANDLE hCmdBld, IniFileGeneralParam *pGenParams, void *fCb, TI_HANDLE hCb)
 {
@@ -1930,6 +1967,8 @@ TI_STATUS cmdBld_CfgPlatformGenParams (TI_HANDLE hCmdBld, IniFileGeneralParam *p
     TI_STATUS status = TI_NOK;
     TTestCmd *pTestCmd;
 
+    pCmdBld->fInitSeqCB = fCb;
+	
     pTestCmd = os_memoryAlloc(pCmdBld->hOs, sizeof(TTestCmd));
     if (!pTestCmd)
     {
@@ -1940,14 +1979,33 @@ TI_STATUS cmdBld_CfgPlatformGenParams (TI_HANDLE hCmdBld, IniFileGeneralParam *p
     
     os_memoryCopy(pCmdBld->hOs, &pTestCmd->testCmd_u.IniFileGeneralParams, pGenParams, sizeof(IniFileGeneralParam));
 
-    status = cmdQueue_SendCommand (pCmdBld->hCmdQueue, 
-                              CMD_TEST, 
-                              (void *)pTestCmd, 
-                              sizeof(IniFileGeneralParam),
-                              fCb, 
-                              hCb, 
-                              NULL);    
-    os_memoryFree(pCmdBld->hOs, pTestCmd, sizeof(TTestCmd));
+    if (pGenParams->TXBiPFEMAutoDetect == 0) /* Manual detection */
+    {
+        TRACE1(pCmdBld->hReport, REPORT_SEVERITY_INFORMATION, ": Manual FEM detection. FEM type = %d\n", pGenParams->TXBiPFEMManufacturer);
+        status = cmdQueue_SendCommand (pCmdBld->hCmdQueue, 
+                          CMD_TEST, 
+                          (void *)pTestCmd, 
+                          sizeof(IniFileGeneralParam) + 4,
+                          fCb, 
+                          hCb, 
+                          NULL);
+
+        os_memoryFree(pCmdBld->hOs, pTestCmd, sizeof(TTestCmd));
+    }
+    else /* Auto detection */
+    {
+        TRACE0(pCmdBld->hReport, REPORT_SEVERITY_INFORMATION, ": Auto FEM detection. Fem type unknown yet.\n");
+
+        status = cmdQueue_SendCommand (pCmdBld->hCmdQueue, 
+                      CMD_TEST, 
+                      (void *)pTestCmd, 
+                      sizeof(IniFileGeneralParam) + 4, /* 4 bytes are for ID and padding of TTestCmd struct*/
+                      (void*)autoDetectCb, 
+                      hCb, 
+                      (void *)pTestCmd);
+        /* In this case we free pTestCmd in the CB function */
+    }
+
     return status;
 }
 

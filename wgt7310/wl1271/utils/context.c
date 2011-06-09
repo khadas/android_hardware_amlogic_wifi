@@ -281,8 +281,8 @@ void context_RequestSchedule (TI_HANDLE hContext, TI_UINT32 uClientId)
     /* Set client's Pending flag */
     pContext->aClientPending[uClientId] = TI_TRUE;
 
-    /* Prevent system from going to sleep */
-    os_wake_lock(pContext->hOs);
+    /* Disable system suspend (enabled again after task completion) */
+    os_WakeLock (pContext->hOs);
 
     /* 
      * If configured to switch context, request driver task scheduling.
@@ -290,13 +290,15 @@ void context_RequestSchedule (TI_HANDLE hContext, TI_UINT32 uClientId)
      */
     if (pContext->bContextSwitchRequired)
     {
-        if (os_RequestSchedule(pContext->hOs) != TI_OK)
-            os_wake_unlock(pContext->hOs);
+        if (os_RequestSchedule (pContext->hOs) != TI_OK)
+        {
+            os_WakeUnlock (pContext->hOs);
+        }
     }
-    else
+    else 
     {
-        context_DriverTask(hContext);
-        os_wake_unlock(pContext->hOs);
+        context_DriverTask (hContext);
+        os_WakeUnlock (pContext->hOs);
     }
 }
 
@@ -381,8 +383,8 @@ void context_EnableClient (TI_HANDLE hContext, TI_UINT32 uClientId)
     /* If client is pending, schedule driver task */
     if (pContext->aClientPending[uClientId])
     {
-        /* Prevent system from going to sleep */
-        os_wake_lock(pContext->hOs);
+        /* Disable system suspend (enabled again after task completion) */
+        os_WakeLock (pContext->hOs);
 
         /* 
          * If configured to switch context, request driver task scheduling.
@@ -390,14 +392,17 @@ void context_EnableClient (TI_HANDLE hContext, TI_UINT32 uClientId)
          */
         if (pContext->bContextSwitchRequired)
         {
-            if (os_RequestSchedule(pContext->hOs) != TI_OK)
-                os_wake_unlock(pContext->hOs);
+            if (os_RequestSchedule (pContext->hOs) != TI_OK)
+            {
+                os_WakeUnlock (pContext->hOs);
+            }
         }
-        else
+        else 
         {
-            context_DriverTask(hContext);
-            os_wake_unlock(pContext->hOs);
+            context_DriverTask (hContext);
+            os_WakeUnlock (pContext->hOs);
         }
+		
     }
 }
 

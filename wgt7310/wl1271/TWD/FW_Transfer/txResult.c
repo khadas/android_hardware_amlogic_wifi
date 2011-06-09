@@ -66,7 +66,7 @@
 
 
 /* Callback function definition for Tx sendPacketComplete */
-typedef void (* TSendPacketCompleteCb)(TI_HANDLE hCbObj, TxResultDescriptor_t *pTxResultInfo);
+typedef TI_BOOL (* TSendPacketCompleteCb)(TI_HANDLE hCbObj, TxResultDescriptor_t *pTxResultInfo);
 
 /* Tx-Result SM states */
 typedef enum
@@ -388,18 +388,23 @@ TRACE2(pTxResult->hReport, REPORT_SEVERITY_WARNING, ": No New Results although i
 
 	/* Loop over all new Tx-results and call Tx-complete callback with current entry pointer. */
     /* NOTE: THIS SHOULD COME LAST because it may lead to driver-stop process!! */
-	for (i = 0; i < uNumNewResults; i++)
+	for (i = 0; (i < uNumNewResults) && (i < TRQ_DEPTH); i++)
 	{
+        TI_BOOL cbRtn;
 		uTableIndex = pTxResult->uHostResultsCounter & TX_RESULT_QUEUE_DEPTH_MASK;
 		pCurrentResult = &(pTxResult->tResultsInfoReadTxn.tTxResultInfo.TxResultQueue[uTableIndex]);
-        pTxResult->uHostResultsCounter++;
+
+		cbRtn =
+		pTxResult->fSendPacketCompleteCb (pTxResult->hSendPacketCompleteHndl, pCurrentResult);
+		if(cbRtn)
+			pTxResult->uHostResultsCounter++;
 
         TRACE1(pTxResult->hReport, REPORT_SEVERITY_INFORMATION , ": call upper layer CB, Status = %d\n", pCurrentResult->status);
 
-		pTxResult->fSendPacketCompleteCb (pTxResult->hSendPacketCompleteHndl, pCurrentResult);
+        
+        
 	}
 }
-
 
 /****************************************************************************
  *                      txResult_RegisterCb()

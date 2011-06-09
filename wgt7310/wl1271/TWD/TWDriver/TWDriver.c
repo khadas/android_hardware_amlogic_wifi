@@ -622,8 +622,8 @@ TI_STATUS TWD_SetDefaults (TI_HANDLE hTWD, TTwdInitParams *pInitParams)
 
     TWlanParams         		*pWlanParams = &DB_WLAN(pTWD->hCmdBld);
     TKeepAliveList      		*pKlvParams = &DB_KLV(pTWD->hCmdBld);
-    IniFileRadioParam   		*pRadioParams = &DB_RADIO(pTWD->hCmdBld);
-	IniFileExtendedRadioParam   *pExtRadioParams = &DB_EXT_RADIO(pTWD->hCmdBld);
+    IniFileRadioParam   		*pRadioParams = DB_RADIO(pTWD->hCmdBld);
+	IniFileExtendedRadioParam   *pExtRadioParams = DB_EXT_RADIO(pTWD->hCmdBld);
     IniFileGeneralParam 		*pGenParams = &DB_GEN(pTWD->hCmdBld);
 	TRateMngParams      		*pRateMngParams = &DB_RM(pTWD->hCmdBld);
     TDmaParams          		*pDmaParams = &DB_DMA(pTWD->hCmdBld);
@@ -800,8 +800,8 @@ TI_STATUS TWD_SetDefaults (TI_HANDLE hTWD, TTwdInitParams *pInitParams)
                                                               CAP_BIT_MASK_SHORT_GI_FOR_20MHZ_PACKETS);
     pWlanParams->tTwdHtCapabilities.uMCSFeedback =           MCS_FEEDBACK_NO; 
 
-    os_memoryCopy(pTWD->hOs, (void*)pRadioParams, (void*)&pInitParams->tIniFileRadioParams, sizeof(IniFileRadioParam));
-	os_memoryCopy(pTWD->hOs, (void*)pExtRadioParams, (void*)&pInitParams->tIniFileExtRadioParams, sizeof(IniFileExtendedRadioParam));
+    os_memoryCopy(pTWD->hOs, (void*)pRadioParams, (void*)&pInitParams->tIniFileRadioParams, sizeof(IniFileRadioParam) * NUMBER_OF_FEM_TYPES_E);
+	os_memoryCopy(pTWD->hOs, (void*)pExtRadioParams, (void*)&pInitParams->tIniFileExtRadioParams, sizeof(IniFileExtendedRadioParam) * NUMBER_OF_FEM_TYPES_E);
     os_memoryCopy(pTWD->hOs, (void*)pGenParams, (void*)&pInitParams->tPlatformGenParams, sizeof(IniFileGeneralParam));
     
     os_memoryCopy (pTWD->hOs,
@@ -1787,29 +1787,9 @@ TI_UINT8 TWD_GetFEMType (TI_HANDLE hTWD)
 
 }
 
-/** 
- *  \brief TWD end function of read radio state machine
- *  *  * 
- * \param  Handle        	- handle to object
- * \return void
- * 
- * \par Description
- * The function calling to HwInit call back function, after finish reading FEM registers * 
- * \sa
- */ 
-void TWD_FinalizeFEMRead(TI_HANDLE hTWD)
-{
-  TTwd *pTWD = (TTwd *)hTWD;
-
-  (*pTWD->fInitHwCb) (pTWD->hUser, TI_OK);
-}
-
-
-
 
 void TWD_FinalizePolarityRead(TI_HANDLE hTWD)
 {
   TTwd *pTWD = (TTwd *)hTWD;
-  /*  allways read FEM type from Radio Registers */ 
-   hwInit_ReadRadioParams(pTWD->hHwInit);   
+  (*pTWD->fInitHwCb) (pTWD->hUser, TI_OK);
 }

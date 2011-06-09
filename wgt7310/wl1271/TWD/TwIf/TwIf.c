@@ -47,6 +47,7 @@
 
 #define __FILE_ID__  FILE_ID_121
 #include "tidef.h"
+#include "osApi.h"
 #include "report.h"
 #include "context.h"
 #include "timer.h"
@@ -371,7 +372,12 @@ ETxnStatus twIf_Restart (TI_HANDLE hTwIf)
     TTwIfObj    *pTwIf = (TTwIfObj*)hTwIf;
     ETxnStatus  eStatus;
 
-    pTwIf->eState           = SM_STATE_SLEEP;
+    if (pTwIf->eState != SM_STATE_SLEEP)
+    {
+        pTwIf->eState           = SM_STATE_SLEEP;
+        os_WakeUnlock(pTwIf->hOs);  /*  Compensate for missing unlock due to recovery */
+    }
+
     pTwIf->uAwakeReqCount   = 0;
 
     pTwIf->uPendingTxnCount = 0;
@@ -433,11 +439,13 @@ static void twIf_WriteElpReg (TTwIfObj *pTwIf, TI_UINT32 uValue)
     /* Send ELP (awake or sleep) transaction to TxnQ */
     if (uValue == ELP_CTRL_REG_AWAKE)
     {
+	    os_WakeLock(pTwIf->hOs);
         txnQ_Transact (pTwIf->hTxnQ, &(pTwIf->tElpTxnAwake.tHdr));
     }
     else
     {
         txnQ_Transact (pTwIf->hTxnQ, &(pTwIf->tElpTxnSleep.tHdr));
+		os_WakeUnlock(pTwIf->hOs);
     }
 }
 
@@ -1153,4 +1161,10 @@ void twIf_PrintQueues (TI_HANDLE hTwIf)
     txnQ_PrintQueues(pTwIf->hTxnQ);
 }
 
+void twIf_PrintWakeLockCounter(TI_HANDLE hTwIf)
+{
+    TTwIfObj *pTwIf = (TTwIfObj*)hTwIf;
+
+    WLAN_OS_REPORT(("wake_lock counter = %d\n", os_getWakeLockCounter(pTwIf->hOs)));
+}
 #endif /* TI_DBG */

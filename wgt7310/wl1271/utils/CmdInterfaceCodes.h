@@ -463,6 +463,17 @@ typedef enum
 																										* SET Bit: OFF	\n
 																										*/
 
+	SITE_MGR_PROBE_REQ_EXTRA_IES	= 	       SET_BIT  | ALLOC_NEEDED_PARAM | SITE_MGR_MODULE_PARAM | 0x44,	/**< Site Manager Extra IEs to probe request template: \n  
+																										* Used to add extra IEs to probe request template\n
+																										* Done Sync with no memory allocation\n 
+																										* Parameter Number:	0x38	\n
+																										* Module Number: Site Manager Module Number \n
+																										* Async Bit: OFF	\n
+																										* Allocate Bit: OFF	\n
+																										* GET Bit: OFF	\n
+																										* SET Bit: ON	\n
+																										*/
+
 	/* CTRL data section */
 	CTRL_DATA_CURRENT_BSS_TYPE_PARAM			=	SET_BIT | GET_BIT | CTRL_DATA_MODULE_PARAM | 0x04,	/**< Control Data Primary BSS Type Parameter (Control Data Module Set/Get Command): \n  
 																										* Used for Setting/Getting Primary BSS Type to/form Control Data Parameters\n

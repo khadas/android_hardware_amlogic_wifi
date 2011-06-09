@@ -1491,7 +1491,7 @@ typedef struct
     
 ******************************************************************************/
 
-#define CONN_SCAN_MAX_NUMBER_OF_SSID_ENTRIES        (8)
+#define CONN_SCAN_MAX_NUMBER_OF_SSID_ENTRIES        (16)
 
 typedef enum
 {

@@ -432,7 +432,7 @@ static S32 TiCon_Init_Console_Menu(TiCon_t* pTiCon)
             {(PS8)"BSS Type (0-independent, 1-infrastructure, 2-any)", CON_PARM_RANGE, 0, 2, 2 },
             {(PS8)"Probe request number", CON_PARM_RANGE, 0, 5, 3 },
             {(PS8)"Number of scan cycles", CON_PARM_RANGE, 0, 100, 0 },
-            {(PS8)"Number of SSIDs", CON_PARM_RANGE, 0, 8, 0 },
+            {(PS8)"Number of SSIDs", CON_PARM_RANGE, 0, 16, 0 },
             {(PS8)"SSID List Filter Enabled", CON_PARM_RANGE, 0, 1, 1 },
             {(PS8)"Number of channels", CON_PARM_RANGE, 0, 32, 14 },
             CON_LAST_PARM };
@@ -447,7 +447,7 @@ static S32 TiCon_Init_Console_Menu(TiCon_t* pTiCon)
     }
     {
         ConParm_t aaa[] = {
-            {(PS8)"Index", CON_PARM_RANGE, 0, 7, 0 },
+            {(PS8)"Index", CON_PARM_RANGE, 0, 15, 0 },
             {(PS8)"Visability (0-public, 1-hidden)", CON_PARM_RANGE, 0, 1, 0 },
             {(PS8)"SSID", CON_PARM_STRING, 0, 33, 0},
             CON_LAST_PARM };
@@ -1031,6 +1031,11 @@ static S32 TiCon_Init_Console_Menu(TiCon_t* pTiCon)
           }
 
        }
+	   {
+           ConParm_t aaa[]  = {{(PS8)"NVS Version" ,CON_PARM_OPTIONAL}, CON_LAST_PARM };
+		   Console_AddToken(pTiCon->hConsole,h1, (PS8)"set nvs Version", (PS8)"Change NVS version", 
+                            (FuncToken_t) CuCmd_BIP_SetNVSVersion, aaa );
+	   }
        
      
 	}

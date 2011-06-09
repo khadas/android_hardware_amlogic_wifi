@@ -102,6 +102,7 @@ TI_BOOL		twIf_isValidRegAddr(TI_HANDLE hTwIf, TI_UINT32 Address, TI_UINT32 Lengt
 #ifdef TI_DBG
     void        twIf_PrintModuleInfo (TI_HANDLE hTwIf);
     void        twIf_PrintQueues (TI_HANDLE hTwIf);
+	void        twIf_PrintWakeLockCounter(TI_HANDLE hTwIf);
 #endif /* TI_DBG */
 
 

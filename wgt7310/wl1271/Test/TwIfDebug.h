@@ -49,6 +49,7 @@
 /* debug functions */
 #define DBG_TWIF_PRINT_HELP		    	0
 #define DBG_TWIF_PRINT_INFO	            1
+#define DBG_TWIF_PRINT_WAKE_LOCK_COUNTER 2
 
 
 /************************************************************************

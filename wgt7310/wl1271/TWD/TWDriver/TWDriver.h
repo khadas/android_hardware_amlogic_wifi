@@ -2761,8 +2761,8 @@ typedef struct
     TScanSrvInitParams                  tScanSrv;			 /**< Scan Service Initialization Parameters    */
     TArpIpFilterInitParams              tArpIpFilter;		 /**< ARP IP filter Initialization Parameters	*/
     TMacAddrFilterInitParams            tMacAddrFilter;		 /**< MAC Address Initialization Parameters		*/
-    IniFileRadioParam                   tIniFileRadioParams; /**< Radio Initialization Parameters   		*/
-	IniFileExtendedRadioParam			tIniFileExtRadioParams; /**< Radio Initialization Parameters   		*/
+    IniFileRadioParam                   tIniFileRadioParams[NUMBER_OF_FEM_TYPES_E]; /**< Radio Initialization Parameters   		*/
+	IniFileExtendedRadioParam			tIniFileExtRadioParams[NUMBER_OF_FEM_TYPES_E]; /**< Radio Initialization Parameters   		*/
     IniFileGeneralParam                 tPlatformGenParams;  /**< Radio Initialization Parameters           */
 	RateMangeParams_t					tRateMngParams;			  
     DcoItrimParams_t                    tDcoItrimParams;     /**< Dco Itrim Parameters                      */

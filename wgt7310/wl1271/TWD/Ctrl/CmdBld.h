@@ -191,6 +191,9 @@ TI_STATUS cmdBld_SetDownlinkData  (TI_HANDLE hCmdBld, TI_BOOL bDownlinkFlag);
 void cmdBld_DbgForceTemplatesRates (TI_HANDLE hCmdBld, TI_UINT32 uRateMask);
 #endif
 
+/* Definition of CB function */
+typedef void (*InitSeqCB) (TI_HANDLE handle);
+
 #define CMD_IS_INVALID  0
 #define CMD_IS_VALID    1
 
@@ -336,6 +339,7 @@ typedef struct
     TI_HANDLE                  hJoinCmpltOriginalCbHndl;
 
     TI_UINT32                  uIniSeq;         /* Init sequence counter */
+	void                       *fInitSeqCB;     /* CB function pointer */
     TI_BOOL                    bReconfigInProgress;
 
     TI_UINT32                  uLastElpCtrlMode;/* Init sleep mode */

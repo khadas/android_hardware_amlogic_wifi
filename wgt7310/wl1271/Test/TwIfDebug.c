@@ -76,6 +76,10 @@ void twifDebugFunction (TI_HANDLE hTWD, TI_UINT32 uFuncType, void *pParam)
         twIf_PrintModuleInfo (hTwIf);
         break;
 
+    case DBG_TWIF_PRINT_WAKE_LOCK_COUNTER:
+		twIf_PrintWakeLockCounter(hTwIf);
+		break;
+		
 	default:
    		WLAN_OS_REPORT(("Invalid function type in TWIF debug function: %d\n", uFuncType));
         break;
@@ -97,6 +101,7 @@ static void printTwIfDbgFunctions (void)
 	WLAN_OS_REPORT(("--------------------------\n"));
 	WLAN_OS_REPORT(("2300 - Print the TwIf Debug Help\n"));
 	WLAN_OS_REPORT(("2301 - Print the TwIf Information\n"));
+	WLAN_OS_REPORT(("2302 - Print the wake_lock counter"));	
 }
 
 
