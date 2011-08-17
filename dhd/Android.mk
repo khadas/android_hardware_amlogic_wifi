@@ -1,11 +1,6 @@
 LOCAL_PATH:=$(call my-dir)
 
 ifeq ($(strip $(WIFI_DRIVER)),dhd)
-file := $(TARGET_OUT)/lib/dhd.ko
-ALL_PREBUILT += $(file)
-$(file) : $(LOCAL_PATH)/dhd.ko | $(ACP)
-	$(transform-prebuilt-to-target)
-
 file := $(TARGET_OUT)/etc/wifi/wpa_supplicant.conf
 ALL_PREBUILT += $(file)
 $(file) : $(LOCAL_PATH)/wpa_supplicant.conf | $(ACP)
@@ -19,6 +14,11 @@ $(file) : $(LOCAL_PATH)/nvram.txt | $(ACP)
 file := $(TARGET_OUT)/etc/sdio-g-cdc-full11n-reclaim-roml-wme-idsup.bin
 ALL_PREBUILT += $(file)
 $(file) : $(LOCAL_PATH)/sdio-g-cdc-full11n-reclaim-roml-wme-idsup.bin | $(ACP)
+	$(transform-prebuilt-to-target)
+
+file := $(TARGET_OUT)/etc/sdio-g-cdc-roml-reclaim-wme-apsta-idsup-idauth.bin
+ALL_PREBUILT += $(file)
+$(file) : $(LOCAL_PATH)/sdio-g-cdc-roml-reclaim-wme-apsta-idsup-idauth.bin | $(ACP)
 	$(transform-prebuilt-to-target)
 endif
 
