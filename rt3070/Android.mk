@@ -1,18 +1,15 @@
+ifeq ($(WIFI_DRIVER),rt3070)
+
 LOCAL_PATH:=$(call my-dir)
 
-ifeq ($(strip $(WIFI_DRIVER)),rt3070)
-file := $(TARGET_OUT)/lib/rt3070sta.ko
-ALL_PREBUILT += $(file)
-$(file) : $(LOCAL_PATH)/rt3070sta.ko | $(ACP)
-	$(transform-prebuilt-to-target)
+include $(CLEAR_VARS)
+LOCAL_MODULE := wpa_supplicant.conf
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
+LOCAL_SRC_FILES := $(LOCAL_MODULE)
+include $(BUILD_PREBUILT)
 
-file := $(TARGET_OUT)/etc/wifi/wpa_supplicant.conf
-ALL_PREBUILT += $(file)
-$(file) : $(LOCAL_PATH)/wpa_supplicant.conf | $(ACP)
-	$(transform-prebuilt-to-target)
+include $(call all-subdir-makefiles)
 
-file := $(TARGET_OUT)/etc/Wireless/RT2870STA/RT2870STA.dat
-ALL_PREBUILT += $(file)
-$(file) : $(LOCAL_PATH)/RT2870STA.dat | $(ACP)
-	$(transform-prebuilt-to-target)
 endif
