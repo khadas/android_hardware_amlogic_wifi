@@ -14,8 +14,7 @@ include $(BUILD_PREBUILT)
 
 ifeq ($(strip $(WIFI_DRIVER)),bcm40181)
 include $(CLEAR_VARS)
-LOCAL_MODULE := nvram.txt
-LOCAL_MODULE_SRC := 40181/nvram.txt
+LOCAL_MODULE := 40181/nvram.txt
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
@@ -23,8 +22,7 @@ LOCAL_SRC_FILES := $(LOCAL_MODULE)
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := sdio-apsta.bin
-LOCAL_MODULE_SRC := 40181/sdio-apsta.bin
+LOCAL_MODULE := 40181/sdio-apsta.bin
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
@@ -33,8 +31,7 @@ include $(BUILD_PREBUILT)
 
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := sdio-sta.bin
-LOCAL_MODULE_SRC := 40181/sdio-sta.bin
+LOCAL_MODULE := 40181/sdio-sta.bin
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
