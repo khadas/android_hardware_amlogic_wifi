@@ -30,7 +30,7 @@ LOCAL_SHARED_LIBRARIES := libc libcutils
 LOCAL_CFLAGS := $(L_CFLAGS)
 LOCAL_SRC_FILES := driver_load_ath6kl.c \
 					driver_load_ralink.c \
-					driver_load_realtek.c \
+					driver_load_rtl8192cu.c \
 					driver_load_ath9k.c
 LOCAL_C_INCLUDES := $(WPA_SUPPL_DIR_INCLUDE)
 include $(BUILD_SHARED_LIBRARY)
