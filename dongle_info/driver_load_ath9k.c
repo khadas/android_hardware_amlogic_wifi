@@ -58,7 +58,30 @@ static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
 
 static struct wifi_vid_pid ath_2_vid_pid_tables[] =
 {
-    {0x0cf3,0x9271}
+    {0x0cf3,0x9271},
+	{0x0cf3,0x1006}, /* Atheros */
+	{0x0846,0x9030}, /* Netgear N150 */
+	{0x07D1,0x3A10}, /* Dlink Wireless 150 */
+	{0x13D3,0x3327}, /* Azurewave */
+	{0x13D3,0x3328}, /* Azurewave */
+	{0x13D3,0x3346}, /* IMC Networks */
+	{0x13D3,0x3348}, /* Azurewave */
+	{0x13D3,0x3349}, /* Azurewave */
+	{0x13D3,0x3350}, /* Azurewave */
+	{0x04CA,0x4605}, /* Liteon */
+	{0x040D,0x3801}, /* VIA */
+	{0x0cf3,0xb003}, /* Ubiquiti WifiStation Ext */
+	{0x057c,0x8403}, /* AVM FRITZ!WLAN 11N v2 USB */
+
+	{0x0cf3,0x7015}, /* Atheros */
+	{0x1668,0x1200},  /* Verizon */
+
+	{0x0cf3,0x7010},  /* Atheros */
+	{0x0846,0x9018},  /* Netgear WNDA3200 */
+	{0x083A,0xA704},  /* SMC Networks */
+	{0x0411,0x017f},  /* Sony UWA-BR100 */
+
+	{0x0cf3,0x20ff}  
 };
 
 static int ath_2_table_len = sizeof(ath_2_vid_pid_tables)/sizeof(struct wifi_vid_pid);

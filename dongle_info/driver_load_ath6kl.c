@@ -52,7 +52,10 @@ static struct wifi_vid_pid ath_2_vid_pid_tables[] =
     {0x04da,0x3908},
     {0x0cf3,0x1006},
     {0x0cf3,0x7015},
-	{0x0cf3,0x7010}
+	{0x0cf3,0x7010},	
+	{0x0cf3,0x1021},
+	{0x0cf3,0x9372},
+	{0x1435,0x1220}
 };
 
 static int ath_2_table_len = sizeof(ath_2_vid_pid_tables)/sizeof(struct wifi_vid_pid);
