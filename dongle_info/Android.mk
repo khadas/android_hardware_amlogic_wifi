@@ -6,7 +6,7 @@ endif
 
 WPA_SUPPL_DIR = external/wpa_supplicant_8
 
-include $(WPA_SUPPL_DIR)/wpa_supplicant/.config
+include $(WPA_SUPPL_DIR)/wpa_supplicant/android.config
 
 WPA_SUPPL_DIR_INCLUDE = $(WPA_SUPPL_DIR)/src \
 	$(WPA_SUPPL_DIR)/src/common \
@@ -33,4 +33,4 @@ LOCAL_SRC_FILES := driver_load_ath6kl.c \
 					driver_load_rtl8192cu.c \
 					driver_load_ath9k.c
 LOCAL_C_INCLUDES := $(WPA_SUPPL_DIR_INCLUDE)
-include $(BUILD_SHARED_LIBRARY)
+#include $(BUILD_SHARED_LIBRARY)
