@@ -15,7 +15,7 @@
 #include <net/if_arp.h>
 #include <net/if.h>
 
-#include "wireless_copy.h"
+#include "linux_wext.h"
 #include "common.h"
 #include "driver.h"
 #include "eloop.h"
@@ -28,6 +28,7 @@
 #include "config.h"
 #include "linux_ioctl.h"
 #include "scan.h"
+#include "android_drv.h"
 
 #include "driver_cmd_wext.h"
 #include "driver_cmd_common.h"
