@@ -53,14 +53,7 @@ endif
 ########################
 
 include $(CLEAR_VARS)
-
-ifeq ($(BOARD_WPA_SUPPLICANT_DRIVER),WEXT)
-LOCAL_MODULE := lib_driver_cmd_wext
-endif
-ifeq ($(BOARD_WPA_SUPPLICANT_DRIVER),NL80211)
 LOCAL_MODULE := lib_driver_cmd_nl80211
-endif
-
 LOCAL_SHARED_LIBRARIES := libc libcutils
 LOCAL_CFLAGS := $(L_CFLAGS)
 LOCAL_SRC_FILES := $(WPA_SRC_FILE)
