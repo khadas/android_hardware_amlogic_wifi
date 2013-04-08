@@ -255,6 +255,25 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 			os_memcpy(buf, "PNOFORCE 1", 11);
 		} else if (os_strcasecmp(cmd, "BGSCAN-STOP") == 0) {
 			os_memcpy(buf, "PNOFORCE 0", 11);
+
+		/*** for CONFIG_WFD ***/
+		} else if (os_strcasecmp(cmd, "WFD-SET-TCPPORT") == 0) {
+			char tmp[ 10 ] = { 0x00 };
+			sprintf( tmp, "%s", buf );
+			sprintf( buf, "%s = %s", cmd, tmp );
+			wpa_printf(MSG_DEBUG, "WFD: %s", buf);
+		} else if (os_strcasecmp(cmd, "WFD-SET-MAXTPUT") == 0) {
+			char tmp[ 10 ] = { 0x00 };
+			sprintf( tmp, "%s", buf );
+			sprintf( buf, "%s = %s", cmd, tmp );
+			wpa_printf(MSG_DEBUG, "WFD: %s", buf);
+		} else if (os_strcasecmp(cmd, "WFD-SET-DEVTYPE") == 0) {
+			char tmp[ 10 ] = { 0x00 };
+			sprintf( tmp, "%s", buf );
+			sprintf( buf, "%s = %s", cmd, tmp );
+			wpa_printf(MSG_DEBUG, "WFD: %s", buf);
+		/*** for CONFIG_WFD ***/
+
 		} else {
 			os_memcpy(buf, cmd, strlen(cmd) + 1);
 		}
@@ -275,9 +294,12 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 			ret = 0;
 			if ((os_strcasecmp(cmd, "LINKSPEED") == 0) ||
 			    (os_strcasecmp(cmd, "RSSI") == 0) ||
-			    (os_strcasecmp(cmd, "GETBAND") == 0) )
+			    (os_strcasecmp(cmd, "GETBAND") == 0) ||
+			    (os_strcasecmp(cmd, "P2P_GET_NOA") == 0))
 				ret = strlen(buf);
-
+			else if (os_strcasecmp(cmd, "COUNTRY") == 0)
+				wpa_supplicant_event(drv->ctx,
+					EVENT_CHANNEL_LIST_CHANGED, NULL);
 			wpa_printf(MSG_DEBUG, "%s %s len = %d, %d", __func__, buf, ret, strlen(buf));
 		}
 	}
@@ -296,8 +318,20 @@ int wpa_driver_set_p2p_noa(void *priv, u8 count, int start, int duration)
 
 int wpa_driver_get_p2p_noa(void *priv, u8 *buf, size_t len)
 {
-	/* Return 0 till we handle p2p_presence request completely in the driver */
-	return 0;
+	char rbuf[MAX_DRV_CMD_SIZE];
+	char *cmd = "P2P_GET_NOA";
+	int ret;
+
+	wpa_printf(MSG_DEBUG, "%s: Entry", __func__);
+	os_memset(buf, 0, len);
+	ret = wpa_driver_nl80211_driver_cmd(priv, cmd, rbuf, sizeof(rbuf));
+	if (ret <= 0)
+		return 0;
+	ret >>= 1;
+	if (ret > (int)len)
+		ret = (int)len;
+	hexstr2bin(rbuf, buf, ret);
+	return ret;
 }
 
 int wpa_driver_set_p2p_ps(void *priv, int legacy_ps, int opp_ps, int ctwindow)
