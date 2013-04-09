@@ -1,0 +1,3 @@
+ifeq ($(WIFI_DRIVER),rt5370)
+    include $(call all-subdir-makefiles)
+endif
