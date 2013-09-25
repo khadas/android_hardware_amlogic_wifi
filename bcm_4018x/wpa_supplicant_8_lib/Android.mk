@@ -46,6 +46,21 @@ endif
 # To force sizeof(enum) = 4
 L_CFLAGS += -mabi=aapcs-linux
 
+# To make P2P working in existing Android framework (below KLP)
+# with kernels below linux-3.8
+ifdef CONFIG_P2P_HACK_PRE38
+L_CFLAGS += -DCONFIG_P2P_HACK_PRE38
+endif
+
+# To make P2P working in existing Android framework (below KLP)
+# with kernels linux-3.8 and above
+ifdef CONFIG_P2P_HACK_POST38
+ifdef CONFIG_P2P_HACK_PRE38
+$(error "CONFIG_P2P_HACK_PRE38 and CONFIG_P2P_HACK_POST38 are mutually exclusive")
+endif
+L_CFLAGS += -DCONFIG_P2P_HACK_POST38
+endif
+
 ifdef CONFIG_ANDROID_LOG
 L_CFLAGS += -DCONFIG_ANDROID_LOG
 endif

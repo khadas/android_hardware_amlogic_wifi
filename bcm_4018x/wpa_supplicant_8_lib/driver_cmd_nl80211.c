@@ -331,6 +331,20 @@ int wpa_driver_set_ap_wps_p2p_ie(void *priv, const struct wpabuf *beacon,
 	};
 
 	wpa_printf(MSG_DEBUG, "%s: Entry", __func__);
+
+#ifdef CONFIG_P2P_HACK_POST38
+	/*
+	 * XXX:
+	 * TODO: Exit the function as there is no ioctl handler for
+	 *       P2P discover interface in case of kernels above linux-3.8.
+	 */
+	wpa_printf(MSG_DEBUG, "%s: Exiting prematurely in case of "
+			"CONFIG_P2P_HACK_POST38 as there is no ioctl handler for P2P "
+			"discover interface\n", __func__);
+
+	return 0;
+#endif /* CONFIG_P2P_HACK_POST38 */
+
 	for (i = 0; cmd_arr[i].cmd != -1; i++) {
 		os_memset(buf, 0, sizeof(buf));
 		pbuf = buf;
