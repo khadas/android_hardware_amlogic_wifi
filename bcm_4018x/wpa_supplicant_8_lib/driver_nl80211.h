@@ -31,12 +31,15 @@
 #include <linux/rtnetlink.h>
 #include <netpacket/packet.h>
 #include <linux/filter.h>
+#include <linux/errqueue.h>
 #include "nl80211_copy.h"
 
 #include "common.h"
 #include "eloop.h"
 #include "utils/list.h"
 #include "common/ieee802_11_defs.h"
+#include "common/ieee802_11_common.h"
+#include "l2_packet/l2_packet.h"
 #include "netlink.h"
 #include "linux_ioctl.h"
 #include "radiotap.h"
@@ -158,6 +161,7 @@ struct wpa_driver_nl80211_data {
 	unsigned int retry_auth:1;
 	unsigned int use_monitor:1;
 	unsigned int allow_p2p_device:1;
+	unsigned int ignore_next_local_disconnect:1;
 
 	u64 remain_on_chan_cookie;
 	u64 send_action_cookie;
