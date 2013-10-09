@@ -219,7 +219,7 @@ NEED_SHA1=y
 NEED_MD5=y
 NEED_RC4=y
 else
-CFLAGS += -DCONFIG_NO_WPA
+CFLAGS += -DCONFIG_NO_WPA -DCONFIG_NO_WPA2
 endif
 
 ifdef CONFIG_IBSS_RSN
@@ -267,6 +267,10 @@ ifdef CONFIG_INTERWORKING
 OBJS += interworking.o
 CFLAGS += -DCONFIG_INTERWORKING
 NEED_GAS=y
+endif
+
+ifdef CONFIG_NO_WPA2
+CFLAGS += -DCONFIG_NO_WPA2
 endif
 
 include ../src/drivers/drivers.mak

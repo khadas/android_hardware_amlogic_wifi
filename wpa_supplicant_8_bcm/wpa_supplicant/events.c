@@ -1940,9 +1940,7 @@ static void wpa_supplicant_event_disassoc_finish(struct wpa_supplicant *wpa_s,
 	int authenticating;
 	u8 prev_pending_bssid[ETH_ALEN];
 	struct wpa_bss *fast_reconnect = NULL;
-#ifndef CONFIG_NO_SCAN_PROCESSING
 	struct wpa_ssid *fast_reconnect_ssid = NULL;
-#endif /* CONFIG_NO_SCAN_PROCESSING */
 	struct wpa_ssid *last_ssid;
 
 	authenticating = wpa_s->wpa_state == WPA_AUTHENTICATING;
@@ -1983,9 +1981,7 @@ static void wpa_supplicant_event_disassoc_finish(struct wpa_supplicant *wpa_s,
 			 * time for some common cases.
 			 */
 			fast_reconnect = wpa_s->current_bss;
-#ifndef CONFIG_NO_SCAN_PROCESSING
 			fast_reconnect_ssid = wpa_s->current_ssid;
-#endif /* CONFIG_NO_SCAN_PROCESSING */
 		} else if (wpa_s->wpa_state >= WPA_ASSOCIATING)
 #ifdef ANDROID
 			wpa_supplicant_req_scan(wpa_s, 0, 500000);

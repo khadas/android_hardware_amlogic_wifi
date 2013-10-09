@@ -598,23 +598,11 @@ int hostapd_rate_found(int *list, int rate)
 }
 
 
-int hostapd_vlan_id_valid(struct hostapd_vlan *vlan, int vlan_id)
-{
-	struct hostapd_vlan *v = vlan;
-	while (v) {
-		if (v->vlan_id == vlan_id || v->vlan_id == VLAN_ID_WILDCARD)
-			return 1;
-		v = v->next;
-	}
-	return 0;
-}
-
-
 const char * hostapd_get_vlan_id_ifname(struct hostapd_vlan *vlan, int vlan_id)
 {
 	struct hostapd_vlan *v = vlan;
 	while (v) {
-		if (v->vlan_id == vlan_id)
+		if (v->vlan_id == vlan_id || v->vlan_id == VLAN_ID_WILDCARD)
 			return v->ifname;
 		v = v->next;
 	}

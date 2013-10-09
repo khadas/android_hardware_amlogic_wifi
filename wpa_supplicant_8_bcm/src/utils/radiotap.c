@@ -83,18 +83,12 @@ int ieee80211_radiotap_iterator_init(
     int max_length)
 {
 	/* Linux only supports version 0 radiotap format */
-	if (radiotap_header->it_version) {
-		wpa_printf(MSG_ERROR, "Invalid version, version=%d\n",
-			radiotap_header->it_version);
+	if (radiotap_header->it_version)
 		return -EINVAL;
-	}
 
 	/* sanity check for allowed length and radiotap length field */
-	if (max_length < le16_to_cpu(get_unaligned(&radiotap_header->it_len))) {
-		wpa_printf(MSG_ERROR, "Invalid length, length=%d, max_length=%d\n",
-			le16_to_cpu(get_unaligned(&radiotap_header->it_len)), max_length);
+	if (max_length < le16_to_cpu(get_unaligned(&radiotap_header->it_len)))
 		return -EINVAL;
-	}
 
 	iterator->rtheader = radiotap_header;
 	iterator->max_length = le16_to_cpu(get_unaligned(

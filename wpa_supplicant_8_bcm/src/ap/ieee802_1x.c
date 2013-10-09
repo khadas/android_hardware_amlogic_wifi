@@ -1443,7 +1443,8 @@ ieee802_1x_receive_auth(struct radius_msg *msg, struct radius_msg *req,
 			sta->vlan_id = radius_msg_get_vlanid(msg);
 		}
 		if (sta->vlan_id > 0 &&
-		    hostapd_vlan_id_valid(hapd->conf->vlan, sta->vlan_id)) {
+		    hostapd_get_vlan_id_ifname(hapd->conf->vlan,
+					       sta->vlan_id)) {
 			hostapd_logger(hapd, sta->addr,
 				       HOSTAPD_MODULE_RADIUS,
 				       HOSTAPD_LEVEL_INFO,

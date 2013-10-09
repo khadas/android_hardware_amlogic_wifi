@@ -100,6 +100,4 @@ struct hostapd_wmm_ac_params {
 int hostapd_config_wmm_ac(struct hostapd_wmm_ac_params wmm_ac_params[],
 			  const char *name, const char *val);
 
-int supp_rates_11b_only(struct ieee802_11_elems *elems);
-
 #endif /* IEEE802_11_COMMON_H */
