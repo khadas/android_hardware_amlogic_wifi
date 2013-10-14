@@ -612,7 +612,8 @@ void wpa_bss_update_scan_res(struct wpa_supplicant *wpa_s,
 		 */
 		wpa_printf(MSG_DEBUG, "BSS: No P2P IE - skipping BSS " MACSTR
 			   " update for P2P interface", MAC2STR(res->bssid));
-		return;
+		if (os_memcmp(ssid + 2, P2P_WILDCARD_SSID, P2P_WILDCARD_SSID_LEN) != 0)
+			return;
 	}
 #endif /* CONFIG_P2P */
 	if (p2p && ssid[1] == P2P_WILDCARD_SSID_LEN &&
