@@ -1,4 +1,4 @@
-#AP6210_Nvram_test_V1.0_20121129
+#AP6210_NVRAM_V1.3_08182013
 manfid=0x2d0
 prodid=0x492
 vendid=0x14e4
@@ -10,7 +10,8 @@ boardtype=0x0598
 boardrev=0x1307
 boardnum=777
 xtalfreq=26000
-boardflags=0xa00
+boardflags=0x80201
+boardflags2=0x80
 sromrev=3
 wl0id=0x431b
 macaddr=00:90:4c:07:71:12
@@ -48,3 +49,9 @@ noise_cal_po_2g=0
 swctrlmap_2g=0x04040404,0x02020202,0x02020202,0x010101,0x1ff
 temp_add=29767
 temp_mult=425
+
+btc_flags=0x7
+btc_params0=5000
+btc_params1=1000
+btc_params6=63
+
