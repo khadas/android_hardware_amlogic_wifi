@@ -15,13 +15,19 @@
 #
 LOCAL_PATH := $(call my-dir)
 
+
+ifneq ($(filter bcm40183 bcm40181 AP62x2 AP6335, $(WIFI_DRIVER)),)
+
 ifeq ($(WPA_SUPPLICANT_VERSION),VER_0_8_X_BCM)
+WPA_SUPPL_DIR = hardware/amlogic/wifi/wpa_supplicant_8_bcm
+else
+WPA_SUPPL_DIR = external/wpa_supplicant_8
+endif
 
 ifneq ($(BOARD_WPA_SUPPLICANT_DRIVER),)
   CONFIG_DRIVER_$(BOARD_WPA_SUPPLICANT_DRIVER) := y
 endif
 
-WPA_SUPPL_DIR = hardware/amlogic/wifi/wpa_supplicant_8_bcm
 WPA_SRC_FILE :=
 
 include $(WPA_SUPPL_DIR)/wpa_supplicant/android.config
@@ -76,5 +82,4 @@ LOCAL_C_INCLUDES := $(WPA_SUPPL_DIR_INCLUDE)
 include $(BUILD_STATIC_LIBRARY)
 
 ########################
-
 endif
