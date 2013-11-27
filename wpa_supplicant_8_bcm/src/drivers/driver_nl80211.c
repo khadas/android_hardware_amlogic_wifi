@@ -1703,6 +1703,13 @@ static void mlme_event(struct i802_bss *bss,
 
 	data = nla_data(frame);
 	len = nla_len(frame);
+	if (cmd == NL80211_CMD_UNPROT_DEAUTHENTICATE) {
+		if (os_strncasecmp((const char*)data, "HANG", 4) == 0) {
+			wpa_printf(MSG_ERROR, "nl80211: MLME received driver HANG event");
+			wpa_msg(drv->ctx, MSG_INFO, WPA_EVENT_DRIVER_STATE "HANGED");
+			return;
+		}
+	}
 	if (len < 4 + 2 * ETH_ALEN) {
 		wpa_printf(MSG_MSGDUMP, "nl80211: MLME event %d (%s) on %s("
 			   MACSTR ") - too short",
