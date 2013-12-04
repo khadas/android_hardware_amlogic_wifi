@@ -274,6 +274,12 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 			wpa_printf(MSG_DEBUG, "WFD: %s", buf);
 		/*** for CONFIG_WFD ***/
 
+		/* temporarily ignore these commands FIXME */
+		} else if (os_strcasecmp(cmd, "BTCOEXSCAN-STOP") == 0 ||
+		        os_strcasecmp(cmd, "RXFILTER-STOP") == 0 ||
+		        os_strncasecmp(cmd, "SETBAND", 7) == 0) {
+			return -1;
+
 		} else {
 			os_memcpy(buf, cmd, strlen(cmd) + 1);
 		}
