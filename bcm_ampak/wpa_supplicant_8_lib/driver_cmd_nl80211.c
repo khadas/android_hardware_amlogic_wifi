@@ -44,17 +44,18 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 	struct ifreq ifr;
 	android_wifi_priv_cmd priv_cmd;
 	int ret = 0;
+	const char *ifname = "wlan0";
 
 	if (os_strcasecmp(cmd, "STOP") == 0) {
-		linux_set_iface_flags(drv->global->ioctl_sock, bss->ifname, 0);
+		linux_set_iface_flags(drv->global->ioctl_sock, ifname, 0);
 		wpa_msg(drv->ctx, MSG_INFO, WPA_EVENT_DRIVER_STATE "STOPPED");
 	} else if (os_strcasecmp(cmd, "START") == 0) {
-		linux_set_iface_flags(drv->global->ioctl_sock, bss->ifname, 1);
+		linux_set_iface_flags(drv->global->ioctl_sock, ifname, 1);
 		wpa_msg(drv->ctx, MSG_INFO, WPA_EVENT_DRIVER_STATE "STARTED");
 	} else if (os_strcasecmp(cmd, "MACADDR") == 0) {
 		u8 macaddr[ETH_ALEN] = {};
 
-		ret = linux_get_ifhwaddr(drv->global->ioctl_sock, bss->ifname, macaddr);
+		ret = linux_get_ifhwaddr(drv->global->ioctl_sock, ifname, macaddr);
 		if (!ret)
 			ret = os_snprintf(buf, buf_len,
 					  "Macaddr = " MACSTR "\n", MAC2STR(macaddr));
@@ -62,7 +63,7 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 		os_memcpy(buf, cmd, strlen(cmd) + 1);
 		memset(&ifr, 0, sizeof(ifr));
 		memset(&priv_cmd, 0, sizeof(priv_cmd));
-		os_strncpy(ifr.ifr_name, bss->ifname, IFNAMSIZ);
+		os_strncpy(ifr.ifr_name, ifname, IFNAMSIZ);
 
 		priv_cmd.buf = buf;
 		priv_cmd.used_len = buf_len;
