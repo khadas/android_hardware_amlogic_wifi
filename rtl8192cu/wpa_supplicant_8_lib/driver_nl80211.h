@@ -1,19 +1,13 @@
 /*
  * Driver interaction with Linux nl80211/cfg80211
- * Copyright (c) 2002-2010, Jouni Malinen <j@w1.fi>
+ * Copyright (c) 2002-2012, Jouni Malinen <j@w1.fi>
  * Copyright (c) 2003-2004, Instant802 Networks, Inc.
  * Copyright (c) 2005-2006, Devicescape Software, Inc.
  * Copyright (c) 2007, Johannes Berg <johannes@sipsolutions.net>
  * Copyright (c) 2009-2010, Atheros Communications
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation.
- *
- * Alternatively, this software may be distributed under the terms of BSD
- * license.
- *
- * See README and COPYING for more details.
+ * This software may be distributed under the terms of the BSD license.
+ * See README for more details.
  */
 
 #ifndef _DRIVER_NL80211_H_
@@ -31,12 +25,15 @@
 #include <linux/rtnetlink.h>
 #include <netpacket/packet.h>
 #include <linux/filter.h>
+#include <linux/errqueue.h>
 #include "nl80211_copy.h"
 
 #include "common.h"
 #include "eloop.h"
 #include "utils/list.h"
 #include "common/ieee802_11_defs.h"
+#include "common/ieee802_11_common.h"
+#include "l2_packet/l2_packet.h"
 #include "netlink.h"
 #include "linux_ioctl.h"
 #include "radiotap.h"
@@ -68,6 +65,8 @@
 struct nl80211_global {
 	struct dl_list interfaces;
 	int if_add_ifindex;
+	u64 if_add_wdevid;
+	int if_add_wdevid_set;
 	struct netlink_data *netlink;
 	struct nl_cb *nl_cb;
 	struct nl_handle *nl;
@@ -92,16 +91,21 @@ struct i802_bss {
 	struct wpa_driver_nl80211_data *drv;
 	struct i802_bss *next;
 	int ifindex;
+	u64 wdev_id;
 	char ifname[IFNAMSIZ + 1];
 	char brname[IFNAMSIZ];
 	unsigned int beacon_set:1;
 	unsigned int added_if_into_bridge:1;
 	unsigned int added_bridge:1;
+	unsigned int in_deinit:1;
+	unsigned int wdev_id_set:1;
 
 	u8 addr[ETH_ALEN];
 
 	int freq;
+	int if_dynamic;
 
+	void *ctx;
 	struct nl_handle *nl_preq, *nl_mgmt;
 	struct nl_cb *nl_cb;
 
@@ -121,6 +125,8 @@ struct wpa_driver_nl80211_data {
 	int ignore_if_down_event;
 	struct rfkill_data *rfkill;
 	struct wpa_driver_capa capa;
+	u8 *extended_capa, *extended_capa_mask;
+	unsigned int extended_capa_len;
 	int has_capability;
 
 	int operstate;
@@ -130,7 +136,9 @@ struct wpa_driver_nl80211_data {
 	struct nl_cb *nl_cb;
 
 	u8 auth_bssid[ETH_ALEN];
+	u8 auth_attempt_bssid[ETH_ALEN];
 	u8 bssid[ETH_ALEN];
+	u8 prev_bssid[ETH_ALEN];
 	int associated;
 	u8 ssid[32];
 	size_t ssid_len;
@@ -151,6 +159,8 @@ struct wpa_driver_nl80211_data {
 	unsigned int scan_for_auth:1;
 	unsigned int retry_auth:1;
 	unsigned int use_monitor:1;
+	unsigned int ignore_next_local_disconnect:1;
+	unsigned int allow_p2p_device:1;
 
 	u64 remain_on_chan_cookie;
 	u64 send_action_cookie;

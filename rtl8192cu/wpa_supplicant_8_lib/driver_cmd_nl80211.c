@@ -290,7 +290,7 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 		priv_cmd.buf = buf;
 		priv_cmd.used_len = buf_len;
 		priv_cmd.total_len = buf_len;
-		ifr.ifr_data = &priv_cmd;
+		ifr.ifr_data = (void *)&priv_cmd;
 
 		if ((ret = ioctl(drv->global->ioctl_sock, SIOCDEVPRIVATE + 1, &ifr)) < 0) {
 			wpa_printf(MSG_ERROR, "%s: failed to issue private commands\n", __func__);
@@ -301,9 +301,10 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 			if ((os_strcasecmp(cmd, "LINKSPEED") == 0) ||
 			    (os_strcasecmp(cmd, "RSSI") == 0) ||
 			    (os_strcasecmp(cmd, "GETBAND") == 0) ||
-			    (os_strcasecmp(cmd, "P2P_GET_NOA") == 0))
+			    (os_strncasecmp(cmd, "WLS_BATCHING", 12) == 0))
 				ret = strlen(buf);
-			else if (os_strcasecmp(cmd, "COUNTRY") == 0)
+			else if ((os_strncasecmp(cmd, "COUNTRY", 7) == 0) ||
+				 (os_strncasecmp(cmd, "SETBAND", 7) == 0))
 				wpa_supplicant_event(drv->ctx,
 					EVENT_CHANNEL_LIST_CHANGED, NULL);
 			wpa_printf(MSG_DEBUG, "%s %s len = %d, %d", __func__, buf, ret, strlen(buf));
