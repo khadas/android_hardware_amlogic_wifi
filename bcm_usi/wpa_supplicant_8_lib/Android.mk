@@ -15,13 +15,15 @@
 #
 LOCAL_PATH := $(call my-dir)
 
-ifeq ($(WPA_SUPPLICANT_VERSION),VER_0_8_X_BCM)
+ifneq ($(filter bcm43341 bcm43241, $(WIFI_DRIVER)),)
+
+ifeq ($(WPA_SUPPLICANT_VERSION),VER_0_8_X)
 
 ifneq ($(BOARD_WPA_SUPPLICANT_DRIVER),)
   CONFIG_DRIVER_$(BOARD_WPA_SUPPLICANT_DRIVER) := y
 endif
 
-WPA_SUPPL_DIR = hardware/amlogic/wifi/wpa_supplicant_8_bcm
+WPA_SUPPL_DIR = external/wpa_supplicant_8
 WPA_SRC_FILE :=
 
 include $(WPA_SUPPL_DIR)/wpa_supplicant/android.config
@@ -59,6 +61,10 @@ ifdef CONFIG_P2P_HACK_PRE38
 $(error "CONFIG_P2P_HACK_PRE38 and CONFIG_P2P_HACK_POST38 are mutually exclusive")
 endif
 L_CFLAGS += -DCONFIG_P2P_HACK_POST38
+ifeq ($(TARGET_ARCH),arm)
+# To force sizeof(enum) = 4
+L_CFLAGS += -mabi=aapcs-linux
+endif
 endif
 
 ifdef CONFIG_ANDROID_LOG
@@ -76,5 +82,7 @@ LOCAL_C_INCLUDES := $(WPA_SUPPL_DIR_INCLUDE)
 include $(BUILD_STATIC_LIBRARY)
 
 ########################
+
+endif
 
 endif
