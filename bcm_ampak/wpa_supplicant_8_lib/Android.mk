@@ -15,7 +15,7 @@
 #
 LOCAL_PATH := $(call my-dir)
 
-ifneq ($(filter AP6441 bcm40183 bcm40181 AP62x2 AP6335, $(WIFI_DRIVER)),)
+ifneq ($(filter AP6441 bcm40183 bcm40181 AP62x2 AP6335 AP6234, $(WIFI_DRIVER)),)
 
 ifeq ($(WPA_SUPPLICANT_VERSION),VER_0_8_X)
 
