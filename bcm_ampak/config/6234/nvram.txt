@@ -1,4 +1,4 @@
-#AP6234_NVRAM_V1.1_20131225
+#AP6234_NVRAM_V1.1_TEST_20140729.txt
 manfid=0x2d0
 prodid=0x0653
 vendid=0x14e4
@@ -124,3 +124,10 @@ noise_cal_nf_substract_val_5g=346
 cckpapden=0
 # Enable OOB interrupt: level trigger
 muxenab=0x10
+
+#BTC params
+btc_flags=71
+btc_params8=15000
+btc_params22=8000
+btc_params83=9000
+btc_params84=4500
