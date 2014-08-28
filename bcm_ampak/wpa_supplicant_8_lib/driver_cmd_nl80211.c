@@ -63,13 +63,14 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 		os_memcpy(buf, cmd, strlen(cmd) + 1);
 		memset(&ifr, 0, sizeof(ifr));
 		memset(&priv_cmd, 0, sizeof(priv_cmd));
-		os_strncpy(ifr.ifr_name, ifname, IFNAMSIZ);
+		strncpy(ifr.ifr_name, ifname, IFNAMSIZ);
 
 		priv_cmd.buf = buf;
 		priv_cmd.used_len = buf_len;
 		priv_cmd.total_len = buf_len;
 		ifr.ifr_data = &priv_cmd;
 
+        /*
 		if ((ret = ioctl(drv->global->ioctl_sock, SIOCDEVPRIVATE + 1, &ifr)) < 0) {
 			wpa_printf(MSG_ERROR, "%s: failed to issue private commands\n", __func__);
 			wpa_driver_send_hang_msg(drv);
@@ -87,6 +88,7 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 					EVENT_CHANNEL_LIST_CHANGED, NULL);
 			wpa_printf(MSG_DEBUG, "%s %s len = %d, %d", __func__, buf, ret, strlen(buf));
 		}
+		*/
 	}
 	return ret;
 }
