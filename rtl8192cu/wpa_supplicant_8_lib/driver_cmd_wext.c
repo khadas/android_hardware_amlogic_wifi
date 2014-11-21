@@ -37,6 +37,10 @@
 #define RSSI_CMD			"RSSI"
 #define LINKSPEED_CMD			"LINKSPEED"
 
+static int errors = 0;
+static int driver_is_started = 0;
+static int bgscan_enabled = 0;
+
 /**
  * wpa_driver_wext_set_scan_timeout - Set scan timeout to report scan completion
  * @priv:  Pointer to private wext data from wpa_driver_wext_init()
@@ -80,7 +84,7 @@ int wpa_driver_wext_combo_scan(void *priv, struct wpa_driver_scan_params *params
 	int ret, bp;
 	unsigned i;
 
-	if (!drv->driver_is_started) {
+	if (!driver_is_started) {
 		wpa_printf(MSG_DEBUG, "%s: Driver stopped", __func__);
 		return 0;
 	}
@@ -120,7 +124,7 @@ int wpa_driver_wext_combo_scan(void *priv, struct wpa_driver_scan_params *params
 	iwr.u.data.length = bp;
 
 	if ((ret = ioctl(drv->ioctl_sock, SIOCSIWPRIV, &iwr)) < 0) {
-		if (!drv->bgscan_enabled)
+		if (!bgscan_enabled)
 			wpa_printf(MSG_ERROR, "ioctl[SIOCSIWPRIV] (cscan): %d", ret);
 		else
 			ret = 0;	/* Hide error in case of bg scan */
@@ -266,13 +270,13 @@ static int wpa_driver_set_backgroundscan_params(void *priv)
 
 	if (ret < 0) {
 		wpa_printf(MSG_ERROR, "ioctl[SIOCSIWPRIV] (pnosetup): %d", ret);
-		drv->errors++;
-		if (drv->errors > DRV_NUMBER_SEQUENTIAL_ERRORS) {
-			drv->errors = 0;
+		errors++;
+		if (errors > DRV_NUMBER_SEQUENTIAL_ERRORS) {
+			errors = 0;
 			wpa_msg(drv->ctx, MSG_INFO, WPA_EVENT_DRIVER_STATE "HANGED");
 		}
 	} else {
-		drv->errors = 0;
+		errors = 0;
 	}
 	return ret;
 
@@ -287,7 +291,7 @@ int wpa_driver_wext_driver_cmd( void *priv, char *cmd, char *buf, size_t buf_len
 
 	wpa_printf(MSG_DEBUG, "%s %s len = %d", __func__, cmd, buf_len);
 
-	if (!drv->driver_is_started && (os_strcasecmp(cmd, "START") != 0)) {
+	if (!driver_is_started && (os_strcasecmp(cmd, "START") != 0)) {
 		wpa_printf(MSG_ERROR,"WEXT: Driver not initialized yet");
 		return -1;
 	}
@@ -312,10 +316,10 @@ int wpa_driver_wext_driver_cmd( void *priv, char *cmd, char *buf, size_t buf_len
 			return ret;
 		}
 		os_strncpy(cmd, "PNOFORCE 1", MAX_DRV_CMD_SIZE);
-		drv->bgscan_enabled = 1;
+		bgscan_enabled = 1;
 	} else if( os_strcasecmp(cmd, "BGSCAN-STOP") == 0 ) {
 		os_strncpy(cmd, "PNOFORCE 0", MAX_DRV_CMD_SIZE);
-		drv->bgscan_enabled = 0;
+		bgscan_enabled = 0;
 	}
 
 	os_memset(&iwr, 0, sizeof(iwr));
@@ -338,13 +342,13 @@ int wpa_driver_wext_driver_cmd( void *priv, char *cmd, char *buf, size_t buf_len
 
 	if (ret < 0) {
 		wpa_printf(MSG_ERROR, "%s failed (%d): %s", __func__, ret, cmd);
-		drv->errors++;
-		if (drv->errors > DRV_NUMBER_SEQUENTIAL_ERRORS) {
-			drv->errors = 0;
+		errors++;
+		if (errors > DRV_NUMBER_SEQUENTIAL_ERRORS) {
+			errors = 0;
 			wpa_msg(drv->ctx, MSG_INFO, WPA_EVENT_DRIVER_STATE "HANGED");
 		}
 	} else {
-		drv->errors = 0;
+		errors = 0;
 		ret = 0;
 		if ((os_strcasecmp(cmd, RSSI_CMD) == 0) ||
 		    (os_strcasecmp(cmd, LINKSPEED_CMD) == 0) ||
@@ -353,12 +357,12 @@ int wpa_driver_wext_driver_cmd( void *priv, char *cmd, char *buf, size_t buf_len
 		    (os_strcasecmp(cmd, "GETBAND") == 0)) {
 			ret = strlen(buf);
 		} else if (os_strcasecmp(cmd, "START") == 0) {
-			drv->driver_is_started = TRUE;
+			driver_is_started = TRUE;
 			linux_set_iface_flags(drv->ioctl_sock, drv->ifname, 1);
 			/* os_sleep(0, WPA_DRIVER_WEXT_WAIT_US);
 			wpa_msg(drv->ctx, MSG_INFO, WPA_EVENT_DRIVER_STATE "STARTED"); */
 		} else if (os_strcasecmp(cmd, "STOP") == 0) {
-			drv->driver_is_started = FALSE;
+			driver_is_started = FALSE;
 			/* wpa_msg(drv->ctx, MSG_INFO, WPA_EVENT_DRIVER_STATE "STOPPED"); */
 		} else if (os_strncasecmp(cmd, "CSCAN", 5) == 0) {
 			wpa_driver_wext_set_scan_timeout(priv);
