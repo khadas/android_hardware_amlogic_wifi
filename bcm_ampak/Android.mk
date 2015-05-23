@@ -21,3 +21,11 @@ endif
 ifeq ($(WIFI_DRIVER),AP6234)
     include $(call all-subdir-makefiles)
 endif
+
+ifeq ($(WIFI_DRIVER),AP6212)
+    include $(call all-subdir-makefiles)
+endif
+
+ifeq ($(WIFI_DRIVER),bcm4354)
+    include $(call all-subdir-makefiles)
+endif
