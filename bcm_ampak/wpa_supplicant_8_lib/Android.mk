@@ -15,8 +15,6 @@
 #
 LOCAL_PATH := $(call my-dir)
 
-ifneq ($(filter bcm4354 AP6441 bcm40183 bcm40181 AP62x2 AP6335 AP6234 AP6212, $(WIFI_DRIVER)),)
-
 ifeq ($(WPA_SUPPLICANT_VERSION),VER_0_8_X)
 
 ifneq ($(BOARD_WPA_SUPPLICANT_DRIVER),)
@@ -54,6 +52,14 @@ ifdef CONFIG_ANDROID_LOG
 L_CFLAGS += -DCONFIG_ANDROID_LOG
 endif
 
+ifdef CONFIG_P2P
+L_CFLAGS += -DCONFIG_P2P
+endif
+
+ifeq ($(TARGET_USES_64_BIT_BCMDHD),true)
+L_CFLAGS += -DBCMDHD_64_BIT_IPC
+endif
+
 ########################
 
 include $(CLEAR_VARS)
@@ -65,7 +71,5 @@ LOCAL_C_INCLUDES := $(WPA_SUPPL_DIR_INCLUDE)
 include $(BUILD_STATIC_LIBRARY)
 
 ########################
-
-endif
 
 endif

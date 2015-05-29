@@ -43,8 +43,8 @@ ifdef CONFIG_DRIVER_WEXT
 WPA_SRC_FILE += driver_cmd_wext.c
 endif
 
-# To force sizeof(enum) = 4
 ifeq ($(TARGET_ARCH),arm)
+# To force sizeof(enum) = 4
 L_CFLAGS += -mabi=aapcs-linux
 endif
 
@@ -52,9 +52,18 @@ ifdef CONFIG_ANDROID_LOG
 L_CFLAGS += -DCONFIG_ANDROID_LOG
 endif
 
+ifdef CONFIG_P2P
+L_CFLAGS += -DCONFIG_P2P
+endif
+
+ifeq ($(TARGET_USES_64_BIT_BCMDHD),true)
+L_CFLAGS += -DBCMDHD_64_BIT_IPC
+endif
+
 ########################
 
 include $(CLEAR_VARS)
+#LOCAL_MODULE := lib_driver_cmd_bcmdhd
 LOCAL_MODULE := lib_driver_cmd_rtl
 LOCAL_SHARED_LIBRARIES := libc libcutils
 LOCAL_CFLAGS := $(L_CFLAGS)
