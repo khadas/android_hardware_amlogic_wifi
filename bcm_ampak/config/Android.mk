@@ -92,6 +92,28 @@ include $(BUILD_PREBUILT)
 
 endif
 
+###################################################
+#       43458
+###################################################
+ifeq ($(strip $(WIFI_DRIVER)),bcm40183)
+include $(CLEAR_VARS)
+LOCAL_MODULE := 43458/nvram_43458.txt
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
+LOCAL_SRC_FILES := $(LOCAL_MODULE)
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := 43458/BCM43458.bin
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
+LOCAL_SRC_FILES := $(LOCAL_MODULE)
+include $(BUILD_PREBUILT)
+
+endif
+
  ###################################################
 #	4354
 ###################################################

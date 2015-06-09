@@ -29,3 +29,7 @@ endif
 ifeq ($(WIFI_DRIVER),bcm4354)
     include $(call all-subdir-makefiles)
 endif
+
+ifeq ($(WIFI_DRIVER),bcm43458)
+    include $(call all-subdir-makefiles)
+endif
