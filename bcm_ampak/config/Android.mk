@@ -95,7 +95,7 @@ endif
 ###################################################
 #       43458
 ###################################################
-ifeq ($(strip $(WIFI_DRIVER)),bcm40183)
+ifeq ($(strip $(WIFI_DRIVER)),bcm43458)
 include $(CLEAR_VARS)
 LOCAL_MODULE := 43458/nvram_43458.txt
 LOCAL_MODULE_TAGS := optional
