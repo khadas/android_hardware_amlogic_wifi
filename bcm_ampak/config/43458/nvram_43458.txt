@@ -70,3 +70,4 @@ ed_thresh2g=-54
 ed_thresh5g=-54
 eu_edthresh2g=-54
 eu_edthresh5g=-54
+muxenab=0x10
