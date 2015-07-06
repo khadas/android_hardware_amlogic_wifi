@@ -126,6 +126,30 @@ include $(BUILD_PREBUILT)
 
 endif
 
+
+###################################################
+#       4356
+###################################################
+ifeq ($(strip $(WIFI_DRIVER)),bcm4356)
+include $(CLEAR_VARS)
+LOCAL_MODULE := 4356/nvram_ap6356.txt
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
+LOCAL_SRC_FILES := $(LOCAL_MODULE)
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := 4356/fw_bcm4356a2_ag.bin
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
+LOCAL_SRC_FILES := $(LOCAL_MODULE)
+include $(BUILD_PREBUILT)
+
+endif
+
+
  ###################################################
 #	4354
 ###################################################
