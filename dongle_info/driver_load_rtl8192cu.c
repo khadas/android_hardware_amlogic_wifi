@@ -176,25 +176,27 @@ int cu8192_unload_driver()
 {
     if(wifi_rmmod(CU8192_DRIVER_KO) != 0){
         ALOGE("Failed to rmmod rtl8192cu driver !\n");
-    	return -1;
+        return -1;
     }
 
     ALOGD("Success to rmmod rtl8192cu driver !\n");
-    
- 	return 0;
+
+    return 0;
 }
 
 int cu8192_load_driver()
 {
     char mod_path[SYSFS_PATH_MAX];
+
+
     snprintf(mod_path, SYSFS_PATH_MAX, "%s/%s.ko",WIFI_DRIVER_MODULE_PATH,CU8192_DRIVER_KO);
-    if(wifi_insmod(mod_path, DRIVER_MODULE_ARG) !=0){
+    if (wifi_insmod(mod_path, DRIVER_MODULE_ARG) !=0) {
         ALOGE("Failed to insmod rtl8192cu driver !\n");
-    	return -1;
+        return -1;
     }
-    
+
     ALOGD("Success to insmod rtl8192cu driver !\n");
-    
+
     return 0;
 }
 
@@ -202,14 +204,14 @@ int search_cu(unsigned short int vid,unsigned short int pid)
 {
 	int k = 0;
 	int count=0;
-	
+
 	ALOGD("Start to search  rtl8192cu driver ...\n");
-	
+
 	for (k = 0;k < cu8192_table_len;k++) {
 		if (vid == cu8192_vid_pid_tables[k].vid && pid == cu8192_vid_pid_tables[k].pid) {
 			count=1;
 		}
   }
-      
+
 	return count;
 }
