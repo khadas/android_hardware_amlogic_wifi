@@ -301,7 +301,7 @@ public:
 
         nlattr *data = request.attr_start(NL80211_ATTR_VENDOR_DATA);
         request.put_u8(RTT_ATTRIBUTE_TARGET_CNT, num_devices);
-        for(unsigned i = 0; i < num_devices; i++) {
+        for (unsigned i = 0; i < num_devices; i++) {
             result = request.put_addr(RTT_ATTRIBUTE_TARGET_MAC, addr[i]);
             if (result < 0) {
                 return result;

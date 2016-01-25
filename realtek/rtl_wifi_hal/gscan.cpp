@@ -259,7 +259,7 @@ protected:
             if (it.get_type() == GSCAN_ATTRIBUTE_NUM_CHANNELS) {
                 num_channels_to_copy = it.get_u32();
                 ALOGI("Got channel list with %d channels", num_channels_to_copy);
-                if(num_channels_to_copy > max_channels)
+                if (num_channels_to_copy > max_channels)
                     num_channels_to_copy = max_channels;
                 *num_channels = num_channels_to_copy;
             } else if (it.get_type() == GSCAN_ATTRIBUTE_CHANNEL_LIST && num_channels_to_copy) {
@@ -430,7 +430,7 @@ public:
 
         wifi_scan_result *result = (wifi_scan_result *)event.get_vendor_data();
 
-        if(*mHandler.on_full_scan_result)
+        if (*mHandler.on_full_scan_result)
             (*mHandler.on_full_scan_result)(id(), result);
 
         ALOGV("Full scan result: %-32s %02x:%02x:%02x:%02x:%02x:%02x %d %d %lld %lld %lld\n",
@@ -705,7 +705,7 @@ public:
         int len = event.get_vendor_data_len();
         int event_id = event.get_vendor_subcmd();
 
-        if(event_id == GSCAN_EVENT_COMPLETE_SCAN) {
+        if (event_id == GSCAN_EVENT_COMPLETE_SCAN) {
             if (vendor_data == NULL || len != 4) {
                 ALOGI("Scan complete type not mentioned!");
                 return NL_SKIP;
@@ -714,7 +714,7 @@ public:
 
             evt_type = (wifi_scan_event) event.get_u32(NL80211_ATTR_VENDOR_DATA);
             ALOGV("Scan complete: Received event type %d", evt_type);
-            if(*mHandler.on_scan_event)
+            if (*mHandler.on_scan_event)
                 (*mHandler.on_scan_event)(evt_type, evt_type);
         } else {
 
@@ -725,7 +725,7 @@ public:
 
             int num = event.get_u32(NL80211_ATTR_VENDOR_DATA);
             ALOGV("Found %d scan results", num);
-            if(*mHandler.on_scan_results_available)
+            if (*mHandler.on_scan_results_available)
                 (*mHandler.on_scan_results_available)(id(), num);
         }
         return NL_SKIP;
@@ -799,7 +799,7 @@ wifi_error wifi_disable_full_scan_results(wifi_request_id id, wifi_interface_han
     ALOGV("Disabling full scan results");
     wifi_handle handle = getWifiHandle(iface);
 
-    if(id == -1) {
+    if (id == -1) {
         wifi_scan_result_handler handler;
         wifi_handle handle = getWifiHandle(iface);
         int params_dummy;
@@ -2134,7 +2134,7 @@ public:
         ALOGI("%lld\t", result->rtt);
         ALOGI("%lld\n", result->rtt_sd);
 
-        if(*mHandler.on_passpoint_network_found)
+        if (*mHandler.on_passpoint_network_found)
             (*mHandler.on_passpoint_network_found)(id(), networkId, result, anqp_len, anqp);
 
         return NL_SKIP;

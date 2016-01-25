@@ -493,7 +493,7 @@ public:
             return NL_SKIP;
         }
 
-        if(event_id == GOOGLE_DEBUG_RING_EVENT) {
+        if (event_id == GOOGLE_DEBUG_RING_EVENT) {
             wifi_ring_buffer_status status;
             memset(&status, 0, sizeof(status));
 

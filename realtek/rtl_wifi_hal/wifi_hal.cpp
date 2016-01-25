@@ -798,7 +798,7 @@ public:
     virtual int create() {
         int ret;
 
-        if(feature_type == FEATURE_SET) {
+        if (feature_type == FEATURE_SET) {
             ret = mMsg.create(GOOGLE_OUI, WIFI_SUBCMD_GET_FEATURE_SET);
         } else if (feature_type == FEATURE_SET_MATRIX) {
             ret = mMsg.create(GOOGLE_OUI, WIFI_SUBCMD_GET_FEATURE_SET_MATRIX);
@@ -835,9 +835,9 @@ protected:
             ALOGE("no vendor data in GetFeatureSetCommand response; ignoring it");
             return NL_SKIP;
         }
-        if(feature_type == FEATURE_SET) {
+        if (feature_type == FEATURE_SET) {
             void *data = reply.get_vendor_data();
-            if(!fset) {
+            if (!fset) {
                 ALOGE("Buffers pointers not set");
                 return NL_SKIP;
             }
@@ -846,7 +846,7 @@ protected:
             int num_features_set = 0;
             int i = 0;
 
-            if(!feature_matrix || !fm_size) {
+            if (!feature_matrix || !fm_size) {
                 ALOGE("Buffers pointers not set");
                 return NL_SKIP;
             }
@@ -855,7 +855,7 @@ protected:
                 if (it.get_type() == ANDR_WIFI_ATTRIBUTE_NUM_FEATURE_SET) {
                     num_features_set = it.get_u32();
                     ALOGV("Got feature list with %d concurrent sets", num_features_set);
-                    if(set_size_max && (num_features_set > set_size_max))
+                    if (set_size_max && (num_features_set > set_size_max))
                         num_features_set = set_size_max;
                     *fm_size = num_features_set;
                 } else if ((it.get_type() == ANDR_WIFI_ATTRIBUTE_FEATURE_SET) &&
@@ -1017,7 +1017,7 @@ static wifi_error wifi_stop_rssi_monitoring(wifi_request_id id, wifi_interface_h
 {
     ALOGD("Stopping RSSI monitor");
 
-    if(id == -1) {
+    if (id == -1) {
         wifi_rssi_event_handler handler;
         s8 max_rssi = 0, min_rssi = 0;
         wifi_handle handle = getWifiHandle(iface);
