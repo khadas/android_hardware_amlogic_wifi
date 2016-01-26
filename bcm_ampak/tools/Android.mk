@@ -17,3 +17,6 @@ LOCAL_MODULE_PATH := $(TARGET_OUT)/bin
 LOCAL_SRC_FILES := $(LOCAL_MODULE)
 include $(BUILD_PREBUILT)
 
+ifeq ($(BCM_USB_WIFI),true)
+    include $(LOCAL_PATH)/bcmdl/bcmdl/Android.mk $(LOCAL_PATH)/bcmdl/libusb2/Android.mk $(LOCAL_PATH)/bcmdl/libusb-compat2/Android.mk
+endif

@@ -440,3 +440,48 @@ endif
 
 
 
+###################################################
+#	AP6269
+###################################################
+ifeq ($(strip $(WIFI_DRIVER)),AP6269)
+include $(CLEAR_VARS)
+LOCAL_MODULE := AP6269/nvram_ap6269a2.nvm
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
+LOCAL_SRC_FILES := $(LOCAL_MODULE)
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := AP6269/fw_bcm43569a2_ag.bin.trx
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
+LOCAL_SRC_FILES := $(LOCAL_MODULE)
+include $(BUILD_PREBUILT)
+
+endif
+
+
+###################################################
+#	AP6242
+###################################################
+ifeq ($(strip $(WIFI_DRIVER)),AP6242)
+include $(CLEAR_VARS)
+LOCAL_MODULE := AP6242/nvram_ap6242.nvm
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
+LOCAL_SRC_FILES := $(LOCAL_MODULE)
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := AP6242/fw_bcm43242a1_ag.bin.trx
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
+LOCAL_SRC_FILES := $(LOCAL_MODULE)
+include $(BUILD_PREBUILT)
+
+endif
+
