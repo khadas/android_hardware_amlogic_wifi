@@ -64,10 +64,10 @@ endif
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := lib_driver_cmd_multi
-LOCAL_SHARED_LIBRARIES := libc libcutils
+LOCAL_SHARED_LIBRARIES := libc libcutils libhardware_legacy
 LOCAL_CFLAGS := $(L_CFLAGS)
 LOCAL_SRC_FILES := $(WPA_SRC_FILE)
-LOCAL_C_INCLUDES := $(WPA_SUPPL_DIR_INCLUDE)
+LOCAL_C_INCLUDES := $(WPA_SUPPL_DIR_INCLUDE) $(call include-path-for, libhardware_legacy)/hardware_legacy
 include $(BUILD_STATIC_LIBRARY)
 
 ########################

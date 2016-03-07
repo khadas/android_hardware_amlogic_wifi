@@ -118,7 +118,6 @@ int search_8192eu(unsigned short int vid,unsigned short int pid)
 {
 	int k = 0;
 	int count=0;
-	ALOGD("Start to search  rtl8192eu driver ...\n");
 	for (k = 0;k < eu8192_table_len;k++) {
 		if (vid == eu8192_vid_pid_tables[k].vid && pid == eu8192_vid_pid_tables[k].pid) {
 			count=1;

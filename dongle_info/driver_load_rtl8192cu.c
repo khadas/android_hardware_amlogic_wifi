@@ -205,8 +205,6 @@ int search_cu(unsigned short int vid,unsigned short int pid)
 	int k = 0;
 	int count=0;
 
-	ALOGD("Start to search  rtl8192cu driver ...\n");
-
 	for (k = 0;k < cu8192_table_len;k++) {
 		if (vid == cu8192_vid_pid_tables[k].vid && pid == cu8192_vid_pid_tables[k].pid) {
 			count=1;
