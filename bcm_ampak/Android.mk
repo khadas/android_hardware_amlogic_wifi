@@ -38,6 +38,10 @@ ifeq ($(WIFI_DRIVER),bcm43458)
     include $(call all-subdir-makefiles)
 endif
 
+ifeq ($(WIFI_DRIVER),AP6255)
+    include $(call all-subdir-makefiles)
+endif
+
 ifeq ($(WIFI_DRIVER),AP6269)
     include $(call all-subdir-makefiles)
 endif
