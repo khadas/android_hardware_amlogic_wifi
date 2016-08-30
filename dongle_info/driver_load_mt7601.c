@@ -61,7 +61,7 @@ static int wifi_insmod(const char *filename, const char *args)
     unsigned int size;
     int ret;
 
-    module = load_file(filename, &size);
+    module = (void*)load_file(filename, &size);
     if (!module)
         return -1;
 
