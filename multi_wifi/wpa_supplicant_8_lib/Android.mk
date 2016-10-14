@@ -56,9 +56,9 @@ ifdef CONFIG_P2P
 L_CFLAGS += -DCONFIG_P2P
 endif
 
-ifeq ($(TARGET_USES_64_BIT_BCMDHD),true)
+#ifeq ($(TARGET_USES_64_BIT_BCMDHD),true)
 L_CFLAGS += -DBCMDHD_64_BIT_IPC
-endif
+#endif
 
 ########################
 

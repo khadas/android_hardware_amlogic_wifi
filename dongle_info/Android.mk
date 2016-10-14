@@ -41,7 +41,9 @@ LOCAL_SRC_FILES := driver_load_rtl8192cu.c \
 					driver_load_mt7603.c \
 					driver_load_rtl8192eu.c \
 					driver_load_rtl8192es.c \
-					driver_load_rtl8723bu.c
+					driver_load_rtl8723bu.c \
+					driver_load_qc9377.c \
+					driver_load_qc6174.c
 LOCAL_C_INCLUDES := $(WPA_SUPPL_DIR_INCLUDE)
 include $(BUILD_SHARED_LIBRARY)
 endif
