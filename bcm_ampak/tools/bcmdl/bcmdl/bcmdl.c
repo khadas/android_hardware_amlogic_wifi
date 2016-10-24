@@ -56,7 +56,9 @@
 #define ERR_INJ_TRX_MAGIC		0x02
 #define ERR_INJ_IMG_TOO_BIG		0x04
 #define ERR_INJ_NVRAM_TOO_BIG	0x08
-
+extern void bzero (void *, unsigned long);
+extern usbinfo_t *usbdev_find(struct bcm_device_id *devtable, struct bcm_device_id **bcmdev);
+extern int old_main(int argc, char **argv);
 static struct bcm_device_id bcm_device_ids[] = {
 	{"brcm RDL", BCM_DNGL_VID, BCM_DNGL_BL_PID_43341},
 	{"brcm RDL (alpha)", BCM_DNGL_VID, 0xcafe },
@@ -924,7 +926,7 @@ done:
 	free(dlfile);
 
 	for (i=0; i<=cnt; i++) {
-		info2 = usbdev_find(bdc_device_ids, &bcmdev);
+		info2 = (struct usbinfo *)usbdev_find(bdc_device_ids, &bcmdev);
 		if ((info2 == NULL) || (bcmdev == NULL)) {
 			fprintf(stderr, "Error: usbdev_find ... cnt=%d\n", i);
 			usleep(200000);

@@ -1,35 +1,5 @@
-#include <unistd.h>
-#include <sys/stat.h>
-#include <string.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <sys/types.h>
-#include "hardware_legacy/wifi.h"
-#include "cutils/properties.h"
-#include "includes.h"
-#include <sys/ioctl.h>
-#include <net/if_arp.h>
-#include <net/if.h>
-#include "dongle_info.h"
-#include "linux_wext.h"
-#include "android_drv.h"
-#include "common.h"
-#include "driver.h"
-#include "eloop.h"
-//#include "priv_netlink.h"
-#include "driver_wext.h"
-#include "ieee802_11_defs.h"
-#include "wpa_common.h"
-#include "wpa_ctrl.h"
-#include "wpa_supplicant_i.h"
-#include "config.h"
-#include "linux_ioctl.h"
-#include "scan.h"
 #define LOG_TAG "MT7601"
-#include "cutils/log.h"
-
+#include "dongle_info.h"
 static const char MT7601_MODULE_NAME[]  = "mt7601usta";
 static const char MT7601_MODULE_TAG[]   = "mt7601usta";
 static const char MT7601_MODULE_PATH[]  = "/system/lib/mt7601usta.ko";
@@ -54,14 +24,56 @@ static struct wifi_vid_pid mt7601_vid_pid_tables[] =
 };
 
 static int mt7601_table_len = sizeof(mt7601_vid_pid_tables)/sizeof(struct wifi_vid_pid);
+char dongle_id[] = "/data/misc/wifi/wid_fp";
 
-static int wifi_insmod(const char *filename, const char *args)
+int write_no(char *wifi_type)
+{
+    int fd,len;
+    fd = open(dongle_id,O_CREAT|O_RDWR, S_IRWXU);
+    if (fd == -1) {
+        ALOGE("write no Open file failed !!!\n");
+        return -1;
+    }
+    len = write(fd,wifi_type,sizeof(wifi_type));
+    if (len == -1) {
+        ALOGE("Write file failed !!!\n");
+        close(fd);
+        return -1;
+    }
+    close(fd);
+    if (chmod(dongle_id, 0664) < 0 || chown(dongle_id, AID_SYSTEM, AID_WIFI) < 0) {
+       ALOGE("Error changing permissions of %s to 0664: %s",
+             dongle_id, strerror(errno));
+       return -1;
+    }
+    return 0;
+}
+
+int read_no(char *wifi_type)
+{
+    int fd,len;
+    fd = open(dongle_id,O_RDONLY, S_IRWXU);
+    if (fd == -1) {
+        ALOGE("Open file failed !!!\n");
+        return -1;
+    }
+    len = read(fd,wifi_type,sizeof(wifi_type));
+    if (len == -1) {
+        ALOGE("Read file failed !!!\n");
+        close(fd);
+        return -1;
+    }
+    close(fd);
+    return 0;
+}
+
+int wifi_insmod(const char *filename, const char *args)
 {
     void *module;
     unsigned int size;
     int ret;
 
-    module = (void*)load_file(filename, &size);
+    module = load_file(filename, &size);
     if (!module)
         return -1;
 
@@ -72,7 +84,7 @@ static int wifi_insmod(const char *filename, const char *args)
     return ret;
 }
 
-static int wifi_rmmod(const char *modname)
+int wifi_rmmod(const char *modname)
 {
     int ret = -1;
     int maxtry = 10;
@@ -136,11 +148,10 @@ int mt7601_load_driver()
     }
 
     ALOGD("Success to insmod mt7601 driver! \n");
-
     return 0;
 }
 
-int search_mt7601(unsigned short int vid,unsigned short int pid)
+int search_mt7601(unsigned int vid,unsigned int pid)
 {
 	int k = 0;
 	int count=0;
@@ -148,8 +159,8 @@ int search_mt7601(unsigned short int vid,unsigned short int pid)
 	for (k = 0;k < mt7601_table_len;k++) {
 		if (vid == mt7601_vid_pid_tables[k].vid && pid == mt7601_vid_pid_tables[k].pid) {
 			count=1;
+			write_no("mtk7601");
 		}
 	}
-
 	return count;
 }

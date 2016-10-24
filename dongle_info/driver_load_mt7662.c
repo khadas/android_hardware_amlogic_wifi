@@ -1,10 +1,9 @@
-#define LOG_TAG "MT7603"
+#define LOG_TAG "MT7662"
 #include "dongle_info.h"
-
-static const char MT7603_MODULE_NAME[]  = "mt7603usta";
-static const char MT7603_MODULE_TAG[]   = "mt7603usta";
-static const char MT7603_MODULE_PATH[]  = "/system/lib/mt7603usta.ko";
-static const char MT7603_MODULE_ARG[]   = "";
+static const char MT7662_MODULE_NAME[]  = "mt7662u_sta";
+static const char MT7662_MODULE_TAG[]   = "mt7662u_sta";
+static const char MT7662_MODULE_PATH[]  = "/system/lib/mt7662u_sta.ko";
+static const char MT7662_MODULE_ARG[]   = "";
 
 static const char MTK_MODULE_NAME[]  = "mtprealloc";
 static const char MTK_MODULE_TAG[]   = "mtprealloc";
@@ -19,12 +18,12 @@ static const char MTK_MODULE_ARG[]   = "";
 static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
 static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
 
-static struct wifi_vid_pid mt7603_vid_pid_tables[] =
+static struct wifi_vid_pid mt7662_vid_pid_tables[] =
 {
-    {0x0e8d,0x7603}
+    {0x0e8d,0x7662}
 };
 
-static int mt7603_table_len = sizeof(mt7603_vid_pid_tables)/sizeof(struct wifi_vid_pid);
+static int mt7662_table_len = sizeof(mt7662_vid_pid_tables)/sizeof(struct wifi_vid_pid);
 
 static int is_mtprealloc_driver_loaded() {
     FILE *proc;
@@ -50,40 +49,41 @@ static int is_mtprealloc_driver_loaded() {
     return 0;
 }
 
-int mt7603_unload_driver()
+int mt7662_unload_driver()
 {
-    if (wifi_rmmod(MT7603_MODULE_NAME) != 0) {
-        ALOGE("Failed to rmmod mt7603 driver ! \n");
+    if (wifi_rmmod(MT7662_MODULE_NAME) != 0) {
+        ALOGE("Failed to rmmod mt7662 driver ! \n");
         return -1;
     }
-    ALOGD("Success to rmmod mt7603 driver ! \n");
+    ALOGD("Success to rmmod mt7662 driver ! \n");
     return 0;
 }
 
-int mt7603_load_driver()
+int mt7662_load_driver()
 {
     if (!is_mtprealloc_driver_loaded())
        wifi_insmod(MTK_MODULE_PATH, MTK_MODULE_ARG);
 
-    if (wifi_insmod(MT7603_MODULE_PATH, MT7603_MODULE_ARG) !=0) {
-        ALOGE("Failed to insmod mt7603 ! \n");
+    if (wifi_insmod(MT7662_MODULE_PATH, MT7662_MODULE_ARG) !=0) {
+        ALOGE("Failed to insmod mt7662 ! \n");
         return -1;
     }
 
-    ALOGD("Success to insmod mt7603 driver! \n");
+    ALOGD("Success to insmod mt7662 driver! \n");
     return 0;
 }
 
-int search_mt7603(unsigned int vid,unsigned int pid)
+int search_mt7662(unsigned int vid,unsigned int pid)
 {
 	int k = 0;
 	int count=0;
 
-	for (k = 0;k < mt7603_table_len;k++) {
-		if (vid == mt7603_vid_pid_tables[k].vid && pid == mt7603_vid_pid_tables[k].pid) {
-			write_no("mtk7603");
+	for (k = 0;k < mt7662_table_len;k++) {
+		if (vid == mt7662_vid_pid_tables[k].vid && pid == mt7662_vid_pid_tables[k].pid) {
 			count=1;
+			write_no("mtk7662");
 		}
 	}
+    write_no("mtk7662");
 	return count;
 }

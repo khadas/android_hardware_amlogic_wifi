@@ -1,31 +1,7 @@
 ifeq ($(MULTI_WIFI_SUPPORT),true)
 LOCAL_PATH := $(call my-dir)
 
-ifneq ($(BOARD_WPA_SUPPLICANT_DRIVER),)
-  CONFIG_DRIVER_$(BOARD_WPA_SUPPLICANT_DRIVER) := y
-endif
-
-WPA_SUPPL_DIR = external/wpa_supplicant_8
-
-include $(WPA_SUPPL_DIR)/wpa_supplicant/android.config
-
-WPA_SUPPL_DIR_INCLUDE = $(WPA_SUPPL_DIR)/src \
-	$(WPA_SUPPL_DIR)/src/common \
-	$(WPA_SUPPL_DIR)/src/drivers \
-	$(WPA_SUPPL_DIR)/src/l2_packet \
-	$(WPA_SUPPL_DIR)/src/utils \
-	$(WPA_SUPPL_DIR)/src/wps \
-	$(WPA_SUPPL_DIR)/wpa_supplicant
-
-ifeq ($(TARGET_ARCH),arm)
-# To force sizeof(enum) = 4
-L_CFLAGS += -mabi=aapcs-linux
-endif
-
-ifdef CONFIG_ANDROID_LOG
-L_CFLAGS += -DCONFIG_ANDROID_LOG
-L_CFLAGS += -DCONFIG_ANDROID_LOG -DSYSFS_PATH_MAX=256 -DWIFI_DRIVER_MODULE_PATH=\"\/system\/lib\"
-endif
+L_CFLAGS += -DSYSFS_PATH_MAX=256 -DWIFI_DRIVER_MODULE_PATH=\"\/system\/lib\"
 
 include $(CLEAR_VARS)
 LOCAL_MODULE_TAGS := optional
@@ -39,11 +15,12 @@ LOCAL_SRC_FILES := driver_load_rtl8192cu.c \
 					driver_load_rtl8821au.c \
 					driver_load_mt7601.c \
 					driver_load_mt7603.c \
+					driver_load_mt7662.c \
 					driver_load_rtl8192eu.c \
 					driver_load_rtl8192es.c \
 					driver_load_rtl8723bu.c \
 					driver_load_qc9377.c \
-					driver_load_qc6174.c
-LOCAL_C_INCLUDES := $(WPA_SUPPL_DIR_INCLUDE)
+					driver_load_qc6174.c \
+					driver_load_bcm43569.c
 include $(BUILD_SHARED_LIBRARY)
 endif
