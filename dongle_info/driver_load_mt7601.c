@@ -34,7 +34,7 @@ int write_no(char *wifi_type)
         ALOGE("write no Open file failed !!!\n");
         return -1;
     }
-    len = write(fd,wifi_type,sizeof(wifi_type));
+    len = write(fd,wifi_type,strlen(wifi_type));
     if (len == -1) {
         ALOGE("Write file failed !!!\n");
         close(fd);
@@ -57,7 +57,7 @@ int read_no(char *wifi_type)
         ALOGE("Open file failed !!!\n");
         return -1;
     }
-    len = read(fd,wifi_type,sizeof(wifi_type));
+    len = read(fd,wifi_type,15);
     if (len == -1) {
         ALOGE("Read file failed !!!\n");
         close(fd);
