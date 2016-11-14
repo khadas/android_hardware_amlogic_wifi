@@ -1,0 +1,86 @@
+#
+# BCM94358wlsdlna P105, copied from bcm94358wlspie P105,
+# update swctrlmap to be same as bcm94358pciemdlB85SS_SS.txt,
+# update boardrev and boardtype. 
+#
+# The following fields will be written into OTP
+
+# The following fields will not be written into OTP
+# [NVRAM ONLY]
+
+###################################################################################################
+# General parameters
+sromrev=11
+boardrev=0x1125
+boardtype=0x0747
+macaddr=00:90:4c:19:90:01
+ccode=0
+regrev=0
+vendid=0x14e4
+devid=0x43e9
+manfid=0x2d0
+#prodid=0x052e
+xtalfreq=37400
+otpimagesize=484
+#pciehdr=bcm94358wlspie_01
+
+# Board flags #1:
+# BFL_BTCOEXIST             0x00000001   /* This board implements Bluetooth coexistence */
+# BFL_AFTERBURNER           0x00000200   /* This board supports Afterburner mode */
+# BFL_EXTLNA                0x00001000   /* This board has an external LNA */
+# *Removed* BFL_FEM_BT                0x00400000   /* This board has a shared antenna w/ BT */
+# BFL_PALDO                 0x02000000   /* Power topology uses PALDO */
+# BFL_EXTLNA_5GHz           0x10000000   /* Board has an external LNA in 5GHz band */
+boardflags=0x12001201
+
+# Board flags #2:
+# BFL2_2G_SPUR_WAR          0x00002000   /* Board has a WAR to reduce and avoid clock-harmonic spurs in 2G band */
+# *Removed* BFL2_BT_SHARE_ANT0        0x00800000  /* share core0 antenna with BT */
+boardflags2=0x00002000
+
+# Board	flags 3:
+# BFL3_TSSI_DIV_WAR         0x00000080  /* acphy, Seperate paparam for 20/40/80 */
+# BFL3_FEMTBL_FROM_NVRAM    0x00000100  /* acphy, femctrl table is read from nvram */
+# BFL3_FORCE_EXT_LPO_SEL    0x08000000  /* Force external lpo */
+# BFL3_AVVMID_FROM_NVRAM    0x40000000  /* Read Av Vmid from NVRAM  */
+boardflags3=0x4800018a
+
+# RF Configuration
+antswitch=0
+paprdis=0
+femctrl=10
+rxchain=3
+txchain=3
+aa2g=3
+aa5g=3
+agbg0=2
+agbg1=2
+aga0=2
+aga1=2
+AvVmid_c0=2,140,2,145,2,145,2,145,2,145
+AvVmid_c1=2,140,2,145,2,145,2,145,2,145
+AvVmid_c2=0,0,0,0,0,0,0,0,0,0
+tssisleep_en=0x1f
+
+ltecxmux=0x77540
+phy4350_ss_opt=1
+ofdmfilttype=1
+
+pdoffset40ma0=0x0000
+pdoffset80ma0=0x0000
+pdoffset40ma1=0x0000
+pdoffset80ma1=0x0000
+
+dot11agduphrpo=0x0
+dot11agduplrpo=0x0
+
+# Temperature settings
+tempthresh=120
+temps_hysteresis=10
+tempoffset=255
+rawtempsense=0x1ff
+phycal_tempdelta=25
+temps_period=15
+
+nocrc=1
+###################################################################################################
