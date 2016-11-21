@@ -48,6 +48,11 @@ int eu8188_unload_driver();
 int au8821_load_driver();
 int search_8821au(unsigned int vid,unsigned int pid);
 int au8821_unload_driver();
+
+int bu8822_load_driver();
+int search_8822bu(unsigned int vid,unsigned int pid);
+int bu8822_unload_driver();
+
 int bu8723_load_driver();
 int search_8723bu(unsigned int vid,unsigned int pid);
 int bu8723_unload_driver();
