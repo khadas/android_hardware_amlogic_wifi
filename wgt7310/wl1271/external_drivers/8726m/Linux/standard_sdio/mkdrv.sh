@@ -1,1 +1,0 @@
-sudo make ARCH=arm CROSS_COMPILE=/usr/local/arm-2007q3/bin/arm-none-linux-gnueabi- XCC=n SUPPL=WPA BUILD_SUPPL=y HOST_PLATFORM=tcc8900 TI_HOST_OS=ANDROID KERNEL_DIR=/opt1/TCC8900/tcc8900_android_1110_ok/kernel BMTRACE=n INTR=y
