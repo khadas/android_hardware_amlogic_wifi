@@ -219,29 +219,8 @@ sb40and80hr5ghpo=0x0
 sb20in80and160lr5ghpo=0x0
 sb20in80and160hr5ghpo=0x0
 
-btc_params82=0x60
-btc_params73=0
-prot_btrssi_thresh=0
-
-# ###########  BTC Dynctl profile params  ############
-# flags:bit0 - dynctl enabled, bit1 dynamic desense, bit2 dynamic mode
-#btcdyn_flags=0x7
-btcdyn_flags=0x0
-#btcdyn_dflt_dsns_level=0
-#btcdyn_low_dsns_level=0
-#btcdyn_mid_dsns_level=12
-#btcdyn_high_dsns_level=2
+# Full TDM COEX scheme
+btcdyn_flags=0
 btcdyn_default_btc_mode=1
-# --- mode switching hysteresis dBm ---
-#btcdyn_btrssi_hyster=6
-# --- number of rows in the array vars below ---
-#btcdyn_msw_rows=2
-#btcdyn_dsns_rows=2
-# --- mode switch data rows (max is 4) ---
-#btcdyn_msw_row0=1,12,-70,-5,-100
-#btcdyn_msw_row1=1,8,-5,-30,-60
-# --- desense switching data rows (max is 4) ---
-#btcdyn_dsns_row0=5,4,0,-65,-65
-#btcdyn_dsns_row1=5,-16,0,-50,-50
 btc_mode=1
 muxenab=0x10
