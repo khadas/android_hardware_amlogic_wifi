@@ -19,7 +19,6 @@
 #include "android_drv.h"
 #endif
 
-
 typedef struct android_wifi_priv_cmd {
 #ifdef BCMDHD_64_BIT_IPC
 	u64 bufaddr;
@@ -88,14 +87,6 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 		}
 	}
 
-	if (strcmp(get_wifi_vendor_name(), "mtk") == 0) {
-		if (os_strncasecmp(cmd, "BTCOEXMODE", 10) == 0 ||
-		os_strncasecmp(cmd, "WLS_BATCHING", 12) == 0 || os_strcasecmp(cmd, "BTCOEXSCAN-STOP") == 0 ||
-		os_strncasecmp(cmd, "RXFILTER", 8) == 0 || os_strncasecmp(cmd, "SETSUSPENDMODE", 14) == 0 ||
-		os_strncasecmp(cmd, "SETBAND", 7) == 0)
-		return 0;
-	}
-//#endif
 	if (os_strcasecmp(cmd, "STOP") == 0) {
 		linux_set_iface_flags(drv->global->ioctl_sock, bss->ifname, 0);
 		wpa_msg(drv->ctx, MSG_INFO, WPA_EVENT_DRIVER_STATE "STOPPED");
@@ -123,33 +114,15 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 		priv_cmd.used_len = buf_len;
 		priv_cmd.total_len = buf_len;
 		ifr.ifr_data = &priv_cmd;
-		if (!strncmp(get_wifi_vendor_name(), "ssv", 3)) {
-			wpa_printf(MSG_INFO,"driver_nl80211 prvLib: using  icomm SSV6051");
-			drv_errors = 0;
-				ret = 0;
-				if ((os_strcasecmp(cmd, "LINKSPEED") == 0) ||
-					(os_strcasecmp(cmd, "RSSI") == 0) ||
-					(os_strcasecmp(cmd, "GETBAND") == 0) ||
-					(os_strncasecmp(cmd, "WLS_BATCHING", 12) == 0))
-					ret = strlen(buf);
-					wpa_driver_notify_country_change(drv->ctx, cmd);
-					wpa_printf(MSG_DEBUG, "%s %s len = %d, %zu", __func__, buf, ret, strlen(buf));
-		}else{
-			if ((ret = ioctl(drv->global->ioctl_sock, SIOCDEVPRIVATE + 1, &ifr)) < 0) {
-				wpa_printf(MSG_ERROR, "%s: failed to issue private command: %s", __func__, cmd);
-				wpa_driver_send_hang_msg(drv);
-			} else {
-				drv_errors = 0;
-				ret = 0;
-				if ((os_strcasecmp(cmd, "LINKSPEED") == 0) ||
-					(os_strcasecmp(cmd, "RSSI") == 0) ||
-					(os_strcasecmp(cmd, "GETBAND") == 0) ||
-					(os_strncasecmp(cmd, "WLS_BATCHING", 12) == 0))
-					ret = strlen(buf);
-					wpa_driver_notify_country_change(drv->ctx, cmd);
-					wpa_printf(MSG_DEBUG, "%s %s len = %d, %zu", __func__, buf, ret, strlen(buf));
-			}
-		}
+		drv_errors = 0;
+		ret = 0;
+		if ((os_strcasecmp(cmd, "LINKSPEED") == 0) ||
+			(os_strcasecmp(cmd, "RSSI") == 0) ||
+			(os_strcasecmp(cmd, "GETBAND") == 0) ||
+			(os_strncasecmp(cmd, "WLS_BATCHING", 12) == 0))
+			ret = strlen(buf);
+		wpa_driver_notify_country_change(drv->ctx, cmd);
+		wpa_printf(MSG_DEBUG, "%s %s len = %d, %zu", __func__, buf, ret, strlen(buf));
 	}
 	return ret;
 }
