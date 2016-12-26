@@ -98,6 +98,11 @@ int mt7603_unload_driver();
 int mt7662_load_driver();
 int search_mt7662(unsigned int vid,unsigned int pid);
 int mt7662_unload_driver();
+
+int mt7668_load_driver();
+int search_mt7668(unsigned int vid,unsigned int pid);
+int mt7668_unload_driver();
+
 int bcm43569_load_driver();
 int search_bcm43569(unsigned  int vid,unsigned  int pid);
 int bcm43569_unload_driver();

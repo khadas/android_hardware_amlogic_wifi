@@ -31,6 +31,7 @@ LOCAL_SRC_FILES := driver_load_rtl8192cu.c \
 					driver_load_mt7601.c \
 					driver_load_mt7603.c \
 					driver_load_mt7662.c \
+					driver_load_mt7668.c \
 					driver_load_rtl8192eu.c \
 					driver_load_rtl8192es.c \
 					driver_load_rtl8723bu.c \

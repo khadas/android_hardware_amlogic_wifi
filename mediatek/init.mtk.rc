@@ -28,7 +28,6 @@ on post-fs-data
     setprop wifi.interface "wlan0"
     setprop wifi.direct.multicast 1
 #by xiaoyao
-	insmod /system/lib/mtprealloc.ko
     chmod 0660 /dev/ttyS0
     chown bluetooth net_bt_stack /dev/ttyS0
     chown system system /dev/wmtWifi
@@ -37,14 +36,33 @@ on post-fs-data
     chown bluetooth net_bt_stack /dev/bthwctl
     mkdir /data/bluetooth 0711 bluetooth net_bt_stack
     mkdir /data/misc/bluedroid 0771 bluetooth net_bt_stack
+    chmod 0664 /system/lib/libadpcm.so
+    chmod 0664 /system/lib/libbluetoothdrv.so
+    chmod 0664 /system/lib/libbtcust.so
+    chmod 0664 /system/lib/libbtcusttable.so
+    chmod 0664 /system/lib/libbtsession.so
+    chmod 0664 /system/lib/libbtsniff.so
+    chmod 0664 /system/lib/libbtstd.so
+    chmod 0664 /system/lib/libextsys.so
+    chmod 0664 /system/lib/hw/bluetooth.blueangel.so
+    chmod 0664 /system/lib/hw/bluetooth.default.so
+    chmod 0664 /system/lib/hw/audio.a2dp.default.so
+    chmod 0777 /system/bin/btconfig
+    chmod 755 /system/bin/mtkbt
+    mkdir /data/@btmtk 0770 bluetooth net_bt
+    chown bluetooth bluetooth/dev/uhid
+    chmod 0660 /dev/hid-keyboard
+    chmod 0660 /dev/tun
+    chown system net_bt_admin/dev/uinput
 # for bwcs
 # mkdir /data/bwcs 0777 bluetooth net_bt_stack
 #by xiaoyao
 #Build in mt7601 driver ko to kernel, CONFIG_MT7601_KO_BUILDIN
 #	insmod system/etc/Wireless/RT2870STA/mtprealloc7601Usta.ko
-
+	insmod system/lib/btmtk_usb.ko
 on boot
 
+	chown bluetooth net_bt_stack/data/misc/bluetooth
 
 service mtk_supplicant /system/bin/wpa_supplicant \
     -ip2p0 -Dnl80211 -c /data/misc/wifi/p2p_supplicant.conf \
@@ -61,6 +79,14 @@ service mtk_supplicant /system/bin/wpa_supplicant \
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled
     oneshot
+
+service mtkbt /system/bin/mtkbt
+	class main
+	socket bt.int.adp dgram 660 bluetooth net_bt
+	socket bt.a2dp.stream dgram 660 bluetooth net_bt
+	user bluetooth
+	group system net_bt bluetooth net_bt_admin inet net_admin net_raw vpn net_bt_stack sdcard_r
+	oneshot
 
 #service mtk_supplicant /system/bin/wpa_supplicant \
 #	-iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf -O/data/misc/wifi/sockets -N \
