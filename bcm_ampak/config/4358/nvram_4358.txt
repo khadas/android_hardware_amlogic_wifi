@@ -49,6 +49,7 @@ boardflags3=0x4800018a
 antswitch=0
 paprdis=0
 femctrl=10
+llrlevel=1
 rxchain=3
 txchain=3
 aa2g=3
@@ -135,10 +136,10 @@ pa2gccka1=-124,6801,-767
 # Power offsets
 cckbw202gpo=0x0000
 cckbw20ul2gpo=0x0000
-mcsbw202gpo=0x99644422
-mcsbw402gpo=0x99644422
-dot11agofdmhrbw202gpo=0x6666
-ofdmlrbw202gpo=0x0022
+mcsbw202gpo=0x86444422
+mcsbw402gpo=0x86444422
+dot11agofdmhrbw202gpo=0x4444
+ofdmlrbw202gpo=0x2222
 sb20in40hrpo=0x0
 sb20in40lrpo=0x0
 ###################################################################################################
@@ -191,9 +192,9 @@ pa5ga1=-197,5998,-740,-190,6158,-754,-200,6029,-742,-175,6414,-763
 
 # Low band power offsets
 mcslr5glpo=0x0000
-mcsbw205glpo=0x88766663
+mcsbw205glpo=0x88666663
 mcsbw405glpo=0x88666663
-mcsbw805glpo=0xbb666665
+mcsbw805glpo=0xa9666664
 sb40and80lr5glpo=0x0
 sb40and80hr5glpo=0x0
 sb20in80and160lr5glpo=0x0
@@ -201,9 +202,9 @@ sb20in80and160hr5glpo=0x0
 
 # Mid band power offsets
 mcslr5gmpo=0x0000
-mcsbw205gmpo=0xd8666663
+mcsbw205gmpo=0x88666663
 mcsbw405gmpo=0x88666663
-mcsbw805gmpo=0xcc666665
+mcsbw805gmpo=0xa9666664
 sb40and80lr5gmpo=0x0
 sb40and80hr5gmpo=0x0
 sb20in80and160lr5gmpo=0x0
@@ -211,9 +212,9 @@ sb20in80and160hr5gmpo=0x0
 
 # High band power offsets
 mcslr5ghpo=0x0000
-mcsbw205ghpo=0xdc666663
-mcsbw405ghpo=0xaa666663
-mcsbw805ghpo=0xdd666665
+mcsbw205ghpo=0x88666663
+mcsbw405ghpo=0x88666663
+mcsbw805ghpo=0xa9666664
 sb40and80lr5ghpo=0x0
 sb40and80hr5ghpo=0x0
 sb20in80and160lr5ghpo=0x0
