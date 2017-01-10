@@ -1,4 +1,4 @@
-#
+# 100.4
 # BCM94358wlsdlna P105, copied from bcm94358wlspie P105,
 # update swctrlmap to be same as bcm94358pciemdlB85SS_SS.txt,
 # update boardrev and boardtype. 
@@ -224,4 +224,5 @@ sb20in80and160hr5ghpo=0x0
 btcdyn_flags=0
 btcdyn_default_btc_mode=1
 btc_mode=1
+btc_ba_rx_wsize=8
 muxenab=0x10
