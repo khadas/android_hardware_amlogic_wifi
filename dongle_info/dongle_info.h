@@ -71,6 +71,15 @@ int bu8822_unload_driver();
 int bu8723_load_driver();
 int search_8723bu(unsigned int vid,unsigned int pid);
 int bu8723_unload_driver();
+
+int du8723_load_driver();
+int search_8723du(unsigned int vid,unsigned int pid);
+int du8723_unload_driver();
+
+int ds8723_load_driver();
+int search_ds8723(unsigned int vid,unsigned int pid);
+int ds8723_unload_driver();
+
 int ftv8188_load_driver();
 int search_8188ftv(unsigned int vid,unsigned int pid);
 int ftv8188_unload_driver();
