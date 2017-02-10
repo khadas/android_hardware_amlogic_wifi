@@ -96,12 +96,12 @@ int es8192_load_driver();
 int search_es8192(unsigned int x,unsigned int y);
 int es8192_unload_driver();
 
-int qc9377_load_driver();
-int search_qc9377(unsigned int x,unsigned int y);
-int qc9377_unload_driver();
-int qc6174_load_driver();
-int search_qc6174(unsigned int x,unsigned int y);
-int qc6174_unload_driver();
+int qca9377_load_driver();
+int search_qca9377(unsigned int x,unsigned int y);
+int qca9377_unload_driver();
+int qca6174_load_driver();
+int search_qca6174(unsigned int x,unsigned int y);
+int qca6174_unload_driver();
 int mt7601_load_driver();
 int search_mt7601(unsigned int vid,unsigned int pid);
 int mt7601_unload_driver();
