@@ -48,7 +48,7 @@ int au8812_unload_driver()
 int au8812_load_driver()
 {
     char mod_path[SYSFS_PATH_MAX];
-    snprintf(mod_path, SYSFS_PATH_MAX, "%s/%s.ko",WIFI_DRIVER_MODULE_PATH,AU8821_DRIVER_KO);
+    snprintf(mod_path, SYSFS_PATH_MAX, "%s/%s.ko",WIFI_DRIVER_MODULE_PATH,AU8812_DRIVER_KO);
     if (wifi_insmod(mod_path, DRIVER_MODULE_ARG) !=0) {
         ALOGE("Failed to insmod rtl8812au driver ! \n");
         return -1;
