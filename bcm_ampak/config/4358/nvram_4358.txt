@@ -1,5 +1,5 @@
-# 100.4
-# BCM94358wlsdlna P105, copied from bcm94358wlspie P105,
+#
+# BCM94358wlsdilna P301, copied from bcm94358wlsdlna P105,
 # update swctrlmap to be same as bcm94358pciemdlB85SS_SS.txt,
 # update boardrev and boardtype. 
 #
@@ -113,7 +113,9 @@ tworangetssi2g=0
 #swctrlmap_2g=0x00001040,0xC0300000,0x40200000,0x200000,0x0ff
 #swctrlmap_5g=0x00000202,0x05050000,0x01010000,0x000000,0x047
 swctrlmap_5g=0x02080208,0x00000420,0x00000420,0x000000,0x0f8
-swctrlmap_2g=0x10201020,0x00000810,0x00000810,0x020002,0x0ff
+swctrlmap_2g=0x10201020,0x00000810,0x00000810,0x000000,0x0ff
+swctrlmapext_2g=0x00000000,0x00000000,0x00000000,0x000000,0x003
+swctrlmapext_5g=0x00000000,0x00000000,0x00000000,0x000000,0x003
 
 tssipos2g=1
 extpagain2g=2
@@ -220,9 +222,19 @@ sb40and80hr5ghpo=0x0
 sb20in80and160lr5ghpo=0x0
 sb20in80and160hr5ghpo=0x0
 
-# Full TDM COEX scheme
-btcdyn_flags=0
-btcdyn_default_btc_mode=1
-btc_mode=1
-btc_ba_rx_wsize=8
+###########  BTC Dynctl profile params  ############
+btcx_tool_rev="$Rev: 566642 $"
+btc_params82=0x0060 
+btc_params84=0x8
+btc_params73=100 
+btc_params101=100
+btc_params51=0x48df
+btcdyn_flags=0x3
+btcdyn_dflt_dsns_level=0
+btcdyn_low_dsns_level=0
+btcdyn_mid_dsns_level=22
+btcdyn_high_dsns_level=23
+btcdyn_default_btc_mode=5
+btcdyn_dsns_rows=1
+btcdyn_dsns_row0=5,-120,0,-53,-73
 muxenab=0x10
