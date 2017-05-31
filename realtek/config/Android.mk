@@ -21,7 +21,14 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := dhcpcd.conf
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_CLASS := ETC
+
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 26 && echo OK),OK)
+LOCAL_PROPRIETARY_MODULE := true
+LOCAL_MODULE_PATH := $(TARGET_OUT_VENDOR)/etc/dhcpcd
+else
 LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/dhcpcd
+endif
+
 LOCAL_SRC_FILES := android_dhcpcd.conf
 include $(BUILD_PREBUILT)
 
@@ -32,7 +39,13 @@ LOCAL_MODULE       := wpa_supplicant_overlay.conf
 LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := ETC
 LOCAL_SRC_FILES    := $(LOCAL_MODULE)
-LOCAL_MODULE_PATH  := $(TARGET_OUT_ETC)/wifi
+
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 26 && echo OK),OK)
+LOCAL_PROPRIETARY_MODULE := true
+LOCAL_MODULE_PATH := $(TARGET_OUT_VENDOR)/etc/wifi
+else
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
+endif
 include $(BUILD_PREBUILT)
 
 ########################
@@ -42,7 +55,13 @@ LOCAL_MODULE       := p2p_supplicant_overlay.conf
 LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := ETC
 LOCAL_SRC_FILES    := $(LOCAL_MODULE)
-LOCAL_MODULE_PATH  := $(TARGET_OUT_ETC)/wifi
+
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 26 && echo OK),OK)
+LOCAL_PROPRIETARY_MODULE := true
+LOCAL_MODULE_PATH := $(TARGET_OUT_VENDOR)/etc/wifi
+else
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
+endif
 include $(BUILD_PREBUILT)
 
 ########################
@@ -52,7 +71,13 @@ LOCAL_MODULE       := wpa_supplicant.conf
 LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := ETC
 LOCAL_SRC_FILES    := $(LOCAL_MODULE)
-LOCAL_MODULE_PATH  := $(TARGET_OUT_ETC)/wifi
+
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 26 && echo OK),OK)
+LOCAL_PROPRIETARY_MODULE := true
+LOCAL_MODULE_PATH := $(TARGET_OUT_VENDOR)/etc/wifi
+else
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
+endif
 include $(BUILD_PREBUILT)
 
 ########################
