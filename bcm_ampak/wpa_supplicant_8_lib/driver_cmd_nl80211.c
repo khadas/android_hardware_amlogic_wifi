@@ -10,14 +10,19 @@
  *
  */
 
-#include <sys/cdefs.h>
-#include "hardware_legacy/driver_nl80211.h"
+#include "includes.h"
+#include <sys/types.h>
+#include <fcntl.h>
+#include <net/if.h>
+
+#include "common.h"
+#include "linux_ioctl.h"
+#include "driver_nl80211.h"
 #include "wpa_supplicant_i.h"
 #include "config.h"
 #ifdef ANDROID
 #include "android_drv.h"
 #endif
-
 
 typedef struct android_wifi_priv_cmd {
 #ifdef BCMDHD_64_BIT_IPC
@@ -86,6 +91,12 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 					      " cmd (%s)", bss->ifname, cmd);
 		}
 	}
+
+       if (os_strncasecmp(cmd, "BTCOEXMODE", 10) == 0 ||
+        os_strncasecmp(cmd, "WLS_BATCHING", 12) == 0 || os_strcasecmp(cmd, "BTCOEXSCAN-STOP") == 0 ||
+        os_strncasecmp(cmd, "RXFILTER", 8) == 0 || os_strncasecmp(cmd, "SETSUSPENDMODE", 14) == 0 ||
+        os_strncasecmp(cmd, "SETBAND", 7) == 0)
+        return 0;
 
 	if (os_strcasecmp(cmd, "STOP") == 0) {
 		linux_set_iface_flags(drv->global->ioctl_sock, bss->ifname, 0);
