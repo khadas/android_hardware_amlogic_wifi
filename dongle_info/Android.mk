@@ -20,6 +20,11 @@ L_CFLAGS += -DSYSFS_PATH_MAX=256 -DWIFI_DRIVER_MODULE_PATH=\"\/system\/lib\"
 include $(CLEAR_VARS)
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE := lib_driver_load
+
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 26 && echo OK),OK)
+LOCAL_PROPRIETARY_MODULE := true
+endif
+
 LOCAL_SHARED_LIBRARIES := libc libcutils
 LOCAL_CFLAGS := $(L_CFLAGS)
 LOCAL_SRC_FILES := driver_load_rtl8192cu.c \
