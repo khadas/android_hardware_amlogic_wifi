@@ -223,6 +223,44 @@ include $(BUILD_PREBUILT)
 endif
 
 
+###################################################
+#       6359sa
+###################################################
+ifeq ($(strip $(WIFI_DRIVER)),bcm6359sa)
+include $(CLEAR_VARS)
+LOCAL_MODULE := 6359sa/nvram_ap6359sa.txt
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
+LOCAL_SRC_FILES := $(LOCAL_MODULE)
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := 6359sa/fw_bcm4359c0_ag.bin
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
+LOCAL_SRC_FILES := $(LOCAL_MODULE)
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := 6359sa/fw_bcm4359c0_ag_apsta.bin
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
+LOCAL_SRC_FILES := $(LOCAL_MODULE)
+include $(BUILD_PREBUILT)
+
+#include $(CLEAR_VARS)
+#LOCAL_MODULE := 6359s/fw_bcm4358_ag_p2p.bin
+#LOCAL_MODULE_TAGS := optional
+#LOCAL_MODULE_CLASS := ETC
+#LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/wifi
+#LOCAL_SRC_FILES := $(LOCAL_MODULE)
+#include $(BUILD_PREBUILT)
+
+endif
+
  ###################################################
 #	4354
 ###################################################
