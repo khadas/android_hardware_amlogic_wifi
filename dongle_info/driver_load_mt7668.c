@@ -43,7 +43,6 @@ int search_mt7668(unsigned int x,unsigned int y)
 {
     int fd,len;
     char sdio_buf[128];
-    char file_name[] = "/sys/bus/mmc/devices/sdio:0001/sdio:0001:1/device";
     FILE *fp = fopen(file_name,"r");
     if (!fp) {
         ALOGE("Open sdio wifi file failed !!! \n");
