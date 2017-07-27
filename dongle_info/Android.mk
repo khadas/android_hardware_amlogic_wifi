@@ -39,6 +39,7 @@ LOCAL_SRC_FILES := driver_load_rtl8192cu.c \
 					driver_load_rtl8723du.c \
 					driver_load_rtl8723ds.c \
 					driver_load_qca9377.c \
+					driver_load_qca9379.c \
 					driver_load_qca6174.c \
 					driver_load_bcm43569.c
 include $(BUILD_SHARED_LIBRARY)
