@@ -90,7 +90,7 @@ int wpa_driver_wext_combo_scan(void *priv, struct wpa_driver_scan_params *params
 	/* Set list of SSIDs */
 	bp = WEXT_CSCAN_HEADER_SIZE;
 	os_memcpy(buf, WEXT_CSCAN_HEADER, bp);
-	for (i=0; i < params->num_ssids; i++) {
+	for(i=0; i < params->num_ssids; i++) {
 		if ((bp + IW_ESSID_MAX_SIZE + 10) >= (int)sizeof(buf))
 			break;
 		wpa_printf(MSG_DEBUG, "For Scan: %s", params->ssids[i].ssid);
@@ -234,7 +234,7 @@ static int wpa_driver_set_backgroundscan_params(void *priv)
 		/* Check that there is enough space needed for 1 more SSID, the other sections and null termination */
 		if ((bp + WEXT_PNO_SSID_HEADER_SIZE + IW_ESSID_MAX_SIZE + WEXT_PNO_NONSSID_SECTIONS_SIZE + 1) >= (int)sizeof(buf))
 			break;
-		if ((!ssid_conf->disabled) && (ssid_conf->ssid_len <= IW_ESSID_MAX_SIZE)) {
+		if ((!ssid_conf->disabled) && (ssid_conf->ssid_len <= IW_ESSID_MAX_SIZE)){
 			wpa_printf(MSG_DEBUG, "For PNO Scan: %s", ssid_conf->ssid);
 			buf[bp++] = WEXT_PNO_SSID_SECTION;
 			buf[bp++] = ssid_conf->ssid_len;
@@ -324,7 +324,7 @@ int wpa_driver_wext_driver_cmd( void *priv, char *cmd, char *buf, size_t buf_len
 	iwr.u.data.pointer = buf;
 	iwr.u.data.length = buf_len;
 
-	if ( os_strncasecmp(cmd, "CSCAN", 5) == 0 ) {
+	if( os_strncasecmp(cmd, "CSCAN", 5) == 0 ) {
 		if (!wpa_s->scanning && ((wpa_s->wpa_state <= WPA_SCANNING) ||
 					(wpa_s->wpa_state >= WPA_COMPLETED))) {
 			iwr.u.data.length = wpa_driver_wext_set_cscan_params(buf, buf_len, cmd);

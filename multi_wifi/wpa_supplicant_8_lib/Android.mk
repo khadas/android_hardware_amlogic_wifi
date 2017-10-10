@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-ifeq ($(MULTI_WIFI_SUPPORT),true)
 LOCAL_PATH := $(call my-dir)
 
 ifeq ($(WPA_SUPPLICANT_VERSION),VER_0_8_X)
@@ -43,6 +42,7 @@ endif
 ifdef CONFIG_DRIVER_WEXT
 WPA_SRC_FILE += driver_cmd_wext.c
 endif
+
 ifeq ($(TARGET_ARCH),arm)
 # To force sizeof(enum) = 4
 L_CFLAGS += -mabi=aapcs-linux
@@ -56,25 +56,24 @@ ifdef CONFIG_P2P
 L_CFLAGS += -DCONFIG_P2P
 endif
 
-#ifeq ($(TARGET_USES_64_BIT_BCMDHD),true)
+ifeq ($(TARGET_USES_64_BIT_BCMDHD),true)
 L_CFLAGS += -DBCMDHD_64_BIT_IPC
-#endif
+endif
 
 ########################
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := lib_driver_cmd_multi
+LOCAL_SHARED_LIBRARIES := libc libcutils
+LOCAL_CFLAGS := $(L_CFLAGS)
+LOCAL_SRC_FILES := $(WPA_SRC_FILE)
+LOCAL_C_INCLUDES := $(WPA_SUPPL_DIR_INCLUDE)
 
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 26 && echo OK),OK)
 LOCAL_PROPRIETARY_MODULE := true
 endif
-
-LOCAL_SHARED_LIBRARIES := libc libcutils libhardware_legacy
-LOCAL_CFLAGS := $(L_CFLAGS)
-LOCAL_SRC_FILES := $(WPA_SRC_FILE)
-LOCAL_C_INCLUDES := $(WPA_SUPPL_DIR_INCLUDE) $(call include-path-for, libhardware_legacy)/hardware_legacy
 include $(BUILD_STATIC_LIBRARY)
 
 ########################
-endif
+
 endif

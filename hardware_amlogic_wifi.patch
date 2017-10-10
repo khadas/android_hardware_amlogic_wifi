@@ -1,0 +1,2216 @@
+diff --git a/dongle_info/Android.mk b/dongle_info/Android.mk
+deleted file mode 100644
+index 46ec189..0000000
+--- a/dongle_info/Android.mk
++++ /dev/null
+@@ -1,49 +0,0 @@
+-#
+-# Copyright (C) 2008 The Android Open Source Project
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#      http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-ifeq ($(MULTI_WIFI_SUPPORT),true)
+-LOCAL_PATH := $(call my-dir)
+-
+-L_CFLAGS += -DSYSFS_PATH_MAX=256 -DWIFI_DRIVER_MODULE_PATH=\"\/system\/lib\"
+-
+-include $(CLEAR_VARS)
+-LOCAL_MODULE_TAGS := optional
+-LOCAL_MODULE := lib_driver_load
+-LOCAL_SHARED_LIBRARIES := libc libcutils
+-LOCAL_CFLAGS := $(L_CFLAGS)
+-LOCAL_SRC_FILES := driver_load_rtl8192cu.c \
+-					driver_load_rtl8192du.c \
+-					driver_load_rtl8188eu.c \
+-					driver_load_rtl8188ftv.c \
+-					driver_load_rtl8821au.c \
+-					driver_load_rtl8812au.c \
+-					driver_load_rtl8822bu.c \
+-					driver_load_mt7601.c \
+-					driver_load_mt7603.c \
+-					driver_load_mt7662.c \
+-					driver_load_mt7668.c \
+-					driver_load_rtl8192eu.c \
+-					driver_load_rtl8192es.c \
+-					driver_load_rtl8723bu.c \
+-					driver_load_rtl8723du.c \
+-					driver_load_rtl8723ds.c \
+-					driver_load_qca9377.c \
+-					driver_load_qca6174.c \
+-					driver_load_bcm43569.c
+-
+-ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 26 && echo OK),OK)
+-LOCAL_PROPRIETARY_MODULE := true
+-endif
+-include $(BUILD_SHARED_LIBRARY)
+-endif
+diff --git a/dongle_info/MODULE_LICENSE_APACHE2 b/dongle_info/MODULE_LICENSE_APACHE2
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/dongle_info/NOTICE b/dongle_info/NOTICE
+deleted file mode 100644
+index c5b1efa..0000000
+--- a/dongle_info/NOTICE
++++ /dev/null
+@@ -1,190 +0,0 @@
+-
+-   Copyright (c) 2005-2008, The Android Open Source Project
+-
+-   Licensed under the Apache License, Version 2.0 (the "License");
+-   you may not use this file except in compliance with the License.
+-
+-   Unless required by applicable law or agreed to in writing, software
+-   distributed under the License is distributed on an "AS IS" BASIS,
+-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-   See the License for the specific language governing permissions and
+-   limitations under the License.
+-
+-
+-                                 Apache License
+-                           Version 2.0, January 2004
+-                        http://www.apache.org/licenses/
+-
+-   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+-
+-   1. Definitions.
+-
+-      "License" shall mean the terms and conditions for use, reproduction,
+-      and distribution as defined by Sections 1 through 9 of this document.
+-
+-      "Licensor" shall mean the copyright owner or entity authorized by
+-      the copyright owner that is granting the License.
+-
+-      "Legal Entity" shall mean the union of the acting entity and all
+-      other entities that control, are controlled by, or are under common
+-      control with that entity. For the purposes of this definition,
+-      "control" means (i) the power, direct or indirect, to cause the
+-      direction or management of such entity, whether by contract or
+-      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+-      outstanding shares, or (iii) beneficial ownership of such entity.
+-
+-      "You" (or "Your") shall mean an individual or Legal Entity
+-      exercising permissions granted by this License.
+-
+-      "Source" form shall mean the preferred form for making modifications,
+-      including but not limited to software source code, documentation
+-      source, and configuration files.
+-
+-      "Object" form shall mean any form resulting from mechanical
+-      transformation or translation of a Source form, including but
+-      not limited to compiled object code, generated documentation,
+-      and conversions to other media types.
+-
+-      "Work" shall mean the work of authorship, whether in Source or
+-      Object form, made available under the License, as indicated by a
+-      copyright notice that is included in or attached to the work
+-      (an example is provided in the Appendix below).
+-
+-      "Derivative Works" shall mean any work, whether in Source or Object
+-      form, that is based on (or derived from) the Work and for which the
+-      editorial revisions, annotations, elaborations, or other modifications
+-      represent, as a whole, an original work of authorship. For the purposes
+-      of this License, Derivative Works shall not include works that remain
+-      separable from, or merely link (or bind by name) to the interfaces of,
+-      the Work and Derivative Works thereof.
+-
+-      "Contribution" shall mean any work of authorship, including
+-      the original version of the Work and any modifications or additions
+-      to that Work or Derivative Works thereof, that is intentionally
+-      submitted to Licensor for inclusion in the Work by the copyright owner
+-      or by an individual or Legal Entity authorized to submit on behalf of
+-      the copyright owner. For the purposes of this definition, "submitted"
+-      means any form of electronic, verbal, or written communication sent
+-      to the Licensor or its representatives, including but not limited to
+-      communication on electronic mailing lists, source code control systems,
+-      and issue tracking systems that are managed by, or on behalf of, the
+-      Licensor for the purpose of discussing and improving the Work, but
+-      excluding communication that is conspicuously marked or otherwise
+-      designated in writing by the copyright owner as "Not a Contribution."
+-
+-      "Contributor" shall mean Licensor and any individual or Legal Entity
+-      on behalf of whom a Contribution has been received by Licensor and
+-      subsequently incorporated within the Work.
+-
+-   2. Grant of Copyright License. Subject to the terms and conditions of
+-      this License, each Contributor hereby grants to You a perpetual,
+-      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+-      copyright license to reproduce, prepare Derivative Works of,
+-      publicly display, publicly perform, sublicense, and distribute the
+-      Work and such Derivative Works in Source or Object form.
+-
+-   3. Grant of Patent License. Subject to the terms and conditions of
+-      this License, each Contributor hereby grants to You a perpetual,
+-      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+-      (except as stated in this section) patent license to make, have made,
+-      use, offer to sell, sell, import, and otherwise transfer the Work,
+-      where such license applies only to those patent claims licensable
+-      by such Contributor that are necessarily infringed by their
+-      Contribution(s) alone or by combination of their Contribution(s)
+-      with the Work to which such Contribution(s) was submitted. If You
+-      institute patent litigation against any entity (including a
+-      cross-claim or counterclaim in a lawsuit) alleging that the Work
+-      or a Contribution incorporated within the Work constitutes direct
+-      or contributory patent infringement, then any patent licenses
+-      granted to You under this License for that Work shall terminate
+-      as of the date such litigation is filed.
+-
+-   4. Redistribution. You may reproduce and distribute copies of the
+-      Work or Derivative Works thereof in any medium, with or without
+-      modifications, and in Source or Object form, provided that You
+-      meet the following conditions:
+-
+-      (a) You must give any other recipients of the Work or
+-          Derivative Works a copy of this License; and
+-
+-      (b) You must cause any modified files to carry prominent notices
+-          stating that You changed the files; and
+-
+-      (c) You must retain, in the Source form of any Derivative Works
+-          that You distribute, all copyright, patent, trademark, and
+-          attribution notices from the Source form of the Work,
+-          excluding those notices that do not pertain to any part of
+-          the Derivative Works; and
+-
+-      (d) If the Work includes a "NOTICE" text file as part of its
+-          distribution, then any Derivative Works that You distribute must
+-          include a readable copy of the attribution notices contained
+-          within such NOTICE file, excluding those notices that do not
+-          pertain to any part of the Derivative Works, in at least one
+-          of the following places: within a NOTICE text file distributed
+-          as part of the Derivative Works; within the Source form or
+-          documentation, if provided along with the Derivative Works; or,
+-          within a display generated by the Derivative Works, if and
+-          wherever such third-party notices normally appear. The contents
+-          of the NOTICE file are for informational purposes only and
+-          do not modify the License. You may add Your own attribution
+-          notices within Derivative Works that You distribute, alongside
+-          or as an addendum to the NOTICE text from the Work, provided
+-          that such additional attribution notices cannot be construed
+-          as modifying the License.
+-
+-      You may add Your own copyright statement to Your modifications and
+-      may provide additional or different license terms and conditions
+-      for use, reproduction, or distribution of Your modifications, or
+-      for any such Derivative Works as a whole, provided Your use,
+-      reproduction, and distribution of the Work otherwise complies with
+-      the conditions stated in this License.
+-
+-   5. Submission of Contributions. Unless You explicitly state otherwise,
+-      any Contribution intentionally submitted for inclusion in the Work
+-      by You to the Licensor shall be under the terms and conditions of
+-      this License, without any additional terms or conditions.
+-      Notwithstanding the above, nothing herein shall supersede or modify
+-      the terms of any separate license agreement you may have executed
+-      with Licensor regarding such Contributions.
+-
+-   6. Trademarks. This License does not grant permission to use the trade
+-      names, trademarks, service marks, or product names of the Licensor,
+-      except as required for reasonable and customary use in describing the
+-      origin of the Work and reproducing the content of the NOTICE file.
+-
+-   7. Disclaimer of Warranty. Unless required by applicable law or
+-      agreed to in writing, Licensor provides the Work (and each
+-      Contributor provides its Contributions) on an "AS IS" BASIS,
+-      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+-      implied, including, without limitation, any warranties or conditions
+-      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+-      PARTICULAR PURPOSE. You are solely responsible for determining the
+-      appropriateness of using or redistributing the Work and assume any
+-      risks associated with Your exercise of permissions under this License.
+-
+-   8. Limitation of Liability. In no event and under no legal theory,
+-      whether in tort (including negligence), contract, or otherwise,
+-      unless required by applicable law (such as deliberate and grossly
+-      negligent acts) or agreed to in writing, shall any Contributor be
+-      liable to You for damages, including any direct, indirect, special,
+-      incidental, or consequential damages of any character arising as a
+-      result of this License or out of the use or inability to use the
+-      Work (including but not limited to damages for loss of goodwill,
+-      work stoppage, computer failure or malfunction, or any and all
+-      other commercial damages or losses), even if such Contributor
+-      has been advised of the possibility of such damages.
+-
+-   9. Accepting Warranty or Additional Liability. While redistributing
+-      the Work or Derivative Works thereof, You may choose to offer,
+-      and charge a fee for, acceptance of support, warranty, indemnity,
+-      or other liability obligations and/or rights consistent with this
+-      License. However, in accepting such obligations, You may act only
+-      on Your own behalf and on Your sole responsibility, not on behalf
+-      of any other Contributor, and only if You agree to indemnify,
+-      defend, and hold each Contributor harmless for any liability
+-      incurred by, or claims asserted against, such Contributor by reason
+-      of your accepting any such warranty or additional liability.
+-
+-   END OF TERMS AND CONDITIONS
+-
+diff --git a/dongle_info/dongle_info.h b/dongle_info/dongle_info.h
+deleted file mode 100644
+index f5607be..0000000
+--- a/dongle_info/dongle_info.h
++++ /dev/null
+@@ -1,123 +0,0 @@
+-/*
+- * Copyright 2008, The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *     http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-#include "cutils/misc.h"
+-#include <unistd.h>
+-#include <sys/stat.h>
+-#include <string.h>
+-#include <fcntl.h>
+-#include <stdio.h>
+-#include <stdlib.h>
+-#include <errno.h>
+-#include <sys/types.h>
+-#include "hardware_legacy/wifi.h"
+-#include "cutils/properties.h"
+-#include "cutils/log.h"
+-#include "cutils/misc.h"
+-#include "private/android_filesystem_config.h"
+-#ifdef HAVE_LIBC_SYSTEM_PROPERTIES
+-#define _REALLY_INCLUDE_SYS__SYSTEM_PROPERTIES_H_
+-#include <sys/_system_properties.h>
+-#endif
+-
+-char file_name[100];
+-struct wifi_vid_pid {
+-    unsigned short int vid;
+-    unsigned short int pid;
+-};
+-
+-struct usb_detail_table {
+-    unsigned  short int usb_port;
+-    unsigned  short int vid;
+-    unsigned  short int pid;
+-};
+-
+-int write_no(char *wifi_type);
+-int read_no(char *wifi_type);
+-extern int init_module(void *, unsigned long, const char *);
+-extern int delete_module(const char *, unsigned int);
+-int wifi_insmod(const char *filename, const char *args);
+-int wifi_rmmod(const char *modname);
+-int cu8192_load_driver();
+-int search_cu(unsigned int vid,unsigned int pid);
+-int cu8192_unload_driver();
+-
+-int du8192_load_driver();
+-int search_du(unsigned int vid,unsigned int pid);
+-int du8192_unload_driver();
+-
+-int eu8188_load_driver();
+-int search_8188eu(unsigned int vid,unsigned int pid);
+-int eu8188_unload_driver();
+-
+-int au8821_load_driver();
+-int search_8821au(unsigned int vid,unsigned int pid);
+-int au8821_unload_driver();
+-
+-int au8812_load_driver();
+-int search_8812au(unsigned int vid,unsigned int pid);
+-int au8812_unload_driver();
+-
+-int bu8822_load_driver();
+-int search_8822bu(unsigned int vid,unsigned int pid);
+-int bu8822_unload_driver();
+-
+-int bu8723_load_driver();
+-int search_8723bu(unsigned int vid,unsigned int pid);
+-int bu8723_unload_driver();
+-
+-int du8723_load_driver();
+-int search_8723du(unsigned int vid,unsigned int pid);
+-int du8723_unload_driver();
+-
+-int ds8723_load_driver();
+-int search_ds8723(unsigned int vid,unsigned int pid);
+-int ds8723_unload_driver();
+-
+-int ftv8188_load_driver();
+-int search_8188ftv(unsigned int vid,unsigned int pid);
+-int ftv8188_unload_driver();
+-
+-int eu8192_load_driver();
+-int search_8192eu(unsigned int vid,unsigned int pid);
+-int eu8192_unload_driver();
+-
+-int es8192_load_driver();
+-int search_es8192(unsigned int x,unsigned int y);
+-int es8192_unload_driver();
+-
+-int qca9377_load_driver();
+-int search_qca9377(unsigned int x,unsigned int y);
+-int qca9377_unload_driver();
+-int qca6174_load_driver();
+-int search_qca6174(unsigned int x,unsigned int y);
+-int qca6174_unload_driver();
+-int mt7601_load_driver();
+-int search_mt7601(unsigned int vid,unsigned int pid);
+-int mt7601_unload_driver();
+-int mt7603_load_driver();
+-int search_mt7603(unsigned int vid,unsigned int pid);
+-int mt7603_unload_driver();
+-int mt7662_load_driver();
+-int search_mt7662(unsigned int vid,unsigned int pid);
+-int mt7662_unload_driver();
+-
+-int mt7668_load_driver();
+-int search_mt7668(unsigned int vid,unsigned int pid);
+-int mt7668_unload_driver();
+-
+-int bcm43569_load_driver();
+-int search_bcm43569(unsigned  int vid,unsigned  int pid);
+-int bcm43569_unload_driver();
+diff --git a/dongle_info/driver_load_bcm43569.c b/dongle_info/driver_load_bcm43569.c
+deleted file mode 100644
+index 5d8bd7e..0000000
+--- a/dongle_info/driver_load_bcm43569.c
++++ /dev/null
+@@ -1,78 +0,0 @@
+-/*
+- * Copyright 2008, The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *     http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-#define LOG_TAG "BCM43569"
+-#include "dongle_info.h"
+-
+-
+-static const char BCM43569_MODULE_NAME[]  = "bcmdhd";
+-static const char BCM43569_MODULE_TAG[]   = "bcm43569";
+-static const char BCM43569_MODULE_PATH[]  = "/system/lib/bcmdhd.ko";
+-static const char BCM43569_MODULE_ARG[]   = "";
+-
+-#ifndef WIFI_FIRMWARE_LOADER
+-#define WIFI_FIRMWARE_LOADER		""
+-#endif
+-
+-//static const char DRIVER_MODULE_ARG[]   = WIFI_DRIVER_MODULE_ARG;
+-static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
+-static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
+-
+-
+-static struct wifi_vid_pid bcm43569_vid_pid_tables[] =
+-{
+-    {0x0a5c,0x0bdc},
+-		{0x0a5c,0xbd27}
+-};
+-
+-static int bcm43569_table_len = sizeof(bcm43569_vid_pid_tables)/sizeof(struct wifi_vid_pid);
+-
+-
+-
+-int bcm43569_unload_driver()
+-{
+-    if (wifi_rmmod(BCM43569_MODULE_NAME) != 0) {
+-        ALOGE("Failed to rmmod bcm43569 driver ! \n");
+-        return -1;
+-    }
+-    ALOGD("Success to rmmod bcm43569 driver ! \n");
+-    return 0;
+-}
+-
+-int bcm43569_load_driver()
+-{
+-    if (wifi_insmod(BCM43569_MODULE_PATH, BCM43569_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod bcm43569 driver ! \n");
+-        return -1;
+-    }
+-
+-    ALOGD("Success to insmod bcm43569 driver! \n");
+-
+-    return 0;
+-}
+-
+-int search_bcm43569(unsigned int vid,unsigned int pid)
+-{
+-	int k = 0;
+-
+-	for (k = 0;k < bcm43569_table_len;k++) {
+-		if (vid == bcm43569_vid_pid_tables[k].vid && pid == bcm43569_vid_pid_tables[k].pid) {
+-			ALOGD("Success to find bcm43569 pid/vid! \n");
+-			write_no("bcm43569");
+-			return 1;
+-		}
+-	}
+-	return 0;
+-}
+diff --git a/dongle_info/driver_load_mt7601.c b/dongle_info/driver_load_mt7601.c
+deleted file mode 100644
+index b04ef86..0000000
+--- a/dongle_info/driver_load_mt7601.c
++++ /dev/null
+@@ -1,181 +0,0 @@
+-/*
+- * Copyright 2008, The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *     http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-#define LOG_TAG "MT7601"
+-#include "dongle_info.h"
+-static const char MT7601_MODULE_NAME[]  = "mt7601usta";
+-static const char MT7601_MODULE_TAG[]   = "mt7601usta";
+-static const char MT7601_MODULE_PATH[]  = "/system/lib/mt7601usta.ko";
+-static const char MT7601_MODULE_ARG[]   = "";
+-
+-static const char MTK_MODULE_NAME[]  = "mtprealloc";
+-static const char MTK_MODULE_TAG[]   = "mtprealloc";
+-static const char MTK_MODULE_PATH[]  = "/system/lib/mtprealloc.ko";
+-static const char MTK_MODULE_ARG[]   = "";
+-
+-#ifndef WIFI_FIRMWARE_LOADER
+-#define WIFI_FIRMWARE_LOADER		""
+-#endif
+-
+-//static const char DRIVER_MODULE_ARG[]   = WIFI_DRIVER_MODULE_ARG;
+-static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
+-static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
+-
+-static struct wifi_vid_pid mt7601_vid_pid_tables[] =
+-{
+-    {0x148f,0x7601}
+-};
+-
+-static int mt7601_table_len = sizeof(mt7601_vid_pid_tables)/sizeof(struct wifi_vid_pid);
+-char dongle_id[] = "/data/misc/wifi/wid_fp";
+-
+-int write_no(char *wifi_type)
+-{
+-    int fd,len;
+-    fd = open(dongle_id,O_CREAT|O_RDWR, S_IRWXU);
+-    if (fd == -1) {
+-        ALOGE("write no Open file failed !!!\n");
+-        return -1;
+-    }
+-    len = write(fd,wifi_type,strlen(wifi_type));
+-    if (len == -1) {
+-        ALOGE("Write file failed !!!\n");
+-        close(fd);
+-        return -1;
+-    }
+-    close(fd);
+-    if (chmod(dongle_id, 0664) < 0 || chown(dongle_id, AID_SYSTEM, AID_WIFI) < 0) {
+-       ALOGE("Error changing permissions of %s to 0664: %s",
+-             dongle_id, strerror(errno));
+-       return -1;
+-    }
+-    return 0;
+-}
+-
+-int read_no(char *wifi_type)
+-{
+-    int fd,len;
+-    fd = open(dongle_id,O_RDONLY, S_IRWXU);
+-    if (fd == -1) {
+-        ALOGE("Open file failed !!!\n");
+-        return -1;
+-    }
+-    len = read(fd,wifi_type,15);
+-    if (len == -1) {
+-        ALOGE("Read file failed !!!\n");
+-        close(fd);
+-        return -1;
+-    }
+-    close(fd);
+-    return 0;
+-}
+-
+-int wifi_insmod(const char *filename, const char *args)
+-{
+-    void *module;
+-    unsigned int size;
+-    int ret;
+-
+-    module = load_file(filename, &size);
+-    if (!module)
+-        return -1;
+-
+-    ret = init_module(module, size, args);
+-
+-    free(module);
+-
+-    return ret;
+-}
+-
+-int wifi_rmmod(const char *modname)
+-{
+-    int ret = -1;
+-    int maxtry = 10;
+-
+-    while (maxtry-- > 0) {
+-        ret = delete_module(modname, O_NONBLOCK | O_EXCL);
+-        if (ret < 0 && errno == EAGAIN)
+-            usleep(500000);
+-        else
+-            break;
+-    }
+-
+-    if (ret != 0)
+-       ALOGE("Unable to unload driver module \"%s\": %s\n",
+-             modname, strerror(errno));
+-    return ret;
+-}
+-
+-static int is_mtprealloc_driver_loaded() {
+-    FILE *proc;
+-    char line[sizeof(MTK_MODULE_TAG)+10];
+-
+-    /*
+-     * If the property says the driver is loaded, check to
+-     * make sure that the property setting isn't just left
+-     * over from a previous manual shutdown or a runtime
+-     * crash.
+-     */
+-    if ((proc = fopen("/proc/modules", "r")) == NULL) {
+-        ALOGW("Could not open %s", strerror(errno));
+-        return 0;
+-    }
+-    while ((fgets(line, sizeof(line), proc)) != NULL) {
+-        if (strncmp(line, MTK_MODULE_TAG, strlen(MTK_MODULE_TAG)) == 0) {
+-            fclose(proc);
+-            return 1;
+-        }
+-    }
+-    fclose(proc);
+-    return 0;
+-}
+-
+-int mt7601_unload_driver()
+-{
+-    if (wifi_rmmod(MT7601_MODULE_NAME) != 0) {
+-        ALOGE("Failed to rmmod mt7601 driver ! \n");
+-        return -1;
+-    }
+-    ALOGD("Success to rmmod mt7601 driver ! \n");
+-    return 0;
+-}
+-
+-int mt7601_load_driver()
+-{
+-    if (!is_mtprealloc_driver_loaded())
+-       wifi_insmod(MTK_MODULE_PATH, MTK_MODULE_ARG);
+-
+-    if (wifi_insmod(MT7601_MODULE_PATH, MT7601_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod dhd ! \n");
+-        return -1;
+-    }
+-
+-    ALOGD("Success to insmod mt7601 driver! \n");
+-    return 0;
+-}
+-
+-int search_mt7601(unsigned int vid,unsigned int pid)
+-{
+-	int k = 0;
+-	int count=0;
+-
+-	for (k = 0;k < mt7601_table_len;k++) {
+-		if (vid == mt7601_vid_pid_tables[k].vid && pid == mt7601_vid_pid_tables[k].pid) {
+-			count=1;
+-			write_no("mtk7601");
+-		}
+-	}
+-	return count;
+-}
+diff --git a/dongle_info/driver_load_mt7603.c b/dongle_info/driver_load_mt7603.c
+deleted file mode 100644
+index be6f264..0000000
+--- a/dongle_info/driver_load_mt7603.c
++++ /dev/null
+@@ -1,104 +0,0 @@
+-/*
+- * Copyright 2008, The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *     http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-#define LOG_TAG "MT7603"
+-#include "dongle_info.h"
+-
+-static const char MT7603_MODULE_NAME[]  = "mt7603usta";
+-static const char MT7603_MODULE_TAG[]   = "mt7603usta";
+-static const char MT7603_MODULE_PATH[]  = "/system/lib/mt7603usta.ko";
+-static const char MT7603_MODULE_ARG[]   = "";
+-
+-static const char MTK_MODULE_NAME[]  = "mtprealloc";
+-static const char MTK_MODULE_TAG[]   = "mtprealloc";
+-static const char MTK_MODULE_PATH[]  = "/system/lib/mtprealloc.ko";
+-static const char MTK_MODULE_ARG[]   = "";
+-
+-#ifndef WIFI_FIRMWARE_LOADER
+-#define WIFI_FIRMWARE_LOADER		""
+-#endif
+-
+-//static const char DRIVER_MODULE_ARG[]   = WIFI_DRIVER_MODULE_ARG;
+-static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
+-static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
+-
+-static struct wifi_vid_pid mt7603_vid_pid_tables[] =
+-{
+-    {0x0e8d,0x7603}
+-};
+-
+-static int mt7603_table_len = sizeof(mt7603_vid_pid_tables)/sizeof(struct wifi_vid_pid);
+-
+-static int is_mtprealloc_driver_loaded() {
+-    FILE *proc;
+-    char line[sizeof(MTK_MODULE_TAG)+10];
+-
+-    /*
+-     * If the property says the driver is loaded, check to
+-     * make sure that the property setting isn't just left
+-     * over from a previous manual shutdown or a runtime
+-     * crash.
+-     */
+-    if ((proc = fopen("/proc/modules", "r")) == NULL) {
+-        ALOGW("Could not open %s", strerror(errno));
+-        return 0;
+-    }
+-    while ((fgets(line, sizeof(line), proc)) != NULL) {
+-        if (strncmp(line, MTK_MODULE_TAG, strlen(MTK_MODULE_TAG)) == 0) {
+-            fclose(proc);
+-            return 1;
+-        }
+-    }
+-    fclose(proc);
+-    return 0;
+-}
+-
+-int mt7603_unload_driver()
+-{
+-    if (wifi_rmmod(MT7603_MODULE_NAME) != 0) {
+-        ALOGE("Failed to rmmod mt7603 driver ! \n");
+-        return -1;
+-    }
+-    ALOGD("Success to rmmod mt7603 driver ! \n");
+-    return 0;
+-}
+-
+-int mt7603_load_driver()
+-{
+-    if (!is_mtprealloc_driver_loaded())
+-       wifi_insmod(MTK_MODULE_PATH, MTK_MODULE_ARG);
+-
+-    if (wifi_insmod(MT7603_MODULE_PATH, MT7603_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod mt7603 ! \n");
+-        return -1;
+-    }
+-
+-    ALOGD("Success to insmod mt7603 driver! \n");
+-    return 0;
+-}
+-
+-int search_mt7603(unsigned int vid,unsigned int pid)
+-{
+-	int k = 0;
+-	int count=0;
+-
+-	for (k = 0;k < mt7603_table_len;k++) {
+-		if (vid == mt7603_vid_pid_tables[k].vid && pid == mt7603_vid_pid_tables[k].pid) {
+-			write_no("mtk7603");
+-			count=1;
+-		}
+-	}
+-	return count;
+-}
+diff --git a/dongle_info/driver_load_mt7662.c b/dongle_info/driver_load_mt7662.c
+deleted file mode 100644
+index bbd7fc7..0000000
+--- a/dongle_info/driver_load_mt7662.c
++++ /dev/null
+@@ -1,104 +0,0 @@
+-/*
+- * Copyright 2008, The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *     http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-#define LOG_TAG "MT7662"
+-#include "dongle_info.h"
+-static const char MT7662_MODULE_NAME[]  = "mt7662u_sta";
+-static const char MT7662_MODULE_TAG[]   = "mt7662u_sta";
+-static const char MT7662_MODULE_PATH[]  = "/system/lib/mt7662u_sta.ko";
+-static const char MT7662_MODULE_ARG[]   = "";
+-
+-static const char MTK_MODULE_NAME[]  = "mtprealloc";
+-static const char MTK_MODULE_TAG[]   = "mtprealloc";
+-static const char MTK_MODULE_PATH[]  = "/system/lib/mtprealloc.ko";
+-static const char MTK_MODULE_ARG[]   = "";
+-
+-#ifndef WIFI_FIRMWARE_LOADER
+-#define WIFI_FIRMWARE_LOADER		""
+-#endif
+-
+-//static const char DRIVER_MODULE_ARG[]   = WIFI_DRIVER_MODULE_ARG;
+-static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
+-static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
+-
+-static struct wifi_vid_pid mt7662_vid_pid_tables[] =
+-{
+-    {0x0e8d,0x7662}
+-};
+-
+-static int mt7662_table_len = sizeof(mt7662_vid_pid_tables)/sizeof(struct wifi_vid_pid);
+-
+-static int is_mtprealloc_driver_loaded() {
+-    FILE *proc;
+-    char line[sizeof(MTK_MODULE_TAG)+10];
+-
+-    /*
+-     * If the property says the driver is loaded, check to
+-     * make sure that the property setting isn't just left
+-     * over from a previous manual shutdown or a runtime
+-     * crash.
+-     */
+-    if ((proc = fopen("/proc/modules", "r")) == NULL) {
+-        ALOGW("Could not open %s", strerror(errno));
+-        return 0;
+-    }
+-    while ((fgets(line, sizeof(line), proc)) != NULL) {
+-        if (strncmp(line, MTK_MODULE_TAG, strlen(MTK_MODULE_TAG)) == 0) {
+-            fclose(proc);
+-            return 1;
+-        }
+-    }
+-    fclose(proc);
+-    return 0;
+-}
+-
+-int mt7662_unload_driver()
+-{
+-    if (wifi_rmmod(MT7662_MODULE_NAME) != 0) {
+-        ALOGE("Failed to rmmod mt7662 driver ! \n");
+-        return -1;
+-    }
+-    ALOGD("Success to rmmod mt7662 driver ! \n");
+-    return 0;
+-}
+-
+-int mt7662_load_driver()
+-{
+-    if (!is_mtprealloc_driver_loaded())
+-       wifi_insmod(MTK_MODULE_PATH, MTK_MODULE_ARG);
+-
+-    if (wifi_insmod(MT7662_MODULE_PATH, MT7662_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod mt7662 ! \n");
+-        return -1;
+-    }
+-
+-    ALOGD("Success to insmod mt7662 driver! \n");
+-    return 0;
+-}
+-
+-int search_mt7662(unsigned int vid,unsigned int pid)
+-{
+-	int k = 0;
+-	int count=0;
+-
+-	for (k = 0;k < mt7662_table_len;k++) {
+-		if (vid == mt7662_vid_pid_tables[k].vid && pid == mt7662_vid_pid_tables[k].pid) {
+-			count=1;
+-			write_no("mtk7662");
+-		}
+-	}
+-    write_no("mtk7662");
+-	return count;
+-}
+diff --git a/dongle_info/driver_load_mt7668.c b/dongle_info/driver_load_mt7668.c
+deleted file mode 100644
+index 1555522..0000000
+--- a/dongle_info/driver_load_mt7668.c
++++ /dev/null
+@@ -1,66 +0,0 @@
+-#include <unistd.h>
+-#include <sys/stat.h>
+-#include <string.h>
+-#define LOG_TAG "MT7668"
+-#include "dongle_info.h"
+-
+-static const char mt7668_MODULE_NAME[]  = "wlan_mt76x8_sdio";
+-static const char mt7668_MODULE_TAG[]   = "wlan_mt76x8_sdio";
+-static const char mt7668_MODULE_PATH[]  = "/system/lib/wlan_mt76x8_sdio.ko";
+-static const char mt7668_MODULE_ARG[]   = "";
+-
+-#ifndef WIFI_FIRMWARE_LOADER
+-#define WIFI_FIRMWARE_LOADER		""
+-#endif
+-
+-//static const char DRIVER_MODULE_ARG[]   = WIFI_DRIVER_MODULE_ARG;
+-static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
+-static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
+-
+-
+-int mt7668_load_driver()
+-{
+-    if (wifi_insmod(mt7668_MODULE_PATH, mt7668_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod mt7668! \n");
+-        return -1;
+-    }
+-    ALOGD("Success to insmod mt7668 driver! \n");
+-    return 0;
+-
+-}
+-
+-int mt7668_unload_driver()
+-{
+-    if (wifi_rmmod(mt7668_MODULE_NAME) != 0) {
+-        ALOGE("Failed to rmmod mt7668 driver ! \n");
+-        return -1;
+-    }
+-    ALOGD("Success to rmmod mt7668 driver ! \n");
+-    return 0;
+-}
+-
+-int search_mt7668(unsigned int x,unsigned int y)
+-{
+-    int fd,len;
+-    char sdio_buf[128];
+-    FILE *fp = fopen(file_name,"r");
+-    if (!fp) {
+-        ALOGE("Open sdio wifi file failed !!! \n");
+-        return -1;
+-    }
+-    memset(sdio_buf,0,sizeof(sdio_buf));
+-    if (fread(sdio_buf, 1,128,fp) < 1) {
+-        ALOGE("Read error for %m\n", errno);
+-        fclose(fp);
+-        return -1;
+-    }
+-    fclose(fp);
+-
+-    ALOGE("board id=%s\n",sdio_buf);
+-    if (strstr(sdio_buf,"7608")) {
+-        ALOGE("Found MTK7668!!!\n");
+-        write_no("mtk7668");
+-        return 1;
+-    }
+-    return 0;
+-}
+diff --git a/dongle_info/driver_load_qca6174.c b/dongle_info/driver_load_qca6174.c
+deleted file mode 100644
+index afe0fdd..0000000
+--- a/dongle_info/driver_load_qca6174.c
++++ /dev/null
+@@ -1,50 +0,0 @@
+-#define LOG_TAG "QCA6174"
+-#include "dongle_info.h"
+-
+-static const char QCA6174_MODULE_NAME[]  = "wlan";
+-static const char QCA6174_MODULE_TAG[]   = "wlan";
+-static const char QCA6174_MODULE_PATH[]  = "/system/lib/wlan_6174.ko";
+-static const char QCA6174_MODULE_ARG[]   = "";
+-
+-int qca6174_load_driver()
+-{
+-    if (wifi_insmod(QCA6174_MODULE_PATH, QCA6174_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod qca6174 ! \n");
+-        return -1;
+-    }
+-    ALOGD("Success to insmod qca6174 driver! \n");
+-    return 0;
+-}
+-
+-int qca6174_unload_driver()
+-{
+-    if (wifi_rmmod(QCA6174_MODULE_NAME) != 0) {
+-        ALOGE("Failed to rmmod qca6174 driver ! \n");
+-        return -1;
+-    }
+-    ALOGD("Success to rmmod qca6174 driver ! \n");
+-    return 0;
+-}
+-
+-int search_qca6174(unsigned int x,unsigned int y)
+-{
+-    int fd,len;
+-    char sdio_buf[128];
+-    FILE *fp = fopen(file_name,"r");
+-    if (!fp)
+-        return -1;
+-
+-    memset(sdio_buf,0,sizeof(sdio_buf));
+-    if (fread(sdio_buf, 1,128,fp) < 1) {
+-        ALOGE("Read error for\n");
+-        fclose(fp);
+-        return -1;
+-    }
+-    fclose(fp);
+-    if (strstr(sdio_buf,"050a")) {
+-        write_no("qca6174");
+-        ALOGE("Found qca6174 !!!\n");
+-        return 1;
+-    }
+-    return 0;
+-}
+diff --git a/dongle_info/driver_load_qca9377.c b/dongle_info/driver_load_qca9377.c
+deleted file mode 100644
+index 777f903..0000000
+--- a/dongle_info/driver_load_qca9377.c
++++ /dev/null
+@@ -1,49 +0,0 @@
+-#define LOG_TAG "QCA9377"
+-#include "dongle_info.h"
+-
+-static const char QCA9377_MODULE_NAME[]  = "wlan";
+-static const char QCA9377_MODULE_TAG[]   = "wlan";
+-static const char QCA9377_MODULE_PATH[]  = "/system/lib/wlan_9377.ko";
+-static const char QCA9377_MODULE_ARG[]   = "";
+-
+-int qca9377_load_driver()
+-{
+-    if (wifi_insmod(QCA9377_MODULE_PATH, QCA9377_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod qca9377 ! \n");
+-        return -1;
+-    }
+-    ALOGD("Success to insmod qca9377 driver! \n");
+-    return 0;
+-}
+-
+-int qca9377_unload_driver()
+-{
+-    if (wifi_rmmod(QCA9377_MODULE_NAME) != 0) {
+-        ALOGE("Failed to rmmod qca9377 driver ! \n");
+-        return -1;
+-    }
+-    ALOGD("Success to rmmod qca9377 driver ! \n");
+-    return 0;
+-}
+-
+-int search_qca9377(unsigned int x,unsigned int y)
+-{
+-    int fd,len;
+-    char sdio_buf[128];
+-    FILE *fp = fopen(file_name,"r");
+-    if (!fp)
+-        return -1;
+-    memset(sdio_buf,0,sizeof(sdio_buf));
+-    if (fread(sdio_buf, 1,128,fp) < 1) {
+-        ALOGE("Read error for\n");
+-        fclose(fp);
+-        return -1;
+-    }
+-    fclose(fp);
+-    if (strstr(sdio_buf,"0701")) {
+-        write_no("qca9377");
+-        ALOGE("Found qca9377 !!!\n");
+-        return 1;
+-    }
+-    return 0;
+-}
+diff --git a/dongle_info/driver_load_rtl8188eu.c b/dongle_info/driver_load_rtl8188eu.c
+deleted file mode 100644
+index 0035c74..0000000
+--- a/dongle_info/driver_load_rtl8188eu.c
++++ /dev/null
+@@ -1,75 +0,0 @@
+-/*
+- * Copyright 2008, The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *     http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-#define LOG_TAG "RTL8188EU"
+-#include "dongle_info.h"
+-#define EU8188_DRIVER_KO "8188eu"
+-#ifndef WIFI_DRIVER_MODULE_ARG
+-#define WIFI_DRIVER_MODULE_ARG          "ifname=wlan0 if2name=p2p0"
+-#endif
+-
+-#ifndef WIFI_FIRMWARE_LOADER
+-#define WIFI_FIRMWARE_LOADER		""
+-#endif
+-
+-static const char DRIVER_MODULE_ARG[]   = WIFI_DRIVER_MODULE_ARG;
+-static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
+-static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
+-
+-static struct wifi_vid_pid eu8188_vid_pid_tables[] =
+-{
+-    {0x0bda,0x8179},
+-    {0x0bda,0x0179},
+-    {0x8179,0x07B8}
+-};
+-
+-static int eu8188_table_len = sizeof(eu8188_vid_pid_tables)/sizeof(struct wifi_vid_pid);
+-
+-int eu8188_unload_driver()
+-{
+-    if (wifi_rmmod(EU8188_DRIVER_KO) != 0) {
+-        ALOGE("Failed to rmmod rtl8188eu driver ! \n");
+-        return -1;
+-    }
+-    ALOGD("Success to rmmod rtl8188eu driver ! \n");
+-    return 0;
+-}
+-
+-int eu8188_load_driver()
+-{
+-    char mod_path[SYSFS_PATH_MAX];
+-    snprintf(mod_path, SYSFS_PATH_MAX, "%s/%s.ko",WIFI_DRIVER_MODULE_PATH,EU8188_DRIVER_KO);
+-    if (wifi_insmod(mod_path, DRIVER_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod rtl8188eu driver ! \n");
+-        return -1;
+-    }
+-
+-    ALOGD("Success to insmod rtl8188eu driver! \n");
+-    return 0;
+-}
+-
+-int search_8188eu(unsigned int vid,unsigned int pid)
+-{
+-	int k = 0;
+-	int count=0;
+-
+-	for (k = 0;k < eu8188_table_len;k++) {
+-		if (vid == eu8188_vid_pid_tables[k].vid && pid == eu8188_vid_pid_tables[k].pid) {
+-			count=1;
+-			write_no("rtl8188eu");
+-		}
+-	}
+-	return count;
+-}
+diff --git a/dongle_info/driver_load_rtl8188ftv.c b/dongle_info/driver_load_rtl8188ftv.c
+deleted file mode 100644
+index 6e0bd14..0000000
+--- a/dongle_info/driver_load_rtl8188ftv.c
++++ /dev/null
+@@ -1,73 +0,0 @@
+-/*
+- * Copyright 2008, The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *     http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-#define LOG_TAG "RTL8188FTV"
+-#include "dongle_info.h"
+-#define FTV8188_DRIVER_KO "8188fu"
+-#ifndef WIFI_DRIVER_MODULE_ARG
+-#define WIFI_DRIVER_MODULE_ARG          "ifname=wlan0 if2name=p2p0"
+-#endif
+-
+-#ifndef WIFI_FIRMWARE_LOADER
+-#define WIFI_FIRMWARE_LOADER		""
+-#endif
+-
+-static const char DRIVER_MODULE_ARG[]   = WIFI_DRIVER_MODULE_ARG;
+-static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
+-static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
+-
+-static struct wifi_vid_pid ftv8188_vid_pid_tables[] =
+-{
+-    {0x0bda,0xf179}
+-};
+-
+-static int ftv8188_table_len = sizeof(ftv8188_vid_pid_tables)/sizeof(struct wifi_vid_pid);
+-
+-int ftv8188_unload_driver()
+-{
+-    if (wifi_rmmod(FTV8188_DRIVER_KO) != 0) {
+-        ALOGE("Failed to rmmod rtl8188ftv driver ! \n");
+-        return -1;
+-    }
+-    ALOGD("Success to rmmod rtl8188ftv driver ! \n");
+-    return 0;
+-}
+-
+-int ftv8188_load_driver()
+-{
+-    char mod_path[SYSFS_PATH_MAX];
+-    snprintf(mod_path, SYSFS_PATH_MAX, "%s/%s.ko",WIFI_DRIVER_MODULE_PATH,FTV8188_DRIVER_KO);
+-    if (wifi_insmod(mod_path, DRIVER_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod rtl8188ftv driver ! \n");
+-        return -1;
+-    }
+-
+-    ALOGD("Success to insmod rtl8188ftv driver! \n");
+-    return 0;
+-}
+-
+-int search_8188ftv(unsigned int vid,unsigned int pid)
+-{
+-	int k = 0;
+-	int count=0;
+-
+-	for (k = 0;k < ftv8188_table_len;k++) {
+-		if (vid == ftv8188_vid_pid_tables[k].vid && pid == ftv8188_vid_pid_tables[k].pid) {
+-			count=1;
+-			write_no("rtl8188ftv");
+-		}
+-	}
+-	return count;
+-}
+diff --git a/dongle_info/driver_load_rtl8192cu.c b/dongle_info/driver_load_rtl8192cu.c
+deleted file mode 100644
+index 96d7d43..0000000
+--- a/dongle_info/driver_load_rtl8192cu.c
++++ /dev/null
+@@ -1,161 +0,0 @@
+-/*
+- * Copyright 2008, The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *     http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-#define LOG_TAG "RTL8912CU"
+-#include "dongle_info.h"
+-//CU8192 
+-#define CU8192_DRIVER_KO "8192cu"
+-
+-#ifndef WIFI_DRIVER_MODULE_ARG
+-#define WIFI_DRIVER_MODULE_ARG          "ifname=wlan0 if2name=p2p0"
+-#endif
+-
+-#ifndef WIFI_FIRMWARE_LOADER
+-#define WIFI_FIRMWARE_LOADER		""
+-#endif
+-
+-static const char DRIVER_MODULE_ARG[]   = WIFI_DRIVER_MODULE_ARG;
+-static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
+-static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
+-
+-static struct wifi_vid_pid cu8192_vid_pid_tables[] =
+-{
+-    {0x2001,0x330a},
+-    {0x0bda,0x8178},
+-    {0x0bda,0x8177},
+-    {0x0bda,0x8176},
+-    {0x0bda,0x817e},
+-    {0x0bda,0x018a},
+-    {0x0b05,0x1791},
+-    {0x13d3,0x3311},
+-    {0x13d3,0x3359},
+-    {0x0bda,0x8191},
+-	{0x0bda,0x8170},//8188CE-VAU USB minCard
+-	{0x0bda,0x817E},//8188CE-VAU USB minCard
+-	{0x0bda,0x817A},//8188cu Slim Solo
+-	{0x0bda,0x817B},//8188cu Slim Combo
+-	{0x0bda,0x817D},//8188RU High-power USB Dongle
+-	{0x0bda,0x8754},//8188 Combo for BC4
+-	{0x0bda,0x817F},//8188RU
+-	{0x0bda,0x818A},//RTL8188CUS-VL
+-	{0x0bda,0x018A},//RTL8188CTV
+-		
+-	/****** 8192CUS ********/
+-	{0x0bda,0x817C},//8192CE-VAU USB minCard
+-	
+-	/*=== Customer ID ===*/	
+-	/****** 8188CUS Dongle ********/
+-	{0x2019,0xED17},//PCI - Edimax
+-	{0x0DF6,0x0052},//Sitecom - Edimax
+-	{0x7392,0x7811},//Edimax - Edimax
+-	{0x07B8,0x8189},//Abocom - Abocom
+-	{0x0EB0,0x9071},//NO Brand - Etop
+-	{0x06F8,0xE033},//Hercules - Edimax
+-	{0x103C,0x1629},//HP - Lite-On ,8188CUS Slim Combo
+-	{0x2001,0x3308},//D-Link - Alpha
+-	{0x050D,0x1102},//Belkin - Edimax
+-	{0x2019,0xAB2A},//Planex - Abocom
+-	{0x20F4,0x648B},//TRENDnet - Cameo
+-	{0x4855,0x0090},// - Feixun
+-	{0x13D3,0x3357},// - AzureWave
+-	{0x0DF6,0x005C},//Sitecom - Edimax
+-	{0x0BDA,0x5088},//Thinkware - CC&C
+-	{0x4856,0x0091},//NetweeN - Feixun
+-	{0x2019,0x4902},//Planex - Etop
+-	{0x2019,0xAB2E},//SW-WF02-AD15 -Abocom
+-
+-	/****** 8188 RU ********/
+-	{0x0BDA,0x317F},//Netcore,Netcore
+-	
+-	/****** 8188CE-VAU ********/
+-	{0x13D3,0x3359},// - Azwave
+-	{0x13D3,0x3358},// - Azwave
+-
+-	/****** 8188CUS Slim Solo********/
+-	{0x04F2,0xAFF7},//XAVI - XAVI
+-	{0x04F2,0xAFF9},//XAVI - XAVI
+-	{0x04F2,0xAFFA},//XAVI - XAVI
+-
+-	/****** 8188CUS Slim Combo ********/
+-	{0x04F2,0xAFF8},//XAVI - XAVI
+-	{0x04F2,0xAFFB},//XAVI - XAVI
+-	{0x04F2,0xAFFC},//XAVI - XAVI
+-	{0x2019,0x1201},//Planex - Vencer
+-	
+-	/****** 8192CUS Dongle ********/
+-	{0x2001,0x3307},//D-Link - Cameo
+-	{0x2001,0x330A},//D-Link - Alpha
+-	{0x2001,0x3309},//D-Link - Alpha
+-	{0x0586,0x341F},//Zyxel - Abocom
+-	{0x7392,0x7822},//Edimax - Edimax
+-	{0x2019,0xAB2B},//Planex - Abocom
+-	{0x07B8,0x8178},//Abocom - Abocom
+-	{0x07AA,0x0056},//ATKK - Gemtek
+-	{0x4855,0x0091},// - Feixun
+-	{0x2001,0x3307},//D-Link-Cameo
+-	{0x050D,0x2102},//Belkin - Sercomm
+-	{0x050D,0x2103},//Belkin - Edimax
+-	{0x20F4,0x624D},//TRENDnet
+-	{0x0DF6,0x0061},//Sitecom - Edimax
+-	{0x0B05,0x17AB},//ASUS - Edimax
+-	{0x0846,0x9021},//Netgear - Sercomm
+-	{0x0E66,0x0019},//Hawking,Edimax 
+-
+-	/****** 8192CE-VAU  ********/
+-	{0x0bda,0x8186}//Intel-Xavi( Azwave)
+-};
+-
+-static int cu8192_table_len = sizeof(cu8192_vid_pid_tables)/sizeof(struct wifi_vid_pid);
+-
+-int cu8192_unload_driver()
+-{
+-    if(wifi_rmmod(CU8192_DRIVER_KO) != 0){
+-        ALOGE("Failed to rmmod rtl8192cu driver !\n");
+-        return -1;
+-    }
+-
+-    ALOGD("Success to rmmod rtl8192cu driver !\n");
+-
+-    return 0;
+-}
+-
+-int cu8192_load_driver()
+-{
+-    char mod_path[SYSFS_PATH_MAX];
+-
+-
+-    snprintf(mod_path, SYSFS_PATH_MAX, "%s/%s.ko",WIFI_DRIVER_MODULE_PATH,CU8192_DRIVER_KO);
+-    if (wifi_insmod(mod_path, DRIVER_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod rtl8192cu driver !\n");
+-        return -1;
+-    }
+-    ALOGD("Success to insmod rtl8192cu driver !\n");
+-
+-    return 0;
+-}
+-
+-int search_cu(unsigned int vid,unsigned int pid)
+-{
+-	int k = 0;
+-	int count=0;
+-
+-	for (k = 0;k < cu8192_table_len;k++) {
+-		if (vid == cu8192_vid_pid_tables[k].vid && pid == cu8192_vid_pid_tables[k].pid) {
+-			count=1;
+-			write_no("rtl8192cu");
+-		}
+-  }
+-	return count;
+-}
+diff --git a/dongle_info/driver_load_rtl8192du.c b/dongle_info/driver_load_rtl8192du.c
+deleted file mode 100644
+index d305223..0000000
+--- a/dongle_info/driver_load_rtl8192du.c
++++ /dev/null
+@@ -1,84 +0,0 @@
+-#define LOG_TAG "RTL8192DU"
+-#include "dongle_info.h"
+-
+-#define DU8192_DRIVER_KO "8192du"
+-
+-#ifndef WIFI_DRIVER_MODULE_ARG
+-#define WIFI_DRIVER_MODULE_ARG          "ifname=wlan0 if2name=p2p0"
+-#endif
+-
+-#ifndef WIFI_FIRMWARE_LOADER
+-#define WIFI_FIRMWARE_LOADER		""
+-#endif
+-
+-static const char DRIVER_MODULE_ARG[]   = WIFI_DRIVER_MODULE_ARG;
+-static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
+-static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
+-
+-static struct wifi_vid_pid du8192_vid_pid_tables[] =
+-{
+-	/*=== Realtek demoboard ===*/
+-	/****** 8192DU ********/
+-	{0x0bda,0x8193},//8192DU-VC
+-	{0x0bda,0x8194},//8192DU-VS
+-	{0x0bda,0x8111},//Realtek 5G dongle for WiFi Display
+-	{0x0bda,0x0193},//8192DE-VAU
+-	{0x0bda,0x8171},//8192DU-VC
+-
+-	/*=== Customer ID ===*/
+-	/****** 8192DU-VC ********/
+-	{0x2019,0xAB2C},//PCI - Abocm
+-	{0x2019,0x4903},//PCI - ETOP
+-	{0x2019,0x4904},//PCI - ETOP
+-	{0x07B8,0x8193},//Abocom - Abocom
+-
+-	/****** 8192DU-VS ********/
+-	{0x20F4,0x664B},//TRENDnet
+-
+-	/****** 8192DU-WiFi Display Dongle ********/
+-	{0x2019,0xAB2D}//Planex - Abocom ,5G dongle for WiFi Display
+-};
+-
+-static int du8192_table_len = sizeof(du8192_vid_pid_tables)/sizeof(struct wifi_vid_pid);
+-
+-int du8192_unload_driver()
+-{
+-    if (wifi_rmmod(DU8192_DRIVER_KO) != 0) {
+-        ALOGE("Failed to rmmod CU8192_DRIVER_KO !\n");
+-        return -1;
+-    }
+-
+-    ALOGD("SUCCESS to rmsmod rtl8192cu driver! \n");
+-
+-		return 0;
+-}
+-
+-
+-int du8192_load_driver()
+-{
+-    char mod_path[SYSFS_PATH_MAX];
+-
+-
+-		snprintf(mod_path, SYSFS_PATH_MAX, "%s/%s.ko",WIFI_DRIVER_MODULE_PATH,DU8192_DRIVER_KO);
+-    if (wifi_insmod(mod_path, DRIVER_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod rtl8192du driver! \n");
+-        return -1;
+-    }
+-
+-    ALOGD("Success to insmod rtl8192du driver! \n");
+-    return 0;
+-}
+-
+-int search_du(unsigned int vid,unsigned int pid)
+-{
+-	int k = 0;
+-	int count=0;
+-
+-	for (k = 0;k < du8192_table_len;k++) {
+-		if (vid == du8192_vid_pid_tables[k].vid && pid == du8192_vid_pid_tables[k].pid) {
+-			count=1;
+-			write_no("rtl8192du");
+-		}
+-	}
+-	return count;
+-}
+diff --git a/dongle_info/driver_load_rtl8192es.c b/dongle_info/driver_load_rtl8192es.c
+deleted file mode 100644
+index b35c212..0000000
+--- a/dongle_info/driver_load_rtl8192es.c
++++ /dev/null
+@@ -1,81 +0,0 @@
+-/*
+- * Copyright 2008, The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *     http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-#define LOG_TAG "RTL8192ES"
+-#include "dongle_info.h"
+-#define ES8192_DRIVER_KO "8192es"
+-
+-#ifndef WIFI_DRIVER_MODULE_ARG
+-#define WIFI_DRIVER_MODULE_ARG          "ifname=wlan0 if2name=p2p0"
+-#endif
+-
+-#ifndef WIFI_FIRMWARE_LOADER
+-#define WIFI_FIRMWARE_LOADER		""
+-#endif
+-
+-static const char DRIVER_MODULE_ARG[]   = WIFI_DRIVER_MODULE_ARG;
+-static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
+-static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
+-
+-int es8192_unload_driver()
+-{
+-    if (wifi_rmmod(ES8192_DRIVER_KO) != 0) {
+-        ALOGE("Failed to rmmod rtl8192es driver ! \n");
+-        return -1;
+-    }
+-
+-    ALOGD("Success to rmmod rtl8192es driver! \n");
+-
+-    return 0;
+-}
+-
+-int es8192_load_driver()
+-{
+-    char mod_path[SYSFS_PATH_MAX];
+-
+-
+-	  snprintf(mod_path, SYSFS_PATH_MAX, "%s/%s.ko",WIFI_DRIVER_MODULE_PATH,ES8192_DRIVER_KO);
+-    if (wifi_insmod(mod_path, DRIVER_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod rtl8192es driver!\n");
+-        return -1;
+-    }
+-
+-    ALOGD("Success to insmod rtl8192es driver! \n");
+-    return 0;
+-}
+-
+-
+-int search_es8192(unsigned int x,unsigned int y)
+-{
+-    int fd,len;
+-    char sdio_buf[128];
+-    FILE *fp = fopen(file_name,"r");
+-    if (!fp)
+-        return -1;
+-
+-    memset(sdio_buf,0,sizeof(sdio_buf));
+-    if (fread(sdio_buf, 1,128,fp) < 1) {
+-        ALOGE("Read error \n");
+-        fclose(fp);
+-        return -1;
+-    }
+-    fclose(fp);
+-    if (strstr(sdio_buf,"818b")) {
+-        write_no("rtl8192es");
+-        ALOGE("Found 8192es !!!\n");
+-        return 1;
+-    }
+-    return 0;
+-}
+diff --git a/dongle_info/driver_load_rtl8192eu.c b/dongle_info/driver_load_rtl8192eu.c
+deleted file mode 100644
+index 127fe7b..0000000
+--- a/dongle_info/driver_load_rtl8192eu.c
++++ /dev/null
+@@ -1,77 +0,0 @@
+-/*
+- * Copyright 2008, The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *     http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-#define LOG_TAG "RTL8192EU"
+-#include "dongle_info.h"
+-#define EU8192_DRIVER_KO "8192eu"
+-
+-#ifndef WIFI_DRIVER_MODULE_ARG
+-#define WIFI_DRIVER_MODULE_ARG          "ifname=wlan0 if2name=p2p0"
+-#endif
+-
+-#ifndef WIFI_FIRMWARE_LOADER
+-#define WIFI_FIRMWARE_LOADER		""
+-#endif
+-
+-static const char DRIVER_MODULE_ARG[]   = WIFI_DRIVER_MODULE_ARG;
+-static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
+-static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
+-
+-static struct wifi_vid_pid eu8192_vid_pid_tables[] =
+-{
+-    {0x0bda,0x818B}
+-};
+-
+-static int eu8192_table_len = sizeof(eu8192_vid_pid_tables)/sizeof(struct wifi_vid_pid);
+-
+-int eu8192_unload_driver()
+-{
+-    if (wifi_rmmod(EU8192_DRIVER_KO) != 0) {
+-        ALOGE("Failed to rmmod rtl8192eu driver ! \n");
+-        return -1;
+-    }
+-
+-    ALOGD("Success to rmmod rtl8192eu driver! \n");
+-
+-    return 0;
+-}
+-
+-int eu8192_load_driver()
+-{
+-    char mod_path[SYSFS_PATH_MAX];
+-
+-
+-	  snprintf(mod_path, SYSFS_PATH_MAX, "%s/%s.ko",WIFI_DRIVER_MODULE_PATH,EU8192_DRIVER_KO);
+-    if (wifi_insmod(mod_path, DRIVER_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod rtl8192eu driver!\n");
+-        return -1;
+-    }
+-    ALOGD("Success to insmod rtl8192eu driver! \n");
+-
+-    return 0;
+-}
+-
+-int search_8192eu(unsigned int vid,unsigned int pid)
+-{
+-	int k = 0;
+-	int count=0;
+-	for (k = 0;k < eu8192_table_len;k++) {
+-		if (vid == eu8192_vid_pid_tables[k].vid && pid == eu8192_vid_pid_tables[k].pid) {
+-			count=1;
+-			write_no("rtl8192eu");
+-		}
+-	}
+-	return count;
+-}
+diff --git a/dongle_info/driver_load_rtl8723bu.c b/dongle_info/driver_load_rtl8723bu.c
+deleted file mode 100644
+index 70f20ce..0000000
+--- a/dongle_info/driver_load_rtl8723bu.c
++++ /dev/null
+@@ -1,74 +0,0 @@
+-/*
+- * Copyright 2008, The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *     http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-#define LOG_TAG "RTL8723BU"
+-#include "dongle_info.h"
+-
+-#define BU8723_DRIVER_KO "8723bu"
+-#ifndef WIFI_DRIVER_MODULE_ARG
+-#define WIFI_DRIVER_MODULE_ARG          "ifname=wlan0 if2name=p2p0"
+-#endif
+-
+-#ifndef WIFI_FIRMWARE_LOADER
+-#define WIFI_FIRMWARE_LOADER		""
+-#endif
+-
+-static const char DRIVER_MODULE_ARG[]   = WIFI_DRIVER_MODULE_ARG;
+-static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
+-static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
+-
+-static struct wifi_vid_pid bu8723_vid_pid_tables[] =
+-{
+-    {0x0bda,0xB720}
+-};
+-
+-static int bu8723_table_len = sizeof(bu8723_vid_pid_tables)/sizeof(struct wifi_vid_pid);
+-
+-int bu8723_unload_driver()
+-{
+-    if (wifi_rmmod(BU8723_DRIVER_KO) != 0) {
+-        ALOGE("Failed to rmmod rtl8723bu driver ! \n");
+-        return -1;
+-    }
+-    ALOGD("Success to rmmod rtl8723bu driver ! \n");
+-    return 0;
+-}
+-
+-int bu8723_load_driver()
+-{
+-    char mod_path[SYSFS_PATH_MAX];
+-    snprintf(mod_path, SYSFS_PATH_MAX, "%s/%s.ko",WIFI_DRIVER_MODULE_PATH,BU8723_DRIVER_KO);
+-    if (wifi_insmod(mod_path, DRIVER_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod rtl8723bu driver ! \n");
+-        return -1;
+-    }
+-
+-    ALOGD("Success to insmod rtl8723bu driver! \n");
+-    return 0;
+-}
+-
+-int search_8723bu(unsigned int vid,unsigned int pid)
+-{
+-	int k = 0;
+-	int count=0;
+-
+-	for (k = 0;k < bu8723_table_len;k++) {
+-		if (vid == bu8723_vid_pid_tables[k].vid && pid == bu8723_vid_pid_tables[k].pid) {
+-			count=1;
+-			write_no("rtl8723bu");
+-		}
+-	}
+-	return count;
+-}
+diff --git a/dongle_info/driver_load_rtl8723ds.c b/dongle_info/driver_load_rtl8723ds.c
+deleted file mode 100644
+index 8ae47ed..0000000
+--- a/dongle_info/driver_load_rtl8723ds.c
++++ /dev/null
+@@ -1,66 +0,0 @@
+-#define LOG_TAG "RTL8723DS"
+-#include "dongle_info.h"
+-#define ES8192_DRIVER_KO "8723ds"
+-
+-#ifndef WIFI_DRIVER_MODULE_ARG
+-#define WIFI_DRIVER_MODULE_ARG          "ifname=wlan0 if2name=p2p0"
+-#endif
+-
+-#ifndef WIFI_FIRMWARE_LOADER
+-#define WIFI_FIRMWARE_LOADER		""
+-#endif
+-
+-static const char DRIVER_MODULE_ARG[]   = WIFI_DRIVER_MODULE_ARG;
+-static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
+-static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
+-
+-int ds8723_unload_driver()
+-{
+-    if (wifi_rmmod(ES8192_DRIVER_KO) != 0) {
+-        ALOGE("Failed to rmmod rtl8723ds driver ! \n");
+-        return -1;
+-    }
+-
+-    ALOGD("Success to rmmod rtl8723ds driver! \n");
+-
+-    return 0;
+-}
+-
+-int ds8723_load_driver()
+-{
+-    char mod_path[SYSFS_PATH_MAX];
+-
+-
+-	  snprintf(mod_path, SYSFS_PATH_MAX, "%s/%s.ko",WIFI_DRIVER_MODULE_PATH,ES8192_DRIVER_KO);
+-    if (wifi_insmod(mod_path, DRIVER_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod rtl8723ds driver!\n");
+-        return -1;
+-    }
+-
+-    ALOGD("Success to insmod rtl8723ds driver! \n");
+-    return 0;
+-}
+-
+-
+-int search_ds8723(unsigned int x,unsigned int y)
+-{
+-    int fd,len;
+-    char sdio_buf[128];
+-    FILE *fp = fopen(file_name,"r");
+-    if (!fp)
+-        return -1;
+-
+-    memset(sdio_buf,0,sizeof(sdio_buf));
+-    if (fread(sdio_buf, 1,128,fp) < 1) {
+-        ALOGE("Read error \n");
+-        fclose(fp);
+-        return -1;
+-    }
+-    fclose(fp);
+-    if (strstr(sdio_buf,"d723")) {
+-        write_no("rtl8723ds");
+-        ALOGE("Found 8723ds !!!\n");
+-        return 1;
+-    }
+-    return 0;
+-}
+diff --git a/dongle_info/driver_load_rtl8723du.c b/dongle_info/driver_load_rtl8723du.c
+deleted file mode 100644
+index 6aedbfd..0000000
+--- a/dongle_info/driver_load_rtl8723du.c
++++ /dev/null
+@@ -1,59 +0,0 @@
+-#define LOG_TAG "RTL8723DU"
+-#include "dongle_info.h"
+-
+-#define DU8723_DRIVER_KO "8723du"
+-#ifndef WIFI_DRIVER_MODULE_ARG
+-#define WIFI_DRIVER_MODULE_ARG          "ifname=wlan0 if2name=p2p0"
+-#endif
+-
+-#ifndef WIFI_FIRMWARE_LOADER
+-#define WIFI_FIRMWARE_LOADER		""
+-#endif
+-
+-static const char DRIVER_MODULE_ARG[]   = WIFI_DRIVER_MODULE_ARG;
+-static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
+-static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
+-
+-static struct wifi_vid_pid du8723_vid_pid_tables[] =
+-{
+-    {0x0bda,0xD723}
+-};
+-
+-static int du8723_table_len = sizeof(du8723_vid_pid_tables)/sizeof(struct wifi_vid_pid);
+-
+-int du8723_unload_driver()
+-{
+-    if (wifi_rmmod(DU8723_DRIVER_KO) != 0) {
+-        ALOGE("Failed to rmmod rtl8723du driver ! \n");
+-        return -1;
+-    }
+-    ALOGD("Success to rmmod rtl8723du driver ! \n");
+-    return 0;
+-}
+-
+-int du8723_load_driver()
+-{
+-    char mod_path[SYSFS_PATH_MAX];
+-    snprintf(mod_path, SYSFS_PATH_MAX, "%s/%s.ko",WIFI_DRIVER_MODULE_PATH,DU8723_DRIVER_KO);
+-    if (wifi_insmod(mod_path, DRIVER_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod rtl8723du driver ! \n");
+-        return -1;
+-    }
+-
+-    ALOGD("Success to insmod rtl8723du driver! \n");
+-    return 0;
+-}
+-
+-int search_8723du(unsigned int vid,unsigned int pid)
+-{
+-	int k = 0;
+-	int count=0;
+-
+-	for (k = 0;k < du8723_table_len;k++) {
+-		if (vid == du8723_vid_pid_tables[k].vid && pid == du8723_vid_pid_tables[k].pid) {
+-			count=1;
+-			write_no("rtl8723du");
+-		}
+-	}
+-	return count;
+-}
+diff --git a/dongle_info/driver_load_rtl8812au.c b/dongle_info/driver_load_rtl8812au.c
+deleted file mode 100644
+index d8256f2..0000000
+--- a/dongle_info/driver_load_rtl8812au.c
++++ /dev/null
+@@ -1,73 +0,0 @@
+-/*
+- * Copyright 2008, The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *     http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-#define LOG_TAG "RTL8812AU"
+-#include "dongle_info.h"
+-#define AU8812_DRIVER_KO "8812au"
+-#ifndef WIFI_DRIVER_MODULE_ARG
+-#define WIFI_DRIVER_MODULE_ARG          "ifname=wlan0 if2name=p2p0"
+-#endif
+-
+-#ifndef WIFI_FIRMWARE_LOADER
+-#define WIFI_FIRMWARE_LOADER		""
+-#endif
+-
+-static const char DRIVER_MODULE_ARG[]   = WIFI_DRIVER_MODULE_ARG;
+-static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
+-static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
+-
+-static struct wifi_vid_pid au8812_vid_pid_tables[] =
+-{
+-    {0x0bda,0x881a}
+-};
+-
+-static int au8812_table_len = sizeof(au8812_vid_pid_tables)/sizeof(struct wifi_vid_pid);
+-
+-int au8812_unload_driver()
+-{
+-    if (wifi_rmmod(AU8812_DRIVER_KO) != 0) {
+-        ALOGE("Failed to rmmod rtl8812au driver ! \n");
+-        return -1;
+-    }
+-    ALOGD("Success to rmmod rtl8812au driver ! \n");
+-    return 0;
+-}
+-
+-int au8812_load_driver()
+-{
+-    char mod_path[SYSFS_PATH_MAX];
+-    snprintf(mod_path, SYSFS_PATH_MAX, "%s/%s.ko",WIFI_DRIVER_MODULE_PATH,AU8812_DRIVER_KO);
+-    if (wifi_insmod(mod_path, DRIVER_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod rtl8812au driver ! \n");
+-        return -1;
+-    }
+-
+-    ALOGD("Success to insmod rtl8812au driver! \n");
+-    return 0;
+-}
+-
+-int search_8812au(unsigned int vid,unsigned int pid)
+-{
+-	int k = 0;
+-	int count=0;
+-
+-	for (k = 0;k < au8812_table_len;k++) {
+-		if (vid == au8812_vid_pid_tables[k].vid && pid == au8812_vid_pid_tables[k].pid) {
+-			count=1;
+-			write_no("rtl8812au");
+-		}
+-	}
+-	return count;
+-}
+diff --git a/dongle_info/driver_load_rtl8821au.c b/dongle_info/driver_load_rtl8821au.c
+deleted file mode 100644
+index 12b4bd9..0000000
+--- a/dongle_info/driver_load_rtl8821au.c
++++ /dev/null
+@@ -1,73 +0,0 @@
+-/*
+- * Copyright 2008, The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *     http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-#define LOG_TAG "RTL8821AU"
+-#include "dongle_info.h"
+-#define AU8821_DRIVER_KO "8821au"
+-#ifndef WIFI_DRIVER_MODULE_ARG
+-#define WIFI_DRIVER_MODULE_ARG          "ifname=wlan0 if2name=p2p0"
+-#endif
+-
+-#ifndef WIFI_FIRMWARE_LOADER
+-#define WIFI_FIRMWARE_LOADER		""
+-#endif
+-
+-static const char DRIVER_MODULE_ARG[]   = WIFI_DRIVER_MODULE_ARG;
+-static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
+-static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
+-
+-static struct wifi_vid_pid au8821_vid_pid_tables[] =
+-{
+-    {0x0bda,0x0823}
+-};
+-
+-static int au8821_table_len = sizeof(au8821_vid_pid_tables)/sizeof(struct wifi_vid_pid);
+-
+-int au8821_unload_driver()
+-{
+-    if (wifi_rmmod(AU8821_DRIVER_KO) != 0) {
+-        ALOGE("Failed to rmmod rtl8821au driver ! \n");
+-        return -1;
+-    }
+-    ALOGD("Success to rmmod rtl8821au driver ! \n");
+-    return 0;
+-}
+-
+-int au8821_load_driver()
+-{
+-    char mod_path[SYSFS_PATH_MAX];
+-    snprintf(mod_path, SYSFS_PATH_MAX, "%s/%s.ko",WIFI_DRIVER_MODULE_PATH,AU8821_DRIVER_KO);
+-    if (wifi_insmod(mod_path, DRIVER_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod rtl8821au driver ! \n");
+-        return -1;
+-    }
+-
+-    ALOGD("Success to insmod rtl8821au driver! \n");
+-    return 0;
+-}
+-
+-int search_8821au(unsigned int vid,unsigned int pid)
+-{
+-	int k = 0;
+-	int count=0;
+-
+-	for (k = 0;k < au8821_table_len;k++) {
+-		if (vid == au8821_vid_pid_tables[k].vid && pid == au8821_vid_pid_tables[k].pid) {
+-			count=1;
+-			write_no("rtl8821au");
+-		}
+-	}
+-	return count;
+-}
+diff --git a/dongle_info/driver_load_rtl8822bu.c b/dongle_info/driver_load_rtl8822bu.c
+deleted file mode 100644
+index 72249a4..0000000
+--- a/dongle_info/driver_load_rtl8822bu.c
++++ /dev/null
+@@ -1,73 +0,0 @@
+-/*
+- * Copyright 2008, The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *     http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-#define LOG_TAG "RTL8822BU"
+-#include "dongle_info.h"
+-#define BU8822_DRIVER_KO "8822bu"
+-#ifndef WIFI_DRIVER_MODULE_ARG
+-#define WIFI_DRIVER_MODULE_ARG          "ifname=wlan0 if2name=p2p0"
+-#endif
+-
+-#ifndef WIFI_FIRMWARE_LOADER
+-#define WIFI_FIRMWARE_LOADER		""
+-#endif
+-
+-static const char DRIVER_MODULE_ARG[]   = WIFI_DRIVER_MODULE_ARG;
+-static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
+-static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
+-
+-static struct wifi_vid_pid bu8822_vid_pid_tables[] =
+-{
+-    {0x0bda,0xb82c}
+-};
+-
+-static int bu8822_table_len = sizeof(bu8822_vid_pid_tables)/sizeof(struct wifi_vid_pid);
+-
+-int bu8822_unload_driver()
+-{
+-    if (wifi_rmmod(BU8822_DRIVER_KO) != 0) {
+-        ALOGE("Failed to rmmod rtl8822bu driver ! \n");
+-        return -1;
+-    }
+-    ALOGD("Success to rmmod rtl8822bu driver ! \n");
+-    return 0;
+-}
+-
+-int bu8822_load_driver()
+-{
+-    char mod_path[SYSFS_PATH_MAX];
+-    snprintf(mod_path, SYSFS_PATH_MAX, "%s/%s.ko",WIFI_DRIVER_MODULE_PATH,BU8822_DRIVER_KO);
+-    if (wifi_insmod(mod_path, DRIVER_MODULE_ARG) !=0) {
+-        ALOGE("Failed to insmod rtl8822bu driver ! \n");
+-        return -1;
+-    }
+-
+-    ALOGD("Success to insmod rtl8822bu driver! \n");
+-    return 0;
+-}
+-
+-int search_8822bu(unsigned int vid,unsigned int pid)
+-{
+-	int k = 0;
+-	int count=0;
+-
+-	for (k = 0;k < bu8822_table_len;k++) {
+-		if (vid == bu8822_vid_pid_tables[k].vid && pid == bu8822_vid_pid_tables[k].pid) {
+-			count=1;
+-			write_no("rtl8822bu");
+-		}
+-	}
+-	return count;
+-}
+diff --git a/multi_wifi/wpa_supplicant_8_lib/Android.mk b/multi_wifi/wpa_supplicant_8_lib/Android.mk
+index b71f531..d2835d6 100644
+--- a/multi_wifi/wpa_supplicant_8_lib/Android.mk
++++ b/multi_wifi/wpa_supplicant_8_lib/Android.mk
+@@ -13,7 +13,6 @@
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+-ifeq ($(MULTI_WIFI_SUPPORT),true)
+ LOCAL_PATH := $(call my-dir)
+ 
+ ifeq ($(WPA_SUPPLICANT_VERSION),VER_0_8_X)
+@@ -43,6 +42,7 @@ endif
+ ifdef CONFIG_DRIVER_WEXT
+ WPA_SRC_FILE += driver_cmd_wext.c
+ endif
++
+ ifeq ($(TARGET_ARCH),arm)
+ # To force sizeof(enum) = 4
+ L_CFLAGS += -mabi=aapcs-linux
+@@ -56,25 +56,24 @@ ifdef CONFIG_P2P
+ L_CFLAGS += -DCONFIG_P2P
+ endif
+ 
+-#ifeq ($(TARGET_USES_64_BIT_BCMDHD),true)
++ifeq ($(TARGET_USES_64_BIT_BCMDHD),true)
+ L_CFLAGS += -DBCMDHD_64_BIT_IPC
+-#endif
++endif
+ 
+ ########################
+ 
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := lib_driver_cmd_multi
++LOCAL_SHARED_LIBRARIES := libc libcutils
++LOCAL_CFLAGS := $(L_CFLAGS)
++LOCAL_SRC_FILES := $(WPA_SRC_FILE)
++LOCAL_C_INCLUDES := $(WPA_SUPPL_DIR_INCLUDE)
+ 
+ ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 26 && echo OK),OK)
+ LOCAL_PROPRIETARY_MODULE := true
+ endif
+-
+-LOCAL_SHARED_LIBRARIES := libc libcutils libhardware_legacy
+-LOCAL_CFLAGS := $(L_CFLAGS)
+-LOCAL_SRC_FILES := $(WPA_SRC_FILE)
+-LOCAL_C_INCLUDES := $(WPA_SUPPL_DIR_INCLUDE) $(call include-path-for, libhardware_legacy)/hardware_legacy
+ include $(BUILD_STATIC_LIBRARY)
+ 
+ ########################
+-endif
++
+ endif
+diff --git a/multi_wifi/wpa_supplicant_8_lib/MODULE_LICENSE_BSD b/multi_wifi/wpa_supplicant_8_lib/MODULE_LICENSE_BSD
+old mode 100644
+new mode 100755
+diff --git a/multi_wifi/wpa_supplicant_8_lib/NOTICE b/multi_wifi/wpa_supplicant_8_lib/NOTICE
+old mode 100644
+new mode 100755
+diff --git a/multi_wifi/wpa_supplicant_8_lib/driver_cmd_nl80211.c b/multi_wifi/wpa_supplicant_8_lib/driver_cmd_nl80211.c
+old mode 100644
+new mode 100755
+index 1c4d3b5..5ba7697
+--- a/multi_wifi/wpa_supplicant_8_lib/driver_cmd_nl80211.c
++++ b/multi_wifi/wpa_supplicant_8_lib/driver_cmd_nl80211.c
+@@ -92,11 +92,11 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
+ 		}
+ 	}
+ 
+-	if (os_strncasecmp(cmd, "BTCOEXMODE", 10) == 0 ||
+-		os_strncasecmp(cmd, "WLS_BATCHING", 12) == 0 || os_strcasecmp(cmd, "BTCOEXSCAN-STOP") == 0 ||
+-		os_strncasecmp(cmd, "RXFILTER", 8) == 0 || os_strncasecmp(cmd, "SETSUSPENDMODE", 14) == 0 ||
+-		os_strncasecmp(cmd, "SETBAND", 7) == 0)
+-		return 0;
++       if (os_strncasecmp(cmd, "BTCOEXMODE", 10) == 0 ||
++        os_strncasecmp(cmd, "WLS_BATCHING", 12) == 0 || os_strcasecmp(cmd, "BTCOEXSCAN-STOP") == 0 ||
++        os_strncasecmp(cmd, "RXFILTER", 8) == 0 || os_strncasecmp(cmd, "SETSUSPENDMODE", 14) == 0 ||
++        os_strncasecmp(cmd, "SETBAND", 7) == 0)
++        return 0;
+ 
+ 	if (os_strcasecmp(cmd, "STOP") == 0) {
+ 		linux_set_iface_flags(drv->global->ioctl_sock, bss->ifname, 0);
+diff --git a/multi_wifi/wpa_supplicant_8_lib/driver_cmd_wext.c b/multi_wifi/wpa_supplicant_8_lib/driver_cmd_wext.c
+old mode 100644
+new mode 100755
+index 11742cb..3734cb0
+--- a/multi_wifi/wpa_supplicant_8_lib/driver_cmd_wext.c
++++ b/multi_wifi/wpa_supplicant_8_lib/driver_cmd_wext.c
+@@ -90,7 +90,7 @@ int wpa_driver_wext_combo_scan(void *priv, struct wpa_driver_scan_params *params
+ 	/* Set list of SSIDs */
+ 	bp = WEXT_CSCAN_HEADER_SIZE;
+ 	os_memcpy(buf, WEXT_CSCAN_HEADER, bp);
+-	for (i=0; i < params->num_ssids; i++) {
++	for(i=0; i < params->num_ssids; i++) {
+ 		if ((bp + IW_ESSID_MAX_SIZE + 10) >= (int)sizeof(buf))
+ 			break;
+ 		wpa_printf(MSG_DEBUG, "For Scan: %s", params->ssids[i].ssid);
+@@ -234,7 +234,7 @@ static int wpa_driver_set_backgroundscan_params(void *priv)
+ 		/* Check that there is enough space needed for 1 more SSID, the other sections and null termination */
+ 		if ((bp + WEXT_PNO_SSID_HEADER_SIZE + IW_ESSID_MAX_SIZE + WEXT_PNO_NONSSID_SECTIONS_SIZE + 1) >= (int)sizeof(buf))
+ 			break;
+-		if ((!ssid_conf->disabled) && (ssid_conf->ssid_len <= IW_ESSID_MAX_SIZE)) {
++		if ((!ssid_conf->disabled) && (ssid_conf->ssid_len <= IW_ESSID_MAX_SIZE)){
+ 			wpa_printf(MSG_DEBUG, "For PNO Scan: %s", ssid_conf->ssid);
+ 			buf[bp++] = WEXT_PNO_SSID_SECTION;
+ 			buf[bp++] = ssid_conf->ssid_len;
+@@ -324,7 +324,7 @@ int wpa_driver_wext_driver_cmd( void *priv, char *cmd, char *buf, size_t buf_len
+ 	iwr.u.data.pointer = buf;
+ 	iwr.u.data.length = buf_len;
+ 
+-	if ( os_strncasecmp(cmd, "CSCAN", 5) == 0 ) {
++	if( os_strncasecmp(cmd, "CSCAN", 5) == 0 ) {
+ 		if (!wpa_s->scanning && ((wpa_s->wpa_state <= WPA_SCANNING) ||
+ 					(wpa_s->wpa_state >= WPA_COMPLETED))) {
+ 			iwr.u.data.length = wpa_driver_wext_set_cscan_params(buf, buf_len, cmd);
+diff --git a/multi_wifi/wpa_supplicant_8_lib/driver_cmd_wext.h b/multi_wifi/wpa_supplicant_8_lib/driver_cmd_wext.h
+old mode 100644
+new mode 100755
