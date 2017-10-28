@@ -43,6 +43,7 @@ typedef enum {
     LOGGER_START_PKT_FATE_MONITORING,
     LOGGER_GET_TX_PKT_FATES,
     LOGGER_GET_RX_PKT_FATES,
+    LOGGER_GET_WAKE_REASON_STATS
 } DEBUG_SUB_COMMAND;
 
 typedef enum {
@@ -89,6 +90,29 @@ typedef enum {
     RX_PACKET_FATE,
 } PktFateReqType;
 
+enum wake_stat_attributes {
+    WAKE_STAT_ATTRIBUTE_TOTAL_CMD_EVENT,
+    WAKE_STAT_ATTRIBUTE_CMD_EVENT_WAKE,
+    WAKE_STAT_ATTRIBUTE_CMD_EVENT_COUNT,
+    WAKE_STAT_ATTRIBUTE_CMD_COUNT_USED,
+    WAKE_STAT_ATTRIBUTE_TOTAL_DRIVER_FW,
+    WAKE_STAT_ATTRIBUTE_DRIVER_FW_WAKE,
+    WAKE_STAT_ATTRIBUTE_DRIVER_FW_COUNT,
+    WAKE_STAT_ATTRIBUTE_DRIVER_FW_COUNT_USED,
+    WAKE_STAT_ATTRIBUTE_TOTAL_RX_DATA_WAKE,
+    WAKE_STAT_ATTRIBUTE_RX_UNICAST_COUNT,
+    WAKE_STAT_ATTRIBUTE_RX_MULTICAST_COUNT,
+    WAKE_STAT_ATTRIBUTE_RX_BROADCAST_COUNT,
+    WAKE_STAT_ATTRIBUTE_RX_ICMP_PKT,
+    WAKE_STAT_ATTRIBUTE_RX_ICMP6_PKT,
+    WAKE_STAT_ATTRIBUTE_RX_ICMP6_RA,
+    WAKE_STAT_ATTRIBUTE_RX_ICMP6_NA,
+    WAKE_STAT_ATTRIBUTE_RX_ICMP6_NS,
+    WAKE_STAT_ATTRIBUTE_IPV4_RX_MULTICAST_ADD_CNT,
+    WAKE_STAT_ATTRIBUTE_IPV6_RX_MULTICAST_ADD_CNT,
+    WAKE_STAT_ATTRIBUTE_OTHER__RX_MULTICAST_ADD_CNT,
+    WAKE_STAT_ATTRIBUTE_RX_MULTICAST_PKT_INFO
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 class DebugCommand : public WifiCommand
@@ -1059,6 +1083,125 @@ public:
     }
 };
 
+class GetWakeReasonCountCommand : public WifiCommand {
+    WLAN_DRIVER_WAKE_REASON_CNT *mWlanDriverWakeReasonCnt;
+    void *mCmdEventWakeCount;
+public:
+    GetWakeReasonCountCommand(wifi_interface_handle handle, WLAN_DRIVER_WAKE_REASON_CNT *wlanDriverWakeReasonCount)
+        : WifiCommand("GetWakeReasonCountCommand", handle, 0), mWlanDriverWakeReasonCnt(wlanDriverWakeReasonCount)
+    {
+        mCmdEventWakeCount = mWlanDriverWakeReasonCnt->cmd_event_wake_cnt;
+    }
+
+     int createRequest(WifiRequest& request) {
+        ALOGE("Start create wake stats command\n");
+        int result = request.create(GOOGLE_OUI, LOGGER_GET_WAKE_REASON_STATS);
+        if (result < 0) {
+           return result;
+        }
+
+        nlattr *data = request.attr_start(NL80211_ATTR_VENDOR_DATA);
+
+        request.attr_end(data);
+        return WIFI_SUCCESS;
+    }
+
+    int start() {
+        ALOGE("Start get wake stats command\n");
+        WifiRequest request(familyId(), ifaceId());
+
+        int result = createRequest(request);
+        if (result < 0) {
+            ALOGE("Failed to create request result = %d\n", result);
+            return result;
+        }
+
+        result = requestResponse(request);
+        if (result != WIFI_SUCCESS) {
+            ALOGE("Failed to register wake stats  response; result = %d\n", result);
+        }
+        return result;
+    }
+
+protected:
+     int handleResponse(WifiEvent& reply) {
+
+        ALOGE("In GetWakeReasonCountCommand::handleResponse");
+
+        if (reply.get_cmd() != NL80211_CMD_VENDOR) {
+            ALOGE("Ignoring reply with cmd = %d", reply.get_cmd());
+            return NL_SKIP;
+        }
+
+        int id = reply.get_vendor_id();
+        int subcmd = reply.get_vendor_subcmd();
+
+        nlattr *vendor_data = reply.get_attribute(NL80211_ATTR_VENDOR_DATA);
+        int len = reply.get_vendor_data_len();
+
+        ALOGV("Id = %0x, subcmd = %d, len = %d", id, subcmd, len);
+        if (vendor_data == NULL || len == 0) {
+            ALOGE("no vendor data in GetGetWakeReasonCountCommand response; ignoring it");
+            return NL_SKIP;
+        }
+
+        for (nl_iterator it(vendor_data); it.has_next(); it.next()) {
+            switch (it.get_type()) {
+                case WAKE_STAT_ATTRIBUTE_TOTAL_CMD_EVENT:
+                mWlanDriverWakeReasonCnt->total_cmd_event_wake = it.get_u32();
+                    break;
+                case WAKE_STAT_ATTRIBUTE_CMD_COUNT_USED:
+                    mWlanDriverWakeReasonCnt->cmd_event_wake_cnt_used = it.get_u32();
+                    break;
+                case WAKE_STAT_ATTRIBUTE_CMD_EVENT_WAKE:
+                    memcpy(mCmdEventWakeCount, it.get_data(),
+                        (mWlanDriverWakeReasonCnt->cmd_event_wake_cnt_used * sizeof(int)));
+                    break;
+                case WAKE_STAT_ATTRIBUTE_TOTAL_RX_DATA_WAKE:
+                     mWlanDriverWakeReasonCnt->total_rx_data_wake = it.get_u32();
+                    break;
+                case WAKE_STAT_ATTRIBUTE_RX_UNICAST_COUNT:
+                    mWlanDriverWakeReasonCnt->rx_wake_details.rx_unicast_cnt = it.get_u32();
+                    break;
+                case WAKE_STAT_ATTRIBUTE_RX_MULTICAST_COUNT:
+                    mWlanDriverWakeReasonCnt->rx_wake_details.rx_multicast_cnt = it.get_u32();
+                    break;
+                case WAKE_STAT_ATTRIBUTE_RX_BROADCAST_COUNT:
+                    mWlanDriverWakeReasonCnt->rx_wake_details.rx_broadcast_cnt = it.get_u32();
+                    break;
+                case WAKE_STAT_ATTRIBUTE_RX_ICMP_PKT:
+                     mWlanDriverWakeReasonCnt->rx_wake_pkt_classification_info.icmp_pkt = it.get_u32();
+                    break;
+                case WAKE_STAT_ATTRIBUTE_RX_ICMP6_PKT:
+                    mWlanDriverWakeReasonCnt->rx_wake_pkt_classification_info.icmp6_pkt = it.get_u32();
+                    break;
+                case WAKE_STAT_ATTRIBUTE_RX_ICMP6_RA:
+                     mWlanDriverWakeReasonCnt->rx_wake_pkt_classification_info.icmp6_ra = it.get_u32();
+                    break;
+                case WAKE_STAT_ATTRIBUTE_RX_ICMP6_NA:
+                    mWlanDriverWakeReasonCnt->rx_wake_pkt_classification_info.icmp6_na = it.get_u32();
+                    break;
+                case WAKE_STAT_ATTRIBUTE_RX_ICMP6_NS:
+                    mWlanDriverWakeReasonCnt->rx_wake_pkt_classification_info.icmp6_ns = it.get_u32();
+                    break;
+                case WAKE_STAT_ATTRIBUTE_IPV4_RX_MULTICAST_ADD_CNT:
+                    mWlanDriverWakeReasonCnt->rx_multicast_wake_pkt_info.ipv4_rx_multicast_addr_cnt = it.get_u32();
+                    break;
+                case WAKE_STAT_ATTRIBUTE_IPV6_RX_MULTICAST_ADD_CNT:
+                    mWlanDriverWakeReasonCnt->rx_multicast_wake_pkt_info.ipv6_rx_multicast_addr_cnt = it.get_u32();
+                    break;
+                case WAKE_STAT_ATTRIBUTE_OTHER__RX_MULTICAST_ADD_CNT:
+                    mWlanDriverWakeReasonCnt->rx_multicast_wake_pkt_info.other_rx_multicast_addr_cnt = it.get_u32();
+                    break;
+                default:
+                    break;
+            }
+
+         }
+        return NL_OK;
+    }
+};
+
 wifi_error wifi_start_pkt_fate_monitoring(wifi_interface_handle handle)
 {
     PacketFateCommand *cmd = new PacketFateCommand(handle);
@@ -1086,6 +1229,17 @@ wifi_error wifi_get_rx_pkt_fates(wifi_interface_handle handle,
 {
     PacketFateCommand *cmd = new PacketFateCommand(handle, rx_report_bufs,
                 n_requested_fates, n_provided_fates);
+    NULL_CHECK_RETURN(cmd, "memory allocation failure", WIFI_ERROR_OUT_OF_MEMORY);
+    wifi_error result = (wifi_error)cmd->start();
+    cmd->releaseRef();
+    return result;
+}
+
+wifi_error wifi_get_wake_reason_stats(wifi_interface_handle handle,
+        WLAN_DRIVER_WAKE_REASON_CNT *wifi_wake_reason_cnt)
+{
+    GetWakeReasonCountCommand *cmd = new GetWakeReasonCountCommand(handle,
+                wifi_wake_reason_cnt);
     NULL_CHECK_RETURN(cmd, "memory allocation failure", WIFI_ERROR_OUT_OF_MEMORY);
     wifi_error result = (wifi_error)cmd->start();
     cmd->releaseRef();

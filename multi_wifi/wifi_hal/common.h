@@ -136,6 +136,11 @@ typedef enum {
     GOOGLE_RSSI_MONITOR_EVENT
 } WIFI_EVENT;
 
+/* API to get wake reason statistics */
+wifi_error wifi_get_wake_reason_stats(wifi_interface_handle handle,
+        WLAN_DRIVER_WAKE_REASON_CNT *wifi_wake_reason_cnt);
+
+
 typedef void (*wifi_internal_event_handler) (wifi_handle handle, int events);
 
 class WifiCommand;
