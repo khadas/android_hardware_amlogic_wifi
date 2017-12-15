@@ -91,12 +91,6 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 		}
 	}
 
-       if (os_strncasecmp(cmd, "BTCOEXMODE", 10) == 0 || os_strncasecmp(cmd, "MIRACAST", 8) == 0 ||
-        os_strncasecmp(cmd, "WLS_BATCHING", 12) == 0 || os_strcasecmp(cmd, "BTCOEXSCAN-STOP") == 0 ||
-        os_strncasecmp(cmd, "RXFILTER", 8) == 0 || os_strncasecmp(cmd, "SETSUSPENDMODE", 14) == 0 ||
-        os_strncasecmp(cmd, "SETBAND", 7) == 0)
-        return 0;
-
 	if (os_strcasecmp(cmd, "STOP") == 0) {
 		linux_set_iface_flags(drv->global->ioctl_sock, bss->ifname, 0);
 		wpa_msg(drv->ctx, MSG_INFO, WPA_EVENT_DRIVER_STATE "STOPPED");
@@ -114,7 +108,11 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 		os_memcpy(buf, cmd, strlen(cmd) + 1);
 		memset(&ifr, 0, sizeof(ifr));
 		memset(&priv_cmd, 0, sizeof(priv_cmd));
-		os_strlcpy(ifr.ifr_name, bss->ifname, IFNAMSIZ);
+		if (os_strncmp(bss->ifname, "p2p-dev-wlan", 12) == 0) {
+			os_strlcpy(ifr.ifr_name, "wlan0", IFNAMSIZ);
+		} else {
+			os_strlcpy(ifr.ifr_name, bss->ifname, IFNAMSIZ);
+		}
 
 #ifdef BCMDHD_64_BIT_IPC
 		priv_cmd.bufaddr = (u64)(uintptr_t)buf;
