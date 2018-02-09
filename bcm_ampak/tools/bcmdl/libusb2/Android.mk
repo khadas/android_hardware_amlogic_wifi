@@ -18,6 +18,7 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/android \
 
 LOCAL_CFLAGS += -W -Wall
 LOCAL_CFLAGS += -fPIC -DPIC
+LOCAL_CFLAGS += -Werror -Wpointer-arith -Wunused-parameter -Wsign-compare
 
 
 ifeq ($(TARGET_BUILD_TYPE),release)

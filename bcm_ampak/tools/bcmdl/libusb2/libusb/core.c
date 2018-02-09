@@ -617,7 +617,7 @@ API_EXPORTED ssize_t libusb_get_device_list(libusb_context *ctx,
 	}
 
 	ret[len] = NULL;
-	for (i = 0; i < len; i++) {
+	for (i = 0; i < (unsigned long)len; i++) {
 		struct libusb_device *dev = discdevs->devices[i];
 		ret[i] = libusb_ref_device(dev);
 	}
@@ -1195,7 +1195,7 @@ API_EXPORTED int libusb_claim_interface(libusb_device_handle *dev,
 	int r = 0;
 
 	usbi_dbg("interface %d", interface_number);
-	if (interface_number >= sizeof(dev->claimed_interfaces) * 8)
+	if (interface_number >= (int)(sizeof(dev->claimed_interfaces) * 8))
 		return LIBUSB_ERROR_INVALID_PARAM;
 
 	pthread_mutex_lock(&dev->lock);
@@ -1232,7 +1232,7 @@ API_EXPORTED int libusb_release_interface(libusb_device_handle *dev,
 	int r;
 
 	usbi_dbg("interface %d", interface_number);
-	if (interface_number >= sizeof(dev->claimed_interfaces) * 8)
+	if (interface_number >= (int)(sizeof(dev->claimed_interfaces) * 8))
 		return LIBUSB_ERROR_INVALID_PARAM;
 
 	pthread_mutex_lock(&dev->lock);
@@ -1276,7 +1276,7 @@ API_EXPORTED int libusb_set_interface_alt_setting(libusb_device_handle *dev,
 {
 	usbi_dbg("interface %d altsetting %d",
 		interface_number, alternate_setting);
-	if (interface_number >= sizeof(dev->claimed_interfaces) * 8)
+	if (interface_number >= (int)(sizeof(dev->claimed_interfaces) * 8))
 		return LIBUSB_ERROR_INVALID_PARAM;
 
 	pthread_mutex_lock(&dev->lock);

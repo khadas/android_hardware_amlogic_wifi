@@ -1335,11 +1335,11 @@ static int arm_timerfd_for_next_timeout(struct libusb_context *ctx)
 	return 0;
 }
 #else
-static int disarm_timerfd(struct libusb_context *ctx)
+static int disarm_timerfd(struct libusb_context *ctx __unused)
 {
 	return 0;
 }
-static int arm_timerfd_for_next_timeout(struct libusb_context *ctx)
+static int arm_timerfd_for_next_timeout(struct libusb_context *ctx __unused)
 {
 	return 0;
 }
@@ -2042,7 +2042,7 @@ API_EXPORTED int libusb_handle_events_locked(libusb_context *ctx,
  * or through regular activity on the file descriptors.
  * \see \ref pollmain "Polling libusb file descriptors for event handling"
  */
-API_EXPORTED int libusb_pollfds_handle_timeouts(libusb_context *ctx)
+API_EXPORTED int libusb_pollfds_handle_timeouts(libusb_context *ctx __unused)
 {
 #if defined(USBI_OS_HANDLES_TIMEOUT)
 	return 1;
