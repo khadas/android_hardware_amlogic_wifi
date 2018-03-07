@@ -77,12 +77,12 @@ protected:
         }
 
         int id = reply.get_vendor_id();
-        int subcmd = reply.get_vendor_subcmd();
+        /*int subcmd = */reply.get_vendor_subcmd();
 
         // ALOGI("Id = %0x, subcmd = %d", id, subcmd);
 
         void *data = reply.get_vendor_data();
-        int len = reply.get_vendor_data_len();
+        /*int len = */reply.get_vendor_data_len();
         wifi_radio_stat *radio_stat =
             convertToExternalRadioStatStructure((wifi_radio_stat_internal *)data);
         if (!radio_stat) {

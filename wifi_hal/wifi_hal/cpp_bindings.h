@@ -251,7 +251,7 @@ public:
     }
 
     virtual void addRef() {
-        int refs = __sync_add_and_fetch(&mRefs, 1);
+        /*int refs = */__sync_add_and_fetch(&mRefs, 1);
         // ALOGD("addRef: WifiCommand %p has %d references", this, refs);
     }
 

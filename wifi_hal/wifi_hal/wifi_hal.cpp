@@ -42,7 +42,7 @@
 #define WIFI_HAL_CMD_SOCK_PORT       644
 #define WIFI_HAL_EVENT_SOCK_PORT     645
 
-static void internal_event_handler(wifi_handle handle, int events);
+//static void internal_event_handler(wifi_handle handle, int events);
 static int internal_no_seq_check(nl_msg *msg, void *arg);
 static int internal_valid_message_handler(nl_msg *msg, void *arg);
 static int wifi_get_multicast_id(wifi_handle handle, const char *name, const char *group);
@@ -104,7 +104,7 @@ static nl_sock * wifi_create_nl_socket(int port)
 
     wifi_socket_set_local_port(sock, port);
 
-    struct sockaddr *addr = NULL;
+    //struct sockaddr *addr = NULL;
     // ALOGI("sizeof(sockaddr) = %d, sizeof(sockaddr_nl) = %d", sizeof(*addr), sizeof(*addr_nl));
 
     // ALOGI("Connecting socket");
@@ -500,7 +500,7 @@ static int internal_valid_message_handler(nl_msg *msg, void *arg)
     // ALOGV("event received %s, vendor_id = 0x%0x", event.get_cmdString(), vendor_id);
     // event.log();
 
-    bool dispatched = false;
+    //bool dispatched = false;
 
     pthread_mutex_lock(&info->cb_lock);
 
@@ -573,7 +573,7 @@ public:
         // ALOGI("handling reponse in %s", __func__);
 
         struct nlattr **tb = reply.attributes();
-        struct genlmsghdr *gnlh = reply.header();
+        //struct genlmsghdr *gnlh = reply.header();
         struct nlattr *mcgrp = NULL;
         int i;
 
@@ -615,10 +615,10 @@ class SetPnoMacAddrOuiCommand : public WifiCommand {
 
 private:
     byte *mOui;
-    feature_set *fset;
-    feature_set *feature_matrix;
-    int *fm_size;
-    int set_size_max;
+    //feature_set *fset;
+    //feature_set *feature_matrix;
+    //int *fm_size;
+    //int set_size_max;
 public:
     SetPnoMacAddrOuiCommand(wifi_interface_handle handle, oui scan_oui)
         : WifiCommand("SetPnoMacAddrOuiCommand", handle, 0)
@@ -1267,7 +1267,7 @@ static wifi_error wifi_stop_rssi_monitoring(wifi_request_id id, wifi_interface_h
     if(id == -1) {
         wifi_rssi_event_handler handler;
         s8 max_rssi = 0, min_rssi = 0;
-        wifi_handle handle = getWifiHandle(iface);
+        /*wifi_handle handle = */getWifiHandle(iface);
         memset(&handler, 0, sizeof(handler));
         SetRSSIMonitorCommand *cmd = new SetRSSIMonitorCommand(id, iface,
                                                     max_rssi, min_rssi, handler);

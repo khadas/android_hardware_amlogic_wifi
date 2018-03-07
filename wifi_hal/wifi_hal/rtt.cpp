@@ -152,7 +152,7 @@ protected:
         int len = reply.get_vendor_data_len();
 
         ALOGD("Id = %0x, subcmd = %d, len = %d, expected len = %d", id, subcmd, len,
-                sizeof(*mCapabilities));
+                (int)sizeof(*mCapabilities));
 
         memcpy(mCapabilities, data, min(len, (int) sizeof(*mCapabilities)));
 
@@ -200,7 +200,7 @@ protected:
         int len = reply.get_vendor_data_len();
 
         ALOGD("Id = %0x, subcmd = %d, len = %d, expected len = %d", id, subcmd, len,
-                sizeof(*mResponderInfo));
+                (int)sizeof(*mResponderInfo));
 
         memcpy(mResponderInfo, data, min(len, (int) sizeof(*mResponderInfo)));
 
@@ -211,14 +211,14 @@ protected:
 
 class EnableResponderCommand : public WifiCommand
 {
-    wifi_channel_info  mChannelInfo;
+    //wifi_channel_info  mChannelInfo;
     wifi_rtt_responder* mResponderInfo;
-    unsigned m_max_duration_sec;
+    //unsigned m_max_duration_sec;
 public:
     EnableResponderCommand(wifi_interface_handle iface, int id, wifi_channel_info channel_hint,
             unsigned max_duration_seconds, wifi_rtt_responder *responderInfo)
-            : WifiCommand("EnableResponderCommand", iface, 0), mChannelInfo(channel_hint),
-            m_max_duration_sec(max_duration_seconds), mResponderInfo(responderInfo)
+            : WifiCommand("EnableResponderCommand", iface, 0),
+            mResponderInfo(responderInfo)
     {
         memset(mResponderInfo, 0, sizeof(*mResponderInfo));
     }
@@ -251,7 +251,7 @@ protected:
         int len = reply.get_vendor_data_len();
 
         ALOGD("Id = %0x, subcmd = %d, len = %d, expected len = %d", id, subcmd, len,
-                sizeof(*mResponderInfo));
+                (int)sizeof(*mResponderInfo));
 
         memcpy(mResponderInfo, data, min(len, (int) sizeof(*mResponderInfo)));
 
@@ -583,7 +583,7 @@ public:
                                 rtt_result->success_number, rtt_result->number_per_burst_peer,
                                 get_err_info(rtt_result->status), rtt_result->retry_after_duration,
                                 rtt_result->rssi, rtt_result->rx_rate.bitrate * 100,
-                                rtt_result->rtt/10, rtt_result->rtt_sd, rtt_result->distance_mm / 10,
+                                (unsigned long long)rtt_result->rtt/10, (unsigned long long)rtt_result->rtt_sd, rtt_result->distance_mm / 10,
                                 rtt_result->burst_duration, rtt_result->negotiated_burst_num);
                         currentIdx++;
                     }
@@ -633,7 +633,7 @@ wifi_error wifi_rtt_range_request(wifi_request_id id, wifi_interface_handle ifac
 wifi_error wifi_rtt_range_cancel(wifi_request_id id,  wifi_interface_handle iface,
         unsigned num_devices, mac_addr addr[])
 {
-    wifi_handle handle = getWifiHandle(iface);
+    /*wifi_handle handle = */getWifiHandle(iface);
     RttCommand *cmd = new RttCommand(iface, id);
     NULL_CHECK_RETURN(cmd, "memory allocation failure", WIFI_ERROR_OUT_OF_MEMORY);
     cmd->cancel_specific(num_devices, addr);

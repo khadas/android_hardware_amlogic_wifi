@@ -389,7 +389,7 @@ public:
                 void *data = reply.get_vendor_data();
                 int len = reply.get_vendor_data_len();
 
-                ALOGD("len = %d, expected len = %d", len, sizeof(unsigned int));
+                ALOGD("len = %d, expected len = %d", len, (int)sizeof(unsigned int));
                 memcpy(mSupport, data, sizeof(unsigned int));
                 break;
             }
@@ -684,7 +684,7 @@ public:
     }
 
     virtual int handleEvent(WifiEvent& event) {
-        wifi_ring_buffer_id ring_id;
+        //wifi_ring_buffer_id ring_id;
         char *buffer = NULL;
         int buffer_size = 0;
 
@@ -1067,7 +1067,7 @@ public:
         for (nl_iterator it(vendor_data); it.has_next(); it.next()) {
             if (it.get_type() == LOGGER_ATTRIBUTE_PKT_FATE_NUM) {
                 *mNoProvidedFates = it.get_u32();
-                ALOGI("No: of pkt fates provided is %d\n", *mNoProvidedFates);
+                ALOGI("No: of pkt fates provided is %d\n", (int)*mNoProvidedFates);
             } else {
                 ALOGE("Ignoring invalid attribute type = %d, size = %d\n",
                         it.get_type(), it.get_len());

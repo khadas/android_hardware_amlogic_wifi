@@ -209,7 +209,7 @@ protected:
         int len = reply.get_vendor_data_len();
 
         ALOGV("Id = %0x, subcmd = %d, len = %d, expected len = %d", id, subcmd, len,
-                    sizeof(*mCapabilities));
+                    (int)sizeof(*mCapabilities));
 
         memcpy(mCapabilities, data, min(len, (int) sizeof(*mCapabilities)));
 
@@ -310,7 +310,7 @@ wifi_error wifi_get_valid_channels(wifi_interface_handle handle,
 /////////////////////////////////////////////////////////////////////////////
 
 /* helper functions */
-
+/*
 static int parseScanResults(wifi_scan_result *results, int num, nlattr *attr)
 {
     memset(results, 0, sizeof(wifi_scan_result) * num);
@@ -350,7 +350,7 @@ static int parseScanResults(wifi_scan_result *results, int num, nlattr *attr)
     }
 
     return i;
-}
+}*/
 
 int createFeatureRequest(WifiRequest& request, int subcmd, int enable) {
 
@@ -372,12 +372,12 @@ int createFeatureRequest(WifiRequest& request, int subcmd, int enable) {
 /////////////////////////////////////////////////////////////////////////////
 class FullScanResultsCommand : public WifiCommand
 {
-    int *mParams;
+    //int *mParams;
     wifi_scan_result_handler mHandler;
 public:
     FullScanResultsCommand(wifi_interface_handle iface, int id, int *params,
                 wifi_scan_result_handler handler)
-        : WifiCommand("FullScanResultsCommand", iface, id), mParams(params), mHandler(handler)
+        : WifiCommand("FullScanResultsCommand", iface, id), mHandler(handler)
     { }
 
     int createRequest(WifiRequest& request, int subcmd, int enable) {
@@ -709,7 +709,7 @@ wifi_error wifi_stop_gscan(wifi_request_id id, wifi_interface_handle iface)
     if (id == -1) {
         wifi_scan_result_handler handler;
         wifi_scan_cmd_params dummy_params;
-        wifi_handle handle = getWifiHandle(iface);
+        /*wifi_handle handle = */getWifiHandle(iface);
         memset(&handler, 0, sizeof(handler));
 
         ScanCommand *cmd = new ScanCommand(iface, id, &dummy_params, handler);
@@ -769,7 +769,7 @@ int wifi_handle_full_scan_event(
 
     if ((ie_len + offsetof(wifi_gscan_full_result_t, ie_data)) > len) {
         ALOGE("BAD event data, len %d ie_len %d fixed length %d!\n", len,
-            ie_len, offsetof(wifi_gscan_full_result_t, ie_data));
+            ie_len, (int)offsetof(wifi_gscan_full_result_t, ie_data));
         return NL_SKIP;
     }
     full_scan_result = (wifi_scan_result *) malloc((ie_len + offsetof(wifi_scan_result, ie_data)));
@@ -785,8 +785,8 @@ int wifi_handle_full_scan_event(
 
     ALOGV("Full scan result: %-32s %02x:%02x:%02x:%02x:%02x:%02x %d %d %lld %lld %lld %x %d\n",
         fixed->ssid, fixed->bssid[0], fixed->bssid[1], fixed->bssid[2], fixed->bssid[3],
-        fixed->bssid[4], fixed->bssid[5], fixed->rssi, fixed->channel, fixed->ts,
-        fixed->rtt, fixed->rtt_sd, drv_res->scan_ch_bucket, drv_res->ie_length);
+        fixed->bssid[4], fixed->bssid[5], fixed->rssi, fixed->channel, (long long)fixed->ts,
+        (long long)fixed->rtt, (long long)fixed->rtt_sd, drv_res->scan_ch_bucket, drv_res->ie_length);
     free(full_scan_result);
     return NL_SKIP;
 }
@@ -795,11 +795,11 @@ int wifi_handle_full_scan_event(
 wifi_error wifi_disable_full_scan_results(wifi_request_id id, wifi_interface_handle iface)
 {
     ALOGV("Disabling full scan results");
-    wifi_handle handle = getWifiHandle(iface);
+    /*wifi_handle handle = */getWifiHandle(iface);
 
     if(id == -1) {
         wifi_scan_result_handler handler;
-        wifi_handle handle = getWifiHandle(iface);
+        /*wifi_handle handle = */getWifiHandle(iface);
         int params_dummy;
 
         memset(&handler, 0, sizeof(handler));
@@ -1329,7 +1329,7 @@ public:
 
     virtual int handleEvent(WifiEvent& event) {
         ALOGI("ePNO event");
-        int event_id = event.get_vendor_subcmd();
+        /*int event_id = */event.get_vendor_subcmd();
         // event.log();
 
         nlattr *vendor_data = event.get_attribute(NL80211_ATTR_VENDOR_DATA);
@@ -1622,7 +1622,7 @@ wifi_error wifi_reset_epno_list(wifi_request_id id, wifi_interface_handle iface)
 {
     if (id == -1) {
         wifi_epno_handler handler;
-        wifi_handle handle = getWifiHandle(iface);
+        /*wifi_handle handle = */getWifiHandle(iface);
 
         memset(&handler, 0, sizeof(handler));
         ePNOCommand *cmd = new ePNOCommand(iface, id, NULL, handler);
@@ -1799,9 +1799,9 @@ public:
 
         ALOGI("%d\t", mResult->rssi);
         ALOGI("%d\t", mResult->channel);
-        ALOGI("%lld\t", mResult->ts);
-        ALOGI("%lld\t", mResult->rtt);
-        ALOGI("%lld\n", mResult->rtt_sd);
+        ALOGI("%lld\t", (long long)mResult->ts);
+        ALOGI("%lld\t", (long long)mResult->rtt);
+        ALOGI("%lld\n", (long long)mResult->rtt_sd);
 
         if(*mHandler.on_passpoint_network_found)
             (*mHandler.on_passpoint_network_found)(id(), networkId, mResult, anqp_len, anqp);
