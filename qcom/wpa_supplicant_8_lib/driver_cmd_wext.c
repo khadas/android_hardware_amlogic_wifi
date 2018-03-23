@@ -1,9 +1,8 @@
 /*
  * Driver interaction with extended Linux Wireless Extensions
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation.
+ * This source code is subject to the terms and conditions defined in the
+ * file 'LICENSE' which is part of this source code package.
  *
  * Alternatively, this software may be distributed under the terms of BSD
  * license.
