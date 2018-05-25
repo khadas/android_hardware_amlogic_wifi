@@ -11,14 +11,22 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-ifneq ($(BOARD_WIFI_VENDOR), realtek)
+ifeq ($(BOARD_WIFI_VENDOR), realtek)
 LOCAL_PATH := $(call my-dir)
 
 # Make the HAL library
 # ============================================================
 include $(CLEAR_VARS)
 
-LOCAL_CFLAGS := -Wno-unused-parameter
+LOCAL_CFLAGS := \
+    -Wall \
+    -Werror \
+    -Wno-format \
+    -Wno-reorder \
+    -Wno-unused-function \
+    -Wno-unused-parameter \
+    -Wno-unused-private-field \
+    -Wno-unused-variable \
 
 LOCAL_C_INCLUDES += \
 	external/libnl/include \
@@ -26,14 +34,14 @@ LOCAL_C_INCLUDES += \
 	external/wpa_supplicant_8/src/drivers
 
 LOCAL_SRC_FILES := \
-	wifi_hal.cpp \
-	rtt.cpp \
+	rtw_wifi_hal.cpp \
+	rtw_wifi_rtt.cpp \
 	common.cpp \
 	cpp_bindings.cpp \
-	gscan.cpp \
-	link_layer_stats.cpp \
-	wifi_logger.cpp \
-	wifi_offload.cpp
+	rtw_wifi_gscan.cpp \
+	rtw_wifi_llstats.cpp \
+	rtw_wifi_logger.cpp \
+	rtw_wifi_offload.cpp
 
 LOCAL_MODULE := libwifi-hal-mt66xx
 LOCAL_PROPRIETARY_MODULE := true
