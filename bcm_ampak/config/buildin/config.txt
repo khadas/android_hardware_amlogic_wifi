@@ -1,1 +1,0 @@
-nv_by_chip=8 43430 0 nvram_ap6212.txt 43430 1 nvram_ap6212a.txt 43430 2 nvram_ap6236.txt 0x4339 1 nvram_ap6335.txt 0x4345 6 nvram_ap6255.txt 0x4345 9 nvram_ap6256.txt 0x4354 2 nvram_ap6356.txt 0x4359 9 nvram_ap6398.txt
