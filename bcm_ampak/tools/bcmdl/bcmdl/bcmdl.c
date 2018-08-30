@@ -2,11 +2,11 @@
  * Broadcom Host Remote Download Utility
  *
  * Copyright (C) 2014, Broadcom Corporation. All Rights Reserved.
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <limits.h>
 #include <errno.h>
 #include <sys/stat.h>
@@ -56,7 +57,7 @@
 #define ERR_INJ_TRX_MAGIC		0x02
 #define ERR_INJ_IMG_TOO_BIG		0x04
 #define ERR_INJ_NVRAM_TOO_BIG	0x08
-extern void bzero (void *, unsigned long);
+//extern void bzero (void *, unsigned long);
 extern usbinfo_t *usbdev_find(struct bcm_device_id *devtable, struct bcm_device_id **bcmdev);
 extern int old_main(int argc, char **argv);
 static struct bcm_device_id bcm_device_ids[] = {
@@ -90,7 +91,7 @@ static struct bcm_device_id bcm_device_ids[] = {
 static struct bcm_device_id bdc_device_ids[] = {
         {"brcm RDL", BCM_DNGL_VID, BCM_DNGL_BDC_PID},
 };
-
+#if 0
 static struct bcm_device_id all_device_ids[] = {
 	{"brcm RDL", BCM_DNGL_VID, BCM_DNGL_BL_PID_43341},
 	{"brcm RDL (alpha)", BCM_DNGL_VID, 0xcafe },
@@ -115,11 +116,11 @@ static struct bcm_device_id all_device_ids[] = {
 	{"brcm RDL", BCM_DNGL_VID, BCM_DNGL_BL_PID_4360},
 	{"brcm RDL", BCM_DNGL_VID, BCM_DNGL_BL_PID_4350},
 	{"brcm RDL", BCM_DNGL_VID, BCM_DNGL_BL_PID_43909},
-    {"brcm RDL", BCM_DNGL_VID, BCM_DNGL_BL_PID_43569},
-    {"brcm RDL", BCM_DNGL_VID, BCM_DNGL_BDC_PID},
-	{NULL, 0xffff, 0xffff}        
+	{"brcm RDL", BCM_DNGL_VID, BCM_DNGL_BL_PID_43569},
+	{"brcm RDL", BCM_DNGL_VID, BCM_DNGL_BDC_PID},
+	{NULL, 0xffff, 0xffff}
 };
-
+#endif
 
 
 #define FW_TYPE_STA     0
@@ -252,7 +253,7 @@ ReadFiles(char *fwfile, char *nvfile, unsigned char **buffer, int err_inj)
 	/* Close the firmware file */
 	close(fd);
 
-	if (status < fwlen) {
+	if (status < (unsigned long)fwlen) {
 		fprintf(stderr, "Short read in %s!\n", fwfile);
 		ret = -EINVAL;
 		goto error;
@@ -290,7 +291,7 @@ ReadFiles(char *fwfile, char *nvfile, unsigned char **buffer, int err_inj)
 		/* Close the nvram file */
 		close(fd);
 
-		if (status < nvlen) {
+		if (status < (unsigned long)nvlen) {
 			fprintf(stderr, "Short read in %s!\n", nvfile);
 			ret = -EINVAL;
 			goto error;
@@ -299,7 +300,7 @@ ReadFiles(char *fwfile, char *nvfile, unsigned char **buffer, int err_inj)
 		nvlen = process_nvram_vars((char *)&buf[actual_len], (unsigned int)nvlen);
 		if (nvlen % 4) {
 			pad = 4 - (nvlen % 4);
-			for (i = 0; i < pad; i++)
+			for (i = 0; (unsigned int)i < pad; i++)
 				buf[actual_len + nvlen + i] = 0;
 			nvlen += pad;
 		}
@@ -390,18 +391,18 @@ static int checkDriver()
 	FILE *proc;
 	char line[sizeof(DRIVER_MODULE_TAG)+10];
 
-	if ((proc = fopen("proc/modules", "r")) == NULL) {				
+	if ((proc = fopen("proc/modules", "r")) == NULL) {
 		fprintf(stderr, "/proc/modules cannot open\n");
 		return 0;
-	}	 
+	}
 	while ((fgets(line, sizeof(line), proc)) != NULL) {
-		if (strncmp(line, DRIVER_MODULE_TAG, strlen(DRIVER_MODULE_TAG)) == 0) { 
+		if (strncmp(line, DRIVER_MODULE_TAG, strlen(DRIVER_MODULE_TAG)) == 0) {
 			fclose(proc);
 			fprintf(stderr, "%s.ko is found\n", DRIVER_MODULE_TAG);
-			
+
 			return 1;
-		}	 
-	}  
+		}
+	}
 	fprintf(stderr, "%s.ko  is not loaded\n", DRIVER_MODULE_TAG);
 	fclose(proc);
 
@@ -425,7 +426,7 @@ static int init_hotplug_sock(void)
     snl.nl_groups = 1;
 
     int hotplug_sock = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_KOBJECT_UEVENT);
-    if (hotplug_sock == -1) 
+    if (hotplug_sock == -1)
     {
         fprintf(stderr,"error getting socket: %s", strerror(errno));
         return -1;
@@ -446,9 +447,9 @@ static int init_hotplug_sock(void)
 
 }
 
-#define UEVENT_BUFFER_SIZE      2048      
+#define UEVENT_BUFFER_SIZE      2048
 
-		 
+
 
 
 static int checkWlan()
@@ -456,65 +457,71 @@ static int checkWlan()
 	struct ifreq *ifr;
 	int ifc_ctl_sock = -1;
 	char bcmdl_status[PROPERTY_VALUE_MAX];
-
+	(void)bcmdl_status;
 	ifr = malloc(sizeof(struct ifreq));
 	memset(ifr, 0, sizeof(struct ifreq));
 	strncpy(ifr->ifr_name, "wlan0", IFNAMSIZ);
 	ifr->ifr_name[IFNAMSIZ - 1] = 0;
-	
+
 	ifc_ctl_sock = socket(AF_INET, SOCK_DGRAM, 0);
 	if(ifc_ctl_sock < 0)
 	 	return 0;
-	if (ioctl(ifc_ctl_sock, SIOCGIFFLAGS, ifr) < 0) 
+	if (ioctl(ifc_ctl_sock, SIOCGIFFLAGS, ifr) < 0)
 		return 0;
 	fprintf(stderr, "ifr_flags=%d, result=%d\n",ifr->ifr_flags,ifr->ifr_flags & 1);
-	
+
 	if ((ifr->ifr_flags & 1) == 0) {
 		fprintf(stderr, "wlan0 is down, try to bring it up!!\n");
 		ifr->ifr_flags |= 1;
 		ioctl(ifc_ctl_sock, SIOCSIFFLAGS, ifr);
 		usleep(500);
-		
+
 		ioctl(ifc_ctl_sock, SIOCGIFFLAGS, ifr);
 		if ((ifr->ifr_flags & 1) == 1) {
 			close(ifc_ctl_sock);
 			return 1;
 		}
-	} 
-	close(ifc_ctl_sock);	
+	}
+	close(ifc_ctl_sock);
 	return 0;
 }
 
 
 int main(int argc, char **argv)
-{	
-	struct bcm_device_id *bcmdev;	
+{
+	struct bcm_device_id *bcmdev;
 	int ret, cnt = 10, cnt2 =5;
 	char buf[UEVENT_BUFFER_SIZE*2] = {0};
   	int hotplug_sock       = init_hotplug_sock();
-	
+	int first = 1;
+	(void)cnt2;
+
 	while(1)
 	{
-	       
-       recv(hotplug_sock, &buf, sizeof(buf), 0);  
-       if (strstr(buf,"usb") != NULL) {
-	       fprintf(stderr, "usb hotplug event detected\n");
-       } else
-       	  continue;
+		if (0 == first) {
+			recv(hotplug_sock, &buf, sizeof(buf), 0);
+			if (strstr(buf,"usb") != NULL) {
+				fprintf(stderr, "usb hotplug event detected\n");
+			} else
+			   continue;
+		}
+		else {
+			first = 0;
+		}
 
 		bcmdev= NULL;
-		if (usbdev_find(bcm_device_ids, &bcmdev) != NULL) {		
+		if (usbdev_find(bcm_device_ids, &bcmdev) != NULL) {
 			fprintf(stderr, "BCM USB wifi found\n");
 			old_main(argc,argv);
 			usleep(50000);
 			bcmdev= NULL;
 
 			while (cnt--) {
-				if (usbdev_find(bdc_device_ids, &bcmdev) != NULL) {		
+				if (usbdev_find(bdc_device_ids, &bcmdev) != NULL) {
 					fprintf(stderr, "AP6269 already initialized\n");
 					ret = 0;
 					if (checkDriver())
-						ret= checkWlan();	
+						ret= checkWlan();
 					if (ret) {
 						fprintf(stderr, "AP6269 is ready to work\n");
 						property_set("bcmdl_status", "ok");
@@ -525,9 +532,9 @@ int main(int argc, char **argv)
 			}
 			cnt=10;
 		}
-	
+
 	}
-	
+
 
 	return 1;
 }
@@ -545,7 +552,7 @@ int old_main(int argc, char **argv)
 	rdl_state_t rdl;
 	bootrom_id_t id;
 	int started = 0, cont = 0, reboot = 0, reset = 0, dl_go = 1, err_inj = 0;
-	struct bcm_device_id *bcmdev;
+	struct bcm_device_id *bcmdev = NULL;
 	struct usbinfo *info = NULL, *info2 = NULL;
 	double t1, t2, elapsed;
 	struct timeval tp;
@@ -554,7 +561,7 @@ int old_main(int argc, char **argv)
 	uint16 wait, wait_time;
 	int cnt = 0, i, j;
 	int fw_type;
-	
+
 	fprintf(stderr, "version: %s\n", VERSION);
 
 	progname = argv[0];
@@ -616,7 +623,7 @@ int old_main(int argc, char **argv)
 
 			errno = 0;
 			pid = strtol(*argv, NULL, 0);
-			if ((errno == ERANGE && (pid == LONG_MAX || pid == LONG_MIN)) ||
+			if ((errno == ERANGE && (pid == LONG_MAX || (long)pid == LONG_MIN)) ||
 				(errno != 0 && pid == 0)) {
 				perror("strtol");
 				exit(EXIT_FAILURE);
@@ -723,7 +730,7 @@ int old_main(int argc, char **argv)
 		if (fwfn[i] == '/') break;
 		i--;
 	}
-	
+
 	/* find out the last '/' */
 	i = strlen(fwfn);
 	while (i>0){
@@ -734,7 +741,7 @@ int old_main(int argc, char **argv)
 		FW_TYPE_MFG : (strstr(&fwfn[i], "_apsta") ?
 		FW_TYPE_APSTA : (strstr(&fwfn[i], "_p2p") ?
 		FW_TYPE_P2P : FW_TYPE_STA)));
-	
+
 	/* find out the last '/' */
 	j = strlen(nvfn);
 	while (j>0){
@@ -806,9 +813,9 @@ start:
 	t1 = (double)tp.tv_sec + (1.e-6) * tp.tv_usec;
 
 	/* Load the image */
-	while ((rdl.bytes != dllen) && (status >= 0)) {
+	while ((rdl.bytes != (unsigned int)dllen) && (status >= 0)) {
 		/* Wait until the usb device reports it received all the bytes we sent */
-		if ((rdl.bytes == sent) && (rdl.bytes != dllen)) {
+		if ((rdl.bytes == sent) && (rdl.bytes != (unsigned int)dllen)) {
 
 			if ((dllen-sent) < RDL_CHUNK)
 				send = dllen-sent;
@@ -931,7 +938,7 @@ done:
 			fprintf(stderr, "Error: usbdev_find ... cnt=%d\n", i);
 			usleep(200000);
 		} else {
-			fprintf(stderr, "=== Device found ===\n", i);
+			fprintf(stderr, "=== Device found === cnt=%d\n", i);
 			break;
 		}
 		if (i == cnt) {

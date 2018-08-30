@@ -14,11 +14,11 @@ LOCAL_SRC_FILES:= \
 
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/android \
 	$(LOCAL_PATH)/libusb \
-	$(LOCAL_PATH)/libusb/os 
+	$(LOCAL_PATH)/libusb/os
 
 LOCAL_CFLAGS += -W -Wall
 LOCAL_CFLAGS += -fPIC -DPIC
-LOCAL_CFLAGS += -Werror -Wpointer-arith -Wunused-parameter -Wsign-compare
+LOCAL_CFLAGS += -Werror -Wno-pointer-arith -Wunused-parameter -Wsign-compare
 
 
 ifeq ($(TARGET_BUILD_TYPE),release)

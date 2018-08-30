@@ -5,7 +5,7 @@
  *
  * Copyright (C) 2014, Broadcom Corporation
  * All Rights Reserved.
- * 
+ *
  * This is UNPUBLISHED PROPRIETARY SOURCE CODE of Broadcom Corporation;
  * the contents of this file may not be disclosed to third parties, copied
  * or duplicated in any form, in whole or in part, without the prior
@@ -23,8 +23,8 @@
 #include <typedefs.h>
 #include <usbrdl.h>
 #include <usbstd.h>
-#include "usb_osl.h"
 #include <bcmutils.h>
+#include "usb_osl.h"
 
 struct usbinfo {
 	struct bcm_device_id *devtable;

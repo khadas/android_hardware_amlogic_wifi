@@ -248,7 +248,7 @@ API_EXPORTED int usb_find_busses(void)
 	 * this with libusb-0.1, so trap that situation here */
 	if (!ctx)
 		return 0;
-	
+
 	usbi_dbg("");
 	r = find_busses(&new_busses);
 	if (r < 0) {
@@ -264,6 +264,7 @@ API_EXPORTED int usb_find_busses(void)
 	while (bus) {
 		struct usb_bus *tbus = bus->next;
 		struct usb_bus *nbus = new_busses;
+		(void)nbus;
 		int found = 0;
 		usbi_dbg("in loop");
 
@@ -625,7 +626,7 @@ API_EXPORTED int usb_find_devices(void)
 		dev = new_devices;
 		while (dev) {
 			struct usb_device *tdev = dev->next;
-			r = initialize_device(dev);	
+			r = initialize_device(dev);
 			if (r < 0) {
 				usbi_err("couldn't initialize device %d.%d (error %d)",
 					dev->bus->location, dev->devnum, r);
@@ -721,7 +722,7 @@ API_EXPORTED int usb_set_altinterface(usb_dev_handle *dev, int alternate)
 	usbi_dbg("alternate %d", alternate);
 	if (dev->last_claimed_interface < 0)
 		return -(errno=EINVAL);
-	
+
 	return compat_err(libusb_set_interface_alt_setting(dev->handle,
 		dev->last_claimed_interface, alternate));
 }
@@ -749,9 +750,9 @@ static int usb_bulk_io(usb_dev_handle *dev, int ep, char *bytes,
 	int actual_length;
 	int r;
 	usbi_dbg("endpoint %x size %d timeout %d", ep, size, timeout);
-	r = libusb_bulk_transfer(dev->handle, ep & 0xff, bytes, size,
+	r = libusb_bulk_transfer(dev->handle, ep & 0xff, (unsigned char *)bytes, size,
 		&actual_length, timeout);
-	
+
 	/* if we timed out but did transfer some data, report as successful short
 	 * read. FIXME: is this how libusb-0.1 works? */
 	if (r == 0 || (r == LIBUSB_ERROR_TIMEOUT && actual_length > 0))
@@ -794,9 +795,9 @@ static int usb_interrupt_io(usb_dev_handle *dev, int ep, char *bytes,
 	int actual_length;
 	int r;
 	usbi_dbg("endpoint %x size %d timeout %d", ep, size, timeout);
-	r = libusb_interrupt_transfer(dev->handle, ep & 0xff, bytes, size,
+	r = libusb_interrupt_transfer(dev->handle, ep & 0xff, (unsigned char *)bytes, size,
 		&actual_length, timeout);
-	
+
 	/* if we timed out but did transfer some data, report as successful short
 	 * read. FIXME: is this how libusb-0.1 works? */
 	if (r == 0 || (r == LIBUSB_ERROR_TIMEOUT && actual_length > 0))
@@ -840,7 +841,7 @@ API_EXPORTED int usb_control_msg(usb_dev_handle *dev, int bmRequestType,
 		bRequest, wValue, wIndex, size, timeout);
 
 	r = libusb_control_transfer(dev->handle, bmRequestType & 0xff,
-		bRequest & 0xff, wValue & 0xffff, wIndex & 0xffff, bytes, size & 0xffff,
+		bRequest & 0xff, wValue & 0xffff, wIndex & 0xffff, (unsigned char *)bytes, size & 0xffff,
 		timeout);
 
 	if (r >= 0)
@@ -854,7 +855,7 @@ API_EXPORTED int usb_get_string(usb_dev_handle *dev, int desc_index, int langid,
 {
 	int r;
 	r = libusb_get_string_descriptor(dev->handle, desc_index & 0xff,
-		langid & 0xffff, buf, (int) buflen);
+		langid & 0xffff, (unsigned char *)buf, (int) buflen);
 	if (r >= 0)
 		return r;
 	return compat_err(r);
@@ -865,7 +866,7 @@ API_EXPORTED int usb_get_string_simple(usb_dev_handle *dev, int desc_index,
 {
 	int r;
 	r = libusb_get_string_descriptor_ascii(dev->handle, desc_index & 0xff,
-		buf, (int) buflen);
+		(unsigned char *)buf, (int) buflen);
 	if (r >= 0)
 		return r;
 	return compat_err(r);

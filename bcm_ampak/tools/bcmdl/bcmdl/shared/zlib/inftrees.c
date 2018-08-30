@@ -1,6 +1,6 @@
 /* inftrees.c -- generate Huffman trees for efficient decoding
  * Copyright (C) 1995-1998 Mark Adler
- * For conditions of distribution and use, see copyright notice in zlib.h 
+ * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
 #include "zutil.h"
@@ -131,7 +131,7 @@ uIntf *v;               /* working area: values in order of bit length */
 
   /* Prevent compiler warning */
   r.base = 0;
-  
+
   /* Generate counts for each bit length */
   p = c;
 #define C0 *p++ = 0;
@@ -404,7 +404,7 @@ uIntf *bl;               /* literal desired/actual bit depth */
 uIntf *bd;               /* distance desired/actual bit depth */
 inflate_huft * FAR *tl;  /* literal/length tree result */
 inflate_huft * FAR *td;  /* distance tree result */
-z_streamp z;             /* for memory allocation */
+z_streamp z __unused;             /* for memory allocation */
 {
 #ifdef BUILDFIXED
   /* build fixed tables if not already */
