@@ -98,13 +98,13 @@ protected:
 
         void *data = reply.get_vendor_data();
         int len = reply.get_vendor_data_len();
-        wifi_radio_stat *radio_stat = (wifi_radio_stat *)data;
+        wifi_radio_stat *radio_stat = convertToExternalRadioStatStructure((wifi_radio_stat_internal *)data);
 		ALOGE("radio: = %d", radio_stat->radio);
         ALOGE("on_time: = %u ms", radio_stat->on_time);
         ALOGE("tx_time: = %u ms", radio_stat->tx_time);
-		ALOGE("num_tx_levels: = %u", radio_stat->num_tx_levels);
-		radio_stat->tx_time_per_levels = (u32*)((char*)data + sizeof(wifi_radio_stat) + sizeof(wifi_iface_stat));
-		ALOGE("tx_time_per_levels: = %u ms", radio_stat->tx_time_per_levels[0]);
+//		ALOGE("num_tx_levels: = %u", radio_stat->num_tx_levels);
+//		radio_stat->tx_time_per_levels = (u32*)((char*)data + sizeof(wifi_radio_stat) + sizeof(wifi_iface_stat));
+//		ALOGE("tx_time_per_levels: = %u ms", *(radio_stat->tx_time_per_levels));
         ALOGE("rx_time: = %u ms", radio_stat->rx_time);
         ALOGE("on_time_scan: = %u ms", radio_stat->on_time_scan);
         ALOGE("on_time_nbd: = %u ms", radio_stat->on_time_nbd);
@@ -130,18 +130,46 @@ protected:
             free(radio_stat);
             return NL_SKIP;
         }
- 		wifi_iface_stat *iface_stat = NULL;
- 		iface_stat = (wifi_iface_stat *)((char* )data + sizeof(wifi_radio_stat));
+        wifi_iface_stat *iface_stat = NULL;
+        iface_stat = (wifi_iface_stat *)((char* )data + sizeof(wifi_radio_stat));
 
-		if(*mHandler.on_link_stats_results == NULL) {
-			ALOGE("*mHandler.on_link_stats_results is NULL");
-		} else {
-        	(*mHandler.on_link_stats_results)(id, iface_stat, 1, radio_stat);
-		}
-        //free(radio_stat);
+        if (*mHandler.on_link_stats_results == NULL) {
+            ALOGE("*mHandler.on_link_stats_results is NULL");
+        } else {
+            (*mHandler.on_link_stats_results)(id, iface_stat, 1, radio_stat);
+        }
+        free(radio_stat);
         return NL_OK;
     }
-
+private:
+    wifi_radio_stat *convertToExternalRadioStatStructure(wifi_radio_stat_internal *internal_stat_ptr) {
+        wifi_radio_stat *external_stat_ptr = NULL;
+        if (internal_stat_ptr) {
+            uint32_t channel_size = internal_stat_ptr->num_channels * sizeof(wifi_channel_stat);
+            uint32_t total_size = sizeof(wifi_radio_stat) + channel_size;
+            external_stat_ptr = (wifi_radio_stat *)malloc(total_size);
+            if (external_stat_ptr) {
+                external_stat_ptr->radio = internal_stat_ptr->radio;
+                external_stat_ptr->on_time = internal_stat_ptr->on_time;
+                external_stat_ptr->tx_time = internal_stat_ptr->tx_time;
+                external_stat_ptr->rx_time = internal_stat_ptr->rx_time;
+                external_stat_ptr->tx_time_per_levels = NULL;
+                external_stat_ptr->num_tx_levels = 0;
+                external_stat_ptr->on_time_scan = internal_stat_ptr->on_time_scan;
+                external_stat_ptr->on_time_nbd = internal_stat_ptr->on_time_nbd;
+                external_stat_ptr->on_time_gscan = internal_stat_ptr->on_time_gscan;
+                external_stat_ptr->on_time_roam_scan = internal_stat_ptr->on_time_roam_scan;
+                external_stat_ptr->on_time_pno_scan = internal_stat_ptr->on_time_pno_scan;
+                external_stat_ptr->on_time_hs20 = internal_stat_ptr->on_time_hs20;
+                external_stat_ptr->num_channels = internal_stat_ptr->num_channels;
+                if (internal_stat_ptr->num_channels) {
+                    memcpy(&(external_stat_ptr->channels), &(internal_stat_ptr->channels),
+                        channel_size);
+                }
+            }
+        }
+        return external_stat_ptr;
+    }
 };
 
 wifi_error wifi_get_link_stats(wifi_request_id id,
