@@ -1,11 +1,10 @@
-#ifdef BCMSMS4_TEST
 /*
  * sms4_vectors.h
  * SMS4 block cipher test vectors
  *
  * Copyright (C) 2014, Broadcom Corporation
  * All Rights Reserved.
- * 
+ *
  * This is UNPUBLISHED PROPRIETARY SOURCE CODE of Broadcom Corporation;
  * the contents of this file may not be disclosed to third parties, copied
  * or duplicated in any form, in whole or in part, without the prior
@@ -14,6 +13,7 @@
  * $Id: sms4_vectors.h 241182 2011-02-17 21:50:03Z $
  */
 
+#ifdef BCMSMS4_TEST
 #include <typedefs.h>
 
 /* Example 1 from SMS4 specification */
