@@ -915,3 +915,64 @@ include $(BUILD_PREBUILT)
 
 endif
 
+###################################################
+#	AP6256
+###################################################
+ifeq ($(strip $(WIFI_DRIVER)),AP6256)
+include $(CLEAR_VARS)
+LOCAL_MODULE := AP6256/nvram_ap6256.txt
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_CLASS := ETC
+LOCAL_SRC_FILES    := $(LOCAL_MODULE)
+
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 26 && echo OK),OK)
+LOCAL_PROPRIETARY_MODULE := true
+LOCAL_MODULE_PATH  := $(TARGET_OUT_VENDOR)/etc/wifi
+else
+LOCAL_MODULE_PATH  := $(TARGET_OUT_ETC)/wifi
+endif
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := AP6256/fw_bcm43456c5_ag.bin
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_CLASS := ETC
+LOCAL_SRC_FILES    := $(LOCAL_MODULE)
+
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 26 && echo OK),OK)
+LOCAL_PROPRIETARY_MODULE := true
+LOCAL_MODULE_PATH  := $(TARGET_OUT_VENDOR)/etc/wifi
+else
+LOCAL_MODULE_PATH  := $(TARGET_OUT_ETC)/wifi
+endif
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := AP6256/fw_bcm43456c5_ag_apsta.bin
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_CLASS := ETC
+LOCAL_SRC_FILES    := $(LOCAL_MODULE)
+
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 26 && echo OK),OK)
+LOCAL_PROPRIETARY_MODULE := true
+LOCAL_MODULE_PATH  := $(TARGET_OUT_VENDOR)/etc/wifi
+else
+LOCAL_MODULE_PATH  := $(TARGET_OUT_ETC)/wifi
+endif
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := AP6256/fw_bcm43456c5_ag_p2p.bin
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_CLASS := ETC
+LOCAL_SRC_FILES    := $(LOCAL_MODULE)
+
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 26 && echo OK),OK)
+LOCAL_PROPRIETARY_MODULE := true
+LOCAL_MODULE_PATH  := $(TARGET_OUT_VENDOR)/etc/wifi
+else
+LOCAL_MODULE_PATH  := $(TARGET_OUT_ETC)/wifi
+endif
+include $(BUILD_PREBUILT)
+
+endif

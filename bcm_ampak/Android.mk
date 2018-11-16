@@ -62,6 +62,10 @@ ifeq ($(WIFI_DRIVER),AP6242)
     include $(call all-subdir-makefiles)
 endif
 
+ifeq ($(WIFI_DRIVER),AP6256)
+    include $(call all-subdir-makefiles)
+endif
+
 ifeq ($(MULTI_WIFI_SUPPORT),true)
     LOCAL_PATH:=$(call my-dir)
     include $(LOCAL_PATH)/tools/Android.mk
