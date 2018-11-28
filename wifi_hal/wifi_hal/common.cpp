@@ -34,6 +34,112 @@
 #include "common.h"
 #include "cpp_bindings.h"
 
+int read_wifi(char *wifi_type)
+{
+    int fd = open("/data/vendor/wifi/wid_fp", O_RDONLY);
+    if (fd == -1) {
+        return -1;
+    }
+    int len = read(fd,wifi_type,15);
+    if (len == -1) {
+        close(fd);
+        return -1;
+    }
+    close(fd);
+    return 0;
+}
+const char *get_wifi_name()
+{
+    char wifi_type[10];
+    read_wifi(wifi_type);
+    if (strstr(wifi_type, "bcm6330") != NULL) {
+        return "bcm6330";
+    } else if(strstr(wifi_type, "bcm6210") != NULL) {
+        return "bcm6210";
+    } else if(strstr(wifi_type, "bcm6335") != NULL) {
+        return "bcm6335";
+    } else if(strstr(wifi_type, "bcm6234") != NULL) {
+        return "bcm6234";
+    } else if(strstr(wifi_type, "bcm4354") != NULL) {
+        return "bcm4354";
+    } else if(strstr(wifi_type, "bcm62x2") != NULL) {
+        return "bcm62x2";
+    } else if(strstr(wifi_type, "bcm6255") != NULL) {
+        return "bcm6255";
+    } else if(strstr(wifi_type, "bcm6212") != NULL) {
+        return "bcm6212";
+    } else if(strstr(wifi_type, "bcm6356") != NULL) {
+        return "bcm6356";
+    } else if(strstr(wifi_type, "bcm4359") != NULL) {
+        return "bcm4359";
+    } else if(strstr(wifi_type, "bcm4358") != NULL) {
+        return "bcm4358";
+    } else if(strstr(wifi_type, "qca9377") != NULL) {
+        return "qca9377";
+    } else if(strstr(wifi_type, "qca9379") != NULL) {
+        return "qca9379";
+    } else if(strstr(wifi_type, "qca6174") != NULL) {
+        return "qca6174";
+    } else if(strstr(wifi_type, "rtl8723bs") != NULL) {
+        return "rtl8723bs";
+    } else if(strstr(wifi_type, "rtl8189es") != NULL) {
+        return "rtl8189es";
+    } else if(strstr(wifi_type, "rtl8821cs") != NULL) {
+        return "rtl8821cs";
+    } else if(strstr(wifi_type, "rtl8822bs") != NULL) {
+        return "rtl8822bs";
+    } else if(strstr(wifi_type, "rtl8822bu") != NULL) {
+        return "rtl8822bu";
+    } else if(strstr(wifi_type, "rtl8189ftv") != NULL) {
+        return "rtl8189ftv";
+    } else if(strstr(wifi_type, "rtl8192es") != NULL) {
+        return "rtl8192es";
+    } else if(strstr(wifi_type, "rtl8188eu") != NULL) {
+        return "rtl8188eu";
+    } else if(strstr(wifi_type, "rtl8723bu") != NULL) {
+        return "rtl8723bu";
+    } else if(strstr(wifi_type, "rtl8723du") != NULL) {
+        return "rtl8723du";
+    } else if(strstr(wifi_type, "rtl8723ds") != NULL) {
+        return "rtl8723ds";
+    } else if(strstr(wifi_type, "rtl8821au") != NULL) {
+        return "rtl8821au";
+    } else if(strstr(wifi_type, "rtl8812au") != NULL) {
+        return "rtl8812au";
+    } else if(strstr(wifi_type, "rtl8188ftv") != NULL) {
+        return "rtl8188ftv";
+    } else if(strstr(wifi_type, "rtl8192cu") != NULL) {
+        return "rtl8192cu";
+    } else if(strstr(wifi_type, "rtl8192du") != NULL) {
+        return "rtl8192du";
+    } else if(strstr(wifi_type, "rtl8192eu") != NULL) {
+        return "rtl8192eu";
+    } else if(strstr(wifi_type, "mtk7601") != NULL) {
+        return "mtk7601";
+    } else if(strstr(wifi_type, "mtk7662") != NULL) {
+        return "mtk7662";
+    } else if(strstr(wifi_type, "mtk7668") != NULL) {
+        return "mtk7668";
+    } else if(strstr(wifi_type, "mtk7603") != NULL) {
+        return "mtk7603";
+    } else if(strstr(wifi_type, "bcm43751") != NULL) {
+        return "bcm43751";
+    } else if(strstr(wifi_type, "bcm43569") != NULL) {
+        return "bcm43569";
+    } else if(strstr(wifi_type, "bcm43458") != NULL) {
+        return "bcm43458";
+    } else if(strstr(wifi_type, "ssv6051") != NULL) {
+        return "ssv6051";
+    } else if(strstr(wifi_type, "ssv6155") != NULL) {
+        return "ssv6155";
+    } else {
+#ifdef REALTEK_WIFI_SUPPORT
+        return "rtl"
+#else
+        return "bcm";
+#endif
+    }
+}
 interface_info *getIfaceInfo(wifi_interface_handle handle)
 {
     return (interface_info *)handle;

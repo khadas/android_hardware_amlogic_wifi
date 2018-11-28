@@ -41,7 +41,7 @@
 #include "wifi_hal.h"
 #include "common.h"
 #include "cpp_bindings.h"
-
+#include <string>
 //using namespace android;
 
 typedef enum {
@@ -425,6 +425,11 @@ public:
 wifi_error wifi_get_firmware_version(wifi_interface_handle iface, char *buffer,
         int buffer_size)
 {
+    if (strncmp(get_wifi_name(), "rtl", 3) == 0) {
+        std::string pFirmwareVer = "RTK_FIRMWARE_VERSION";
+        memcpy(buffer, pFirmwareVer.c_str(), pFirmwareVer.length()+1);
+        return WIFI_SUCCESS;
+    }
     if (buffer && (buffer_size > 0)) {
         DebugCommand *cmd = new DebugCommand(iface, buffer, &buffer_size, GET_FW_VER);
         NULL_CHECK_RETURN(cmd, "memory allocation failure", WIFI_ERROR_OUT_OF_MEMORY);
@@ -440,6 +445,11 @@ wifi_error wifi_get_firmware_version(wifi_interface_handle iface, char *buffer,
 /* API to collect a driver version string */
 wifi_error wifi_get_driver_version(wifi_interface_handle iface, char *buffer, int buffer_size)
 {
+    if (strncmp(get_wifi_name(), "rtl", 3) == 0) {
+        std::string pDriverVer = "RTK_DRIVER_VERSION";
+        memcpy(buffer, pDriverVer.c_str(), pDriverVer.length()+1);
+        return WIFI_SUCCESS;
+    }
     if (buffer && (buffer_size > 0)) {
         DebugCommand *cmd = new DebugCommand(iface, buffer, &buffer_size, GET_DRV_VER);
         NULL_CHECK_RETURN(cmd, "memory allocation failure", WIFI_ERROR_OUT_OF_MEMORY);
@@ -455,6 +465,9 @@ wifi_error wifi_get_driver_version(wifi_interface_handle iface, char *buffer, in
 /* API to collect driver records */
 wifi_error wifi_get_ring_data(wifi_interface_handle iface, char *ring_name)
 {
+    if (strncmp(get_wifi_name(), "rtl", 3) == 0)
+        return WIFI_SUCCESS;
+
     DebugCommand *cmd = new DebugCommand(iface, ring_name, GET_RING_DATA);
     NULL_CHECK_RETURN(cmd, "memory allocation failure", WIFI_ERROR_OUT_OF_MEMORY);
     wifi_error result = (wifi_error)cmd->start();
@@ -466,6 +479,14 @@ wifi_error wifi_get_ring_data(wifi_interface_handle iface, char *ring_name)
 wifi_error wifi_get_ring_buffers_status(wifi_interface_handle iface,
         u32 *num_rings, wifi_ring_buffer_status *status)
 {
+    if (strncmp(get_wifi_name(), "rtl", 3) == 0) {
+        wifi_ring_buffer_status* pLocalstatus = NULL;
+        std::string from = "RTK_RING_BUFFER";
+        memcpy(status->name, from.c_str(), strlen(from.c_str())+1);
+        *num_rings = 1;
+
+        return  WIFI_SUCCESS;
+    }
     if (status && num_rings) {
         DebugCommand *cmd = new DebugCommand(iface, num_rings, status, GET_RING_STATUS);
         NULL_CHECK_RETURN(cmd, "memory allocation failure", WIFI_ERROR_OUT_OF_MEMORY);
@@ -483,11 +504,17 @@ wifi_error wifi_get_logger_supported_feature_set(wifi_interface_handle iface,
         unsigned int *support)
 {
     if (support) {
-        DebugCommand *cmd = new DebugCommand(iface, support, GET_FEATURE);
-        NULL_CHECK_RETURN(cmd, "memory allocation failure", WIFI_ERROR_OUT_OF_MEMORY);
-        wifi_error result = (wifi_error)cmd->start();
-        cmd->releaseRef();
-        return result;
+        if (strncmp(get_wifi_name(), "rtl", 3) == 0) {
+            wifi_error result = WIFI_SUCCESS;
+            *support = WIFI_LOGGER_MEMORY_DUMP_SUPPORTED;
+            return result;
+        } else {
+            DebugCommand *cmd = new DebugCommand(iface, support, GET_FEATURE);
+            NULL_CHECK_RETURN(cmd, "memory allocation failure", WIFI_ERROR_OUT_OF_MEMORY);
+            wifi_error result = (wifi_error)cmd->start();
+            cmd->releaseRef();
+            return result;
+        }
     } else {
         ALOGE("Get support buffer NULL");
         return  WIFI_ERROR_INVALID_ARGS;
@@ -497,6 +524,9 @@ wifi_error wifi_get_logger_supported_feature_set(wifi_interface_handle iface,
 wifi_error wifi_start_logging(wifi_interface_handle iface, u32 verbose_level,
         u32 flags, u32 max_interval_sec, u32 min_data_size, char *ring_name)
 {
+    if (strncmp(get_wifi_name(), "rtl", 3) == 0)
+        return WIFI_SUCCESS;
+
     if (ring_name) {
         DebugCommand *cmd = new DebugCommand(iface, verbose_level, flags, max_interval_sec,
                     min_data_size, ring_name, START_RING_LOG);
@@ -929,6 +959,9 @@ public:
 wifi_error wifi_get_firmware_memory_dump( wifi_interface_handle iface,
         wifi_firmware_memory_dump_handler handler)
 {
+    if (strncmp(get_wifi_name(), "rtl", 3) == 0)
+        return WIFI_SUCCESS;
+
     MemoryDumpCommand *cmd = new MemoryDumpCommand(iface, handler);
     NULL_CHECK_RETURN(cmd, "memory allocation failure", WIFI_ERROR_OUT_OF_MEMORY);
     wifi_error result = (wifi_error)cmd->start();
@@ -1219,6 +1252,9 @@ protected:
 
 wifi_error wifi_start_pkt_fate_monitoring(wifi_interface_handle handle)
 {
+    if (strncmp(get_wifi_name(), "rtl", 3) == 0)
+        return WIFI_SUCCESS;
+
     PacketFateCommand *cmd = new PacketFateCommand(handle);
     NULL_CHECK_RETURN(cmd, "memory allocation failure", WIFI_ERROR_OUT_OF_MEMORY);
     wifi_error result = (wifi_error)cmd->start();
@@ -1230,6 +1266,9 @@ wifi_error wifi_get_tx_pkt_fates(wifi_interface_handle handle,
         wifi_tx_report *tx_report_bufs, size_t n_requested_fates,
         size_t *n_provided_fates)
 {
+    if (strncmp(get_wifi_name(), "rtl", 3) == 0)
+        return WIFI_SUCCESS;
+
     PacketFateCommand *cmd = new PacketFateCommand(handle, tx_report_bufs,
                 n_requested_fates, n_provided_fates);
     NULL_CHECK_RETURN(cmd, "memory allocation failure", WIFI_ERROR_OUT_OF_MEMORY);
@@ -1242,6 +1281,9 @@ wifi_error wifi_get_rx_pkt_fates(wifi_interface_handle handle,
         wifi_rx_report *rx_report_bufs, size_t n_requested_fates,
         size_t *n_provided_fates)
 {
+    if (strncmp(get_wifi_name(), "rtl", 3) == 0)
+        return WIFI_SUCCESS;
+
     PacketFateCommand *cmd = new PacketFateCommand(handle, rx_report_bufs,
                 n_requested_fates, n_provided_fates);
     NULL_CHECK_RETURN(cmd, "memory allocation failure", WIFI_ERROR_OUT_OF_MEMORY);
@@ -1253,6 +1295,9 @@ wifi_error wifi_get_rx_pkt_fates(wifi_interface_handle handle,
 wifi_error wifi_get_wake_reason_stats(wifi_interface_handle handle,
         WLAN_DRIVER_WAKE_REASON_CNT *wifi_wake_reason_cnt)
 {
+    if (strncmp(get_wifi_name(), "rtl", 3) == 0)
+        return WIFI_SUCCESS;
+
     GetWakeReasonCountCommand *cmd = new GetWakeReasonCountCommand(handle,
                 wifi_wake_reason_cnt);
     NULL_CHECK_RETURN(cmd, "memory allocation failure", WIFI_ERROR_OUT_OF_MEMORY);

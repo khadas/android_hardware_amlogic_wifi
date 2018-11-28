@@ -246,7 +246,7 @@ wifi_error wifi_register_vendor_handler(wifi_handle handle,
 
 void wifi_unregister_handler(wifi_handle handle, int cmd);
 void wifi_unregister_vendor_handler(wifi_handle handle, uint32_t id, int subcmd);
-
+const char *get_wifi_name();
 wifi_error wifi_register_cmd(wifi_handle handle, int id, WifiCommand *cmd);
 WifiCommand *wifi_unregister_cmd(wifi_handle handle, int id);
 WifiCommand *wifi_get_cmd(wifi_handle handle, int id);

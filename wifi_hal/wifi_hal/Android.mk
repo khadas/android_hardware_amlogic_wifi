@@ -11,15 +11,25 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-ifneq ($(BOARD_WIFI_VENDOR), realtek)
 LOCAL_PATH := $(call my-dir)
 
 # Make the HAL library
 # ============================================================
 include $(CLEAR_VARS)
 
-LOCAL_CFLAGS := -Wno-unused-parameter
+LOCAL_CFLAGS := \
+    -Wall \
+    -Werror \
+    -Wno-format \
+    -Wno-reorder \
+    -Wno-unused-function \
+    -Wno-unused-parameter \
+    -Wno-unused-private-field \
+    -Wno-unused-variable \
 
+ifeq ($(BOARD_WIFI_VENDOR), realtek)
+LOCAL_CFLAGS += -DREALTEK_WIFI_SUPPORT
+endif
 LOCAL_C_INCLUDES += \
 	external/libnl/include \
 	$(call include-path-for, libhardware_legacy)/hardware_legacy \
@@ -41,4 +51,3 @@ LOCAL_MODULE := libwifi-hal-mt66xx
 LOCAL_PROPRIETARY_MODULE := true
 
 include $(BUILD_STATIC_LIBRARY)
-endif

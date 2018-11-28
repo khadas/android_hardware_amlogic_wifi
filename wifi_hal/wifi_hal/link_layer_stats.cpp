@@ -119,10 +119,20 @@ protected:
             free(radio_stat);
             return NL_SKIP;
         }
-        wifi_iface_stat *iface_stat =
-            (wifi_iface_stat *)((char *)&((wifi_radio_stat_internal *)data)->channels
+        if (strncmp(get_wifi_name(), "rtl", 3) == 0) {
+            wifi_iface_stat *iface_stat = (wifi_iface_stat *)((char* )data + sizeof(wifi_radio_stat));
+
+            if (*mHandler.on_link_stats_results == NULL) {
+                ALOGE("*mHandler.on_link_stats_results is NULL");
+            } else {
+                (*mHandler.on_link_stats_results)(id, iface_stat, 1, radio_stat);
+            }
+        } else {
+            wifi_iface_stat *iface_stat =
+                (wifi_iface_stat *)((char *)&((wifi_radio_stat_internal *)data)->channels
                 + radio_stat->num_channels * sizeof(wifi_channel_stat));
-        (*mHandler.on_link_stats_results)(id, iface_stat, 1, radio_stat);
+            (*mHandler.on_link_stats_results)(id, iface_stat, 1, radio_stat);
+        }
         free(radio_stat);
         return NL_OK;
     }

@@ -435,11 +435,15 @@ PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/USB_COMPOSIT
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/USB_COMPOSITE/fw_bcm4358u_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/fw_bcm4358u_ag_p2p.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/USB_COMPOSITE/fw_bcm4358u_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/fw_bcm4358u_ag_apsta.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/USB_COMPOSITE/nvram_ap62x8.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/nvram_ap62x8.txt
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/USB_COMPOSITE/fw_bcm4358u_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/fw_bcm43569a2_ag.bin.trx
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/USB_COMPOSITE/nvram_ap62x8.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/nvram_ap6269a2.nvm
 else
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/fw_bcm4358u_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/fw_bcm4358u_ag.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/fw_bcm4358u_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/fw_bcm4358u_ag_p2p.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/fw_bcm4358u_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/fw_bcm4358u_ag_apsta.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/nvram_ap62x8.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/nvram_ap62x8.txt
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/fw_bcm4358u_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/fw_bcm43569a2_ag.bin.trx
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/nvram_ap62x8.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/nvram_ap6269a2.nvm
 endif
 
 
@@ -1221,7 +1225,7 @@ ifeq ($(MULTI_WIFI_SUPPORT), true)
 
 WIFI_DRIVER_MODULE_PATH := /vendor/lib/modules/
 WIFI_DRIVER_MODULE_NAME := dhd
-
+BOARD_WLAN_DEVICE := MediaTek
 WPA_SUPPLICANT_VERSION			:= VER_0_8_X
 BOARD_WPA_SUPPLICANT_DRIVER	:= NL80211
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_multi
@@ -1232,7 +1236,8 @@ WIFI_DRIVER_FW_PATH_PARAM   := "/sys/module/dhd/parameters/firmware_path"
 PRODUCT_COPY_FILES += \
         frameworks/native/data/etc/android.hardware.wifi.direct.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.direct.xml
 PRODUCT_PROPERTY_OVERRIDES += \
-        wifi.interface=wlan0
+        wifi.interface=wlan0 \
+	wifi.direct.interface=p2p0
 
 PRODUCT_PACKAGES += \
     bcmdl \
@@ -1251,12 +1256,12 @@ PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/config.txt:$(TARGET
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/6255/fw_bcm43455c0_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6255/fw_bcm43455c0_ag.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/6255/fw_bcm43455c0_ag_apsta.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6255/fw_bcm43455c0_ag_apsta.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/6255/fw_bcm43455c0_ag_p2p.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6255/fw_bcm43455c0_ag_p2p.bin
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/6255/nvram.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6255/nvram.txt
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/6255/nvram.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6255/nvram_ap6255.txt
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/config.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6255/config.txt
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/6335/fw_bcm4339a0_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6335/fw_bcm4339a0_ag.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/6335/fw_bcm4339a0_ag_apsta.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6335/fw_bcm4339a0_ag_apsta.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/6335/fw_bcm4339a0_ag_p2p.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6335/fw_bcm4339a0_ag_p2p.bin
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/6335/nvram.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6335/nvram.txt
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/6335/nvram.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6335/nvram_ap6335.txt
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/6335/config.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6335/config.txt
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/4356/fw_bcm4356a2_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/4356/fw_bcm4356a2_ag.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/4356/fw_bcm4356a2_ag_apsta.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/4356/fw_bcm4356a2_ag_apsta.bin
@@ -1283,26 +1288,48 @@ PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/USB_COMPOSIT
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/USB_COMPOSITE/fw_bcm4358u_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/fw_bcm4358u_ag_p2p.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/USB_COMPOSITE/fw_bcm4358u_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/fw_bcm4358u_ag_apsta.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/USB_COMPOSITE/nvram_ap62x8.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/nvram_ap62x8.txt
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/USB_COMPOSITE/fw_bcm4358u_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/fw_bcm43569a2_ag.bin.trx
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/USB_COMPOSITE/nvram_ap62x8.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/nvram_ap6269a2.nvm
 else
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/fw_bcm4358u_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/fw_bcm4358u_ag.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/fw_bcm4358u_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/fw_bcm4358u_ag_p2p.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/fw_bcm4358u_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/fw_bcm4358u_ag_apsta.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/nvram_ap62x8.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/nvram_ap62x8.txt
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/fw_bcm4358u_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/fw_bcm43569a2_ag.bin.trx
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP62x8/nvram_ap62x8.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/43569/nvram_ap6269a2.nvm
 endif
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.amlogic.wifi.rc
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/multi_wifi/config/bcm_supplicant.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/bcm_supplicant.conf
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/multi_wifi/config/bcm_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/bcm_supplicant_overlay.conf
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/multi_wifi/config/wpa_supplicant.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant.conf
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/multi_wifi/config/wpa_supplicant.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant.conf
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/multi_wifi/config/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/multi_wifi/config/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/iwpriv:$(TARGET_COPY_OUT_VENDOR)/bin/iwpriv
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/RT2870STA_7601.dat:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/RT2870STA_7601.dat
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/RT2870STA_7601.dat:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/RT2870STA_7603.dat
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/dhcpcd.conf:$(TARGET_COPY_OUT_VENDOR)/etc/dhcpcd/dhcpcd.conf
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6398/Wi-Fi/fw_bcm4359c0_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/4359/fw_bcm4359c0_ag.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6398/Wi-Fi/fw_bcm4359c0_ag_apsta.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/4359/fw_bcm4359c0_ag_apsta.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6398/Wi-Fi/fw_bcm4359c0_ag_p2p.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/4359/fw_bcm4359c0_ag_p2p.bin
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6398/Wi-Fi/nvram_ap6398s.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/4359/nvram.txt
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6398/Wi-Fi/nvram_ap6398s.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/4359/nvram_ap6398s.txt
+PRODUCT_COPY_FILES += hardware/wifi/mtk/drivers/mt7601/MT7601USTA.dat:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/MT7601USTA.dat
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6271S/Wi-Fi/clm_bcm43751a1_ag.blob:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/AP6271/clm_bcm43751a1_ag.blob
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6271S/Wi-Fi/fw_bcm43751a1_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/AP6271/fw_bcm43751a1_ag.bin
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6271S/Wi-Fi/fw_bcm43751a1_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/AP6271/fw_bcm43751a1_ag_apsta.bin
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6271S/Wi-Fi/nvram_ap6271s.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/AP6271/nvram_ap6271s.txt
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6236/Wi-Fi/fw_bcm43436b0.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6212/fw_bcm43436b0.bin
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6236/Wi-Fi/nvram_ap6236.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6212/nvram_ap6236.txt
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6236/Wi-Fi/fw_bcm43436b0_apsta.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6212/fw_bcm43436b0_apsta.bin
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6256/Wi-Fi/fw_bcm43456c5_ag.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6255/fw_bcm43456c5_ag.bin
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6256/Wi-Fi/fw_bcm43456c5_ag_apsta.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6255/fw_bcm43456c5_ag_apsta.bin
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6256/Wi-Fi/nvram_ap6256.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6255/nvram_ap6256.txt
+PRODUCT_COPY_FILES += \
+       hardware/wifi/mtk/drivers/mt7668/7668_firmware/EEPROM_MT7668.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/EEPROM_MT7668.bin \
+       hardware/wifi/mtk/drivers/mt7668/7668_firmware/mt7668_patch_e1_hdr.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/mt7668_patch_e1_hdr.bin \
+       hardware/wifi/mtk/drivers/mt7668/7668_firmware/TxPwrLimit_MT76x8.dat:$(TARGET_COPY_OUT_VENDOR)/firmware/TxPwrLimit_MT76x8.dat \
+       hardware/wifi/mtk/drivers/mt7668/7668_firmware/wifi.cfg:$(TARGET_COPY_OUT_VENDOR)/firmware/wifi.cfg \
+       hardware/wifi/mtk/drivers/mt7668/7668_firmware/WIFI_RAM_CODE2_SDIO_MT7668.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/WIFI_RAM_CODE2_SDIO_MT7668.bin \
+       hardware/wifi/mtk/drivers/mt7668/7668_firmware/WIFI_RAM_CODE_MT7668.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/WIFI_RAM_CODE_MT7668.bin
 PRODUCT_COPY_FILES += \
     hardware/amlogic/wifi/qcom/config/qca9377/wifi/bdwlan30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/firmware/bdwlan30.bin \
     hardware/amlogic/wifi/qcom/config/qca9377/wifi/otp30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/firmware/otp30.bin \
