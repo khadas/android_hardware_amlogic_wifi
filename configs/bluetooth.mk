@@ -19,7 +19,6 @@
 
 $(warning BOARD_HAVE_BLUETOOTH is $(BOARD_HAVE_BLUETOOTH))
 $(warning BLUETOOTH_MODULE is $(BLUETOOTH_MODULE))
-$(warning BCMBT_SUPPORT is $(BCMBT_SUPPORT))
 
 ifeq ($(BOARD_HAVE_BLUETOOTH),true)
     PRODUCT_PROPERTY_OVERRIDES += config.disable_bluetooth=false \
@@ -56,9 +55,9 @@ PRODUCT_COPY_FILES += \
 
 endif
 
-################################################################################## rtl8723bs,rtl8761
-#ifeq ($(BLUETOOTH_MODULE),rtl8723bs)
-ifneq ($(filter rtl8761 rtl8723bs rtl8723bu rtl8821 rtl8822bu rtl8822bs, $(BLUETOOTH_MODULE)),)
+################################################################################## RTKBT
+ifeq ($(BLUETOOTH_MODULE),RTKBT)
+#ifneq ($(filter rtl8761 rtl8723bs rtl8723bu rtl8821 rtl8822bu rtl8822bs, $(BLUETOOTH_MODULE)),)
 
 BLUETOOTH_USR_RTK_BLUEDROID := true
 #Realtek add start
@@ -109,7 +108,7 @@ PRODUCT_PACKAGES += libbt-vendor
 endif
 
 ##################################################################################bcmbt
-ifeq ($(BCMBT_SUPPORT), true)
+ifeq ($(BLUETOOTH_MODULE), BCMBT)
 
 #load bcm mk
 $(call inherit-product, hardware/amlogic/bluetooth/broadcom/bcmbt.mk )
@@ -121,3 +120,16 @@ PRODUCT_PACKAGES += libbt-vendor
 
 endif
 
+##################################################################################mtkbt
+ifeq ($(BLUETOOTH_MODULE), MTKBT)
+
+#load mtk mk
+$(call inherit-product, hardware/amlogic/bluetooth/mtk/mtkbt/mtkbt.mk )
+#load mtk mk end
+
+BOARD_HAVE_BLUETOOTH_MTK := true
+
+PRODUCT_PACKAGES += libbt-vendor \
+                    libbluetooth_mtkbt
+
+endif
