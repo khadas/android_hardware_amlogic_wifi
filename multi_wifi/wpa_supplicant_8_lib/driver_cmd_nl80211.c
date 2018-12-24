@@ -115,7 +115,11 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 		os_memcpy(buf, cmd, strlen(cmd) + 1);
 		memset(&ifr, 0, sizeof(ifr));
 		memset(&priv_cmd, 0, sizeof(priv_cmd));
-		os_strlcpy(ifr.ifr_name, bss->ifname, IFNAMSIZ);
+		if (os_strncmp(bss->ifname, "p2p-dev-wlan", 12) == 0) {
+			os_strlcpy(ifr.ifr_name, "wlan0", IFNAMSIZ);
+		} else {
+			os_strlcpy(ifr.ifr_name, bss->ifname, IFNAMSIZ);
+		}
 
 #ifdef BCMDHD_64_BIT_IPC
 		priv_cmd.bufaddr = (u64)(uintptr_t)buf;
