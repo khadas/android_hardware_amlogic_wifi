@@ -151,10 +151,8 @@ rtl8822bs:
 	cp $(shell pwd)/hardware/wifi/realtek/drivers/8822bs/rtl8822BS/8822bs.ko $(TARGET_OUT)/
 
 qca9377:
-	$(MAKE) -C $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/build drivers BOARD_TYPE=x86-android IF_TYPE=SDIO KERNELPATH=$(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ
-	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/rootfs-x86-android.build/lib/modules/wlan.ko $(TARGET_OUT)/
-	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/rootfs-x86-android.build/lib/modules/cfg80211.ko $(TARGET_OUT)/qca80211.ko
-	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/rootfs-x86-android.build/lib/modules/compat.ko $(TARGET_OUT)/
+	$(MAKE) -C $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/build ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) KERNELPATH=$(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ
+	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/rootfs-x86-android.build/lib/modules/wlan.ko $(TARGET_OUT)/wlan_9377
 qca6174:
 	$(MAKE) -C $(shell pwd)/hardware/wifi/qualcomm/drivers/qca6174/AIO/build KERNELPATH=$(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ
 	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca6174/AIO/rootfs-x86-android.build/lib/modules/wlan.ko $(TARGET_OUT)/
@@ -192,8 +190,8 @@ multiwifi:
 #	cp $(shell pwd)/hardware/wifi/mtk/drivers/mt7603/os/linux/mt7603usta.ko $(TARGET_OUT)/
 	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ TopDIR=$(shell pwd)/hardware/wifi/realtek/drivers/8822bs/rtl8822BS M=$(shell pwd)/hardware/wifi/realtek/drivers/8822bs/rtl8822BS ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
 	cp $(shell pwd)/hardware/wifi/realtek/drivers/8822bs/rtl8822BS/8822bs.ko $(TARGET_OUT)/
-#	$(MAKE) -C $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/build drivers BOARD_TYPE=x86-android IF_TYPE=SDIO KERNELPATH=$(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ
-#	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/rootfs-x86-android.build/lib/modules/wlan.ko $(TARGET_OUT)/wlan_9377.ko
+	$(MAKE) -C $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/build ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) KERNELPATH=$(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ
+	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/rootfs-x86-android.build/lib/modules/wlan.ko $(TARGET_OUT)/wlan_9377.ko
 #	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/rootfs-x86-android.build/lib/modules/cfg80211.ko $(TARGET_OUT)/cfg80211_9377.ko
 #	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/rootfs-x86-android.build/lib/modules/compat.ko $(TARGET_OUT)/compat_9377.ko
 	$(MAKE) -C $(shell pwd)/hardware/wifi/qualcomm/drivers/qca6174/AIO/build KERNELPATH=$(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE)

@@ -1092,89 +1092,59 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 endif
 
-################################################################################## qca9377
 
-ifeq ($(WIFI_MODULE),qca9377)
-
-WIFI_DRIVER := qca9377
+################################################################################## qualcomm wifi
+ifneq ($(filter qca6174 qca9377 qca9379,$(WIFI_MODULE)),)
+WIFI_KO := $(patsubst qca%,%,$(WIFI_MODULE))
+WIFI_DRIVER             := $(WIFI_MODULE)
 BOARD_WIFI_VENDOR       := qualcomm
-WIFI_DRIVER_MODULE_PATH := /vendor/lib/modules/wlan.ko
+ifneq ($(WIFI_BUILD_IN), true)
+WIFI_DRIVER_MODULE_PATH := /vendor/lib/modules/wlan_$(WIFI_KO).ko
 WIFI_DRIVER_MODULE_NAME := wlan
-WIFI_DRIVER_MODULE_ARG  :=
-WIFI_FIRMWARE_LOADER :=""
-WIFI_DRIVER_FW_PATH_PARAM :=""
-
-BOARD_WLAN_DEVICE := qca9377
-WIFI_DRIVER_FW_PATH_PARAM   := ""
-
-WPA_SUPPLICANT_VERSION := VER_0_8_X
-BOARD_WPA_SUPPLICANT_DRIVER := NL80211
-BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_qcom
-BOARD_HOSTAPD_DRIVER        := NL80211
-BOARD_HOSTAPD_PRIVATE_LIB   := lib_driver_cmd_qcom
-
-PRODUCT_COPY_FILES += \
-	hardware/amlogic/wifi/qcom/config/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf
-
-PRODUCT_COPY_FILES += \
-	hardware/amlogic/wifi/qcom/config/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf
-
-PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.wifi.direct.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.direct.xml
-
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi_rtk.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.amlogic.wifi.rc
-
-
-PRODUCT_COPY_FILES += \
-    hardware/amlogic/wifi/qcom/config/qca9377/wifi/bdwlan30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/firmware/bdwlan30.bin \
-    hardware/amlogic/wifi/qcom/config/qca9377/wifi/otp30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/firmware/otp30.bin \
-    hardware/amlogic/wifi/qcom/config/qca9377/wifi/qwlan30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/firmware/qwlan30.bin \
-    hardware/amlogic/wifi/qcom/config/qca9377/wifi/utf30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/firmware/utf30.bin \
-    hardware/amlogic/wifi/qcom/config/qca9377/wifi/wlan/cfg.dat:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/firmware/wlan/cfg.dat \
-    hardware/amlogic/wifi/qcom/config/qca9377/wifi/wlan/qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/firmware/wlan/qcom_cfg.ini \
-    hardware/amlogic/wifi/qcom/config/qca9377/wifi/wlan/qcom_wlan_nv.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/firmware/wlan/qcom_wlan_nv.bin \
-
-PRODUCT_PROPERTY_OVERRIDES += wifi.interface=wlan0
+WIFI_DRIVER_MODULE_ARG  := "country_code=CN"
+$(warning WIFI_DRIVER_MODULE_PATH is $(WIFI_DRIVER_MODULE_PATH))
+$(warning WIFI_DRIVER_MODULE_NAME is $(WIFI_DRIVER_MODULE_NAME))
+$(warning WIFI_DRIVER_MODULE_ARG  is $(WIFI_DRIVER_MODULE_ARG))
 endif
 
-################################################################################## qca6174
-
-ifeq ($(WIFI_MODULE),qca6174)
-
-WIFI_DRIVER := qca6174
-BOARD_WIFI_VENDOR       := qualcomm
-WIFI_DRIVER_MODULE_PATH := /vendor/lib/modules/wlan.ko
-WIFI_DRIVER_MODULE_NAME := wlan
-WIFI_DRIVER_MODULE_ARG  :=
-WIFI_FIRMWARE_LOADER :=""
-WIFI_DRIVER_FW_PATH_PARAM :=""
-
-BOARD_WLAN_DEVICE := qca6174
-WIFI_DRIVER_FW_PATH_PARAM   := ""
-
-WPA_SUPPLICANT_VERSION := VER_0_8_X
-BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+WPA_SUPPLICANT_VERSION           := VER_0_8_X
+BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_qcom
-BOARD_HOSTAPD_DRIVER        := NL80211
-BOARD_HOSTAPD_PRIVATE_LIB   := lib_driver_cmd_qcom
+BOARD_HOSTAPD_DRIVER             := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_qcom
 
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/qcom/config/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf
+ifneq ($(WIFI_BUILD_IN), true)
+BOARD_WLAN_DEVICE := $(WIFI_MODULE)
+else
+BOARD_WLAN_DEVICE := MediaTek
+endif
+
+WIFI_FIRMWARE_LOADER      := ""
+WIFI_DRIVER_FW_PATH_PARAM := ""
+
+PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.wifi.direct.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.direct.xml
+ifeq ($(WIFI_BUILD_IN), true)
+$(shell rm hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi_buildin_$(WIFI_MODULE).rc)
+$(shell touch hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi_buildin_$(WIFI_MODULE).rc)
+$(shell echo "on boot" > hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi_buildin_$(WIFI_MODULE).rc)
+$(shell sed -i "1a\    insmod \/vendor\/lib/modules\/wlan_$(WIFI_KO).ko country_code=CN" hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi_buildin_$(WIFI_MODULE).rc)
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi_buildin_$(WIFI_MODULE).rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.amlogic.wifi_buildin.rc
+endif
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/qcom/config/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf
-PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.wifi.direct.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.direct.xml
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/qcom/config/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi_rtk.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.amlogic.wifi.rc
 
 PRODUCT_COPY_FILES += \
-    hardware/amlogic/wifi/qcom/config/qca6174/wifi/bdwlan30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca6174/bdwlan30.bin \
-    hardware/amlogic/wifi/qcom/config/qca6174/wifi/athwlan.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca6174/athwlan.bin \
-    hardware/amlogic/wifi/qcom/config/qca6174/wifi/otp30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca6174/otp30.bin \
-    hardware/amlogic/wifi/qcom/config/qca6174/wifi/utf30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca6174/utf30.bin \
-    hardware/amlogic/wifi/qcom/config/qca6174/wifi/qwlan30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca6174/qwlan30.bin \
-    hardware/amlogic/wifi/qcom/config/qca6174/wifi/wlan/cfg.dat:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca6174/wlan/cfg.dat \
-    hardware/amlogic/wifi/qcom/config/qca6174/wifi/wlan/qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca6174/wlan/qcom_cfg.ini \
-    hardware/amlogic/wifi/qcom/config/qca6174/wifi/wlan/qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca6174/wlan/qcom_cfg.ini.ok
+    hardware/amlogic/wifi/qcom/config/$(WIFI_MODULE)/wifi/bdwlan30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/$(WIFI_MODULE)/bdwlan30.bin \
+    hardware/amlogic/wifi/qcom/config/$(WIFI_MODULE)/wifi/otp30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/$(WIFI_MODULE)/otp30.bin \
+    hardware/amlogic/wifi/qcom/config/$(WIFI_MODULE)/wifi/qwlan30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/$(WIFI_MODULE)/qwlan30.bin \
+    hardware/amlogic/wifi/qcom/config/$(WIFI_MODULE)/wifi/utf30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/$(WIFI_MODULE)/utf30.bin \
+    hardware/amlogic/wifi/qcom/config/$(WIFI_MODULE)/wifi/wlan/cfg.dat:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/$(WIFI_MODULE)/wlan/cfg.dat \
+    hardware/amlogic/wifi/qcom/config/$(WIFI_MODULE)/wifi/wlan/qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/$(WIFI_MODULE)/wlan/qcom_cfg.ini
 
 PRODUCT_PROPERTY_OVERRIDES += wifi.interface=wlan0
-endif
 
+endif
 
 ################################################################################## AP6xxx
 ifeq ($(WIFI_AP6xxx_MODULE),AP6181)
@@ -1331,13 +1301,13 @@ PRODUCT_COPY_FILES += \
        hardware/wifi/mtk/drivers/mt7668/7668_firmware/WIFI_RAM_CODE2_SDIO_MT7668.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/WIFI_RAM_CODE2_SDIO_MT7668.bin \
        hardware/wifi/mtk/drivers/mt7668/7668_firmware/WIFI_RAM_CODE_MT7668.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/WIFI_RAM_CODE_MT7668.bin
 PRODUCT_COPY_FILES += \
-    hardware/amlogic/wifi/qcom/config/qca9377/wifi/bdwlan30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/firmware/bdwlan30.bin \
-    hardware/amlogic/wifi/qcom/config/qca9377/wifi/otp30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/firmware/otp30.bin \
-    hardware/amlogic/wifi/qcom/config/qca9377/wifi/qwlan30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/firmware/qwlan30.bin \
-    hardware/amlogic/wifi/qcom/config/qca9377/wifi/utf30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/firmware/utf30.bin \
-    hardware/amlogic/wifi/qcom/config/qca9377/wifi/wlan/cfg.dat:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/firmware/wlan/cfg.dat \
-    hardware/amlogic/wifi/qcom/config/qca9377/wifi/wlan/qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/firmware/wlan/qcom_cfg.ini \
-    hardware/amlogic/wifi/qcom/config/qca9377/wifi/wlan/qcom_wlan_nv.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/firmware/wlan/qcom_wlan_nv.bin \
+    hardware/amlogic/wifi/qcom/config/qca9377/wifi/bdwlan30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca9377/bdwlan30.bin \
+    hardware/amlogic/wifi/qcom/config/qca9377/wifi/otp30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca9377/otp30.bin \
+    hardware/amlogic/wifi/qcom/config/qca9377/wifi/qwlan30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca9377/qwlan30.bin \
+    hardware/amlogic/wifi/qcom/config/qca9377/wifi/utf30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca9377/utf30.bin \
+    hardware/amlogic/wifi/qcom/config/qca9377/wifi/wlan/cfg.dat:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca9377/wlan/cfg.dat \
+    hardware/amlogic/wifi/qcom/config/qca9377/wifi/wlan/qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca9377/wlan/qcom_cfg.ini \
+    hardware/amlogic/wifi/qcom/config/qca9377/wifi/wlan/qcom_wlan_nv.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca9377/wlan/qcom_wlan_nv.bin \
     hardware/amlogic/wifi/qcom/config/qca6174/wifi/bdwlan30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca6174/bdwlan30.bin \
     hardware/amlogic/wifi/qcom/config/qca6174/wifi/athwlan.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca6174/athwlan.bin \
     hardware/amlogic/wifi/qcom/config/qca6174/wifi/otp30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca6174/otp30.bin \

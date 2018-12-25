@@ -12,5 +12,6 @@ DEFAULT_WIFI_KERNEL_MODULES := \
 	$(PRODUCT_OUT)/obj/lib_vendor/8822bs.ko \
 	$(PRODUCT_OUT)/obj/lib_vendor/8723bs.ko \
 	$(PRODUCT_OUT)/obj/lib_vendor/8723bu.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/wlan_9377.ko \
 	$(PRODUCT_OUT)/obj/lib_vendor/wlan_6174.ko \
 	$(PRODUCT_OUT)/obj/lib_vendor/ssv6x5x.ko
