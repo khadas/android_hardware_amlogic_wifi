@@ -1300,7 +1300,8 @@ PRODUCT_COPY_FILES += \
        hardware/wifi/mtk/drivers/mt7668/7668_firmware/TxPwrLimit_MT76x8.dat:$(TARGET_COPY_OUT_VENDOR)/firmware/TxPwrLimit_MT76x8.dat \
        hardware/wifi/mtk/drivers/mt7668/7668_firmware/wifi.cfg:$(TARGET_COPY_OUT_VENDOR)/firmware/wifi.cfg \
        hardware/wifi/mtk/drivers/mt7668/7668_firmware/WIFI_RAM_CODE2_SDIO_MT7668.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/WIFI_RAM_CODE2_SDIO_MT7668.bin \
-       hardware/wifi/mtk/drivers/mt7668/7668_firmware/WIFI_RAM_CODE_MT7668.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/WIFI_RAM_CODE_MT7668.bin
+       hardware/wifi/mtk/drivers/mt7668/7668_firmware/WIFI_RAM_CODE_MT7668.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/WIFI_RAM_CODE_MT7668.bin \
+       hardware/wifi/mtk/drivers/mt7668/7668_firmware/mt7668_patch_e2_hdr.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/mt7668_patch_e2_hdr.bin
 PRODUCT_COPY_FILES += \
     hardware/amlogic/wifi/qcom/config/qca9377/wifi/bdwlan30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca9377/bdwlan30.bin \
     hardware/amlogic/wifi/qcom/config/qca9377/wifi/otp30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca9377/otp30.bin \
