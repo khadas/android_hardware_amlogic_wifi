@@ -134,7 +134,7 @@ const char *get_wifi_name()
         return "ssv6155";
     } else {
 #ifdef REALTEK_WIFI_SUPPORT
-        return "rtl"
+        return "rtl";
 #else
         return "bcm";
 #endif

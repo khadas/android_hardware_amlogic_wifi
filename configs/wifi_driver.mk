@@ -12,6 +12,12 @@ define bcmwifi-modules
 	#cp $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ/net/wireless/cfg80211.ko $(TARGET_OUT)/
 endef
 
+define rtk-usb-bt-modules
+	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/amlogic/bluetooth/realtek/rtk_btusb ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) CONFIG_BT_RTKBTUSB=m modules
+	mkdir -p $(TARGET_OUT)/
+	cp $(shell pwd)/hardware/amlogic/bluetooth/realtek/rtk_btusb/rtk_btusb.ko $(TARGET_OUT)/
+endef
+
 default: multiwifi
 
 AP6181:
@@ -220,3 +226,4 @@ multiwifi:
 	cp $(shell pwd)/hardware/wifi/icomm/drivers/ssv6xxx/ssv6x5x/ssv6x5x.ko $(TARGET_OUT)/
 	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/amlogic/bluetooth/mtk/mtkbt/bt_driver/ ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
 	cp $(shell pwd)/hardware/amlogic/bluetooth/mtk/mtkbt/bt_driver/btmtksdio.ko $(TARGET_OUT)/
+	$(rtk-usb-bt-modules)
