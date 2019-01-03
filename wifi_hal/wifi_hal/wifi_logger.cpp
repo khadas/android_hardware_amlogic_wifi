@@ -959,7 +959,7 @@ public:
 wifi_error wifi_get_firmware_memory_dump( wifi_interface_handle iface,
         wifi_firmware_memory_dump_handler handler)
 {
-    if (strncmp(get_wifi_name(), "rtl", 3) == 0)
+    if (strncmp(get_wifi_name(), "rtl", 3) == 0 || strcmp(get_wifi_name(), "bcm43569") == 0)
         return WIFI_SUCCESS;
 
     MemoryDumpCommand *cmd = new MemoryDumpCommand(iface, handler);
