@@ -14,7 +14,7 @@ service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
     disabled
     oneshot
 
-service bcmdl /vendor/xbin/bcmdl -n /vendor/etc/wifi/43569/nvram_ap6269a2.nvm /vendor/etc/wifi/43569/fw_bcm43569a2_ag.bin.trx
+service bcmdl /vendor/xbin/bcmdl -n /vendor/etc/wifi/43569/nvram_ap62x8.txt /vendor/etc/wifi/43569/fw_bcm4358u_ag.bin
     class main
     oneshot
     disabled
