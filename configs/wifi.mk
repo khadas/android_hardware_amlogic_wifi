@@ -1213,6 +1213,7 @@ PRODUCT_PACKAGES += \
     bcmdl \
 	wpa_cli
 
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi_buildin_rtk.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.amlogic.wifi_buildin.rc
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/6212/fw_bcm43438a0.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6212/fw_bcm43438a0.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/6212/fw_bcm43438a0_apsta.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6212/fw_bcm43438a0_apsta.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/6212/fw_bcm43438a0_p2p.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6212/fw_bcm43438a0_p2p.bin
