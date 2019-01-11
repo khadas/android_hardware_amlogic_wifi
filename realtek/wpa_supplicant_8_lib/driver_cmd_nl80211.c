@@ -103,6 +103,9 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 	} else if (os_strcasecmp(cmd, "START") == 0) {
 		linux_set_iface_flags(drv->global->ioctl_sock, bss->ifname, 1);
 		wpa_msg(drv->ctx, MSG_INFO, WPA_EVENT_DRIVER_STATE "STARTED");
+        } else if (os_strcasecmp(cmd, "P2P_DISABLE") == 0) {
+                os_memcpy(buf, "P2P_DISABLE", 12);
+                wpa_printf(MSG_DEBUG, "P2P_DISABLE");
 	} else if (os_strcasecmp(cmd, "MACADDR") == 0) {
 		u8 macaddr[ETH_ALEN] = {};
 
