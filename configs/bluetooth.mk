@@ -124,3 +124,6 @@ PRODUCT_PACKAGES += libbt-vendor \
                     libbluetooth_mtkbt
 
 endif
+
+#################################################################################bt rc
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/configs/init_rc/init.amlogic.bluetooth.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.amlogic.bluetooth.rc

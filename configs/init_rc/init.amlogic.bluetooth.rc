@@ -1,0 +1,6 @@
+	
+on property:vendor.sys.mtkbtdriver=true
+	insmod /vendor/lib/modules/btmtksdio.ko
+
+on property:vendor.sys.rtkbtusb=true
+	insmod /vendor/lib/modules/rtk_btusb.ko

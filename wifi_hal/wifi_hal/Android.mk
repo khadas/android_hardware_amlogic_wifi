@@ -30,6 +30,9 @@ LOCAL_CFLAGS := \
 ifeq ($(BOARD_WIFI_VENDOR), realtek)
 LOCAL_CFLAGS += -DREALTEK_WIFI_SUPPORT
 endif
+ifeq ($(BOARD_WIFI_VENDOR), mtk)
+LOCAL_CFLAGS += -DMTK_WIFI_SUPPORT
+endif
 LOCAL_C_INCLUDES += \
 	external/libnl/include \
 	$(call include-path-for, libhardware_legacy)/hardware_legacy \

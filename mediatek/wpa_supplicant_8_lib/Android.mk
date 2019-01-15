@@ -64,15 +64,14 @@ endif
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := lib_driver_cmd_mtk
-
-ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 26 && echo OK),OK)
-LOCAL_PROPRIETARY_MODULE := true
-endif
-
 LOCAL_SHARED_LIBRARIES := libc libcutils
 LOCAL_CFLAGS := $(L_CFLAGS)
 LOCAL_SRC_FILES := $(WPA_SRC_FILE)
 LOCAL_C_INCLUDES := $(WPA_SUPPL_DIR_INCLUDE)
+
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 26 && echo OK),OK)
+LOCAL_PROPRIETARY_MODULE := true
+endif
 include $(BUILD_STATIC_LIBRARY)
 
 ########################

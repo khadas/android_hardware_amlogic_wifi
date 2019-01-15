@@ -205,6 +205,9 @@ multiwifi:
 #	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca6174/AIO/rootfs-x86-android.build/lib/modules/cfg80211.ko $(TARGET_OUT)/cfg80211_6174.ko
 #	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca6174/AIO/rootfs-x86-android.build/lib/modules/compat.ko $(TARGET_OUT)/compat_6174.ko
 #	#cp $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ/net/wireless/cfg80211.ko $(TARGET_OUT)/
+	$(MAKE) CROSS_COMPILE=$(CROSS_COMPILE) LINUX_SRC=$(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ DRIVER_DIR=$(shell pwd)/hardware/wifi/mtk/drivers/mt7668u ARCH=$(KERNEL_ARCH) -f $(shell pwd)/hardware/wifi/mtk/drivers/mt7668u/Makefile.ce
+	cp $(shell pwd)/hardware/wifi/mtk/drivers/mt7668u/wlan_mt76x8_usb.ko $(TARGET_OUT)/
+	$(CROSS_COMPILE)strip --strip-debug $(TARGET_OUT)/wlan_mt76x8_usb.ko
 	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/mtk/drivers/mt7668 ARCH=$(KERNEL_ARCH)
 	cp $(shell pwd)/hardware/wifi/mtk/drivers/mt7668/drv_wlan/MT6632/wlan/wlan_mt76x8_sdio.ko $(TARGET_OUT)/
 	$(CROSS_COMPILE)strip --strip-debug $(TARGET_OUT)/wlan_mt76x8_sdio.ko
@@ -224,6 +227,8 @@ multiwifi:
 	cp $(shell pwd)/hardware/wifi/realtek/drivers/8822bu/rtl8822BU/8822bu.ko $(TARGET_OUT)/
 	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/icomm/drivers/ssv6xxx/ssv6x5x ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
 	cp $(shell pwd)/hardware/wifi/icomm/drivers/ssv6xxx/ssv6x5x/ssv6x5x.ko $(TARGET_OUT)/
-	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/amlogic/bluetooth/mtk/mtkbt/bt_driver/ ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
-	cp $(shell pwd)/hardware/amlogic/bluetooth/mtk/mtkbt/bt_driver/btmtksdio.ko $(TARGET_OUT)/
+	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/amlogic/bluetooth/mtk/mtkbt/bt_driver_sdio/ ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
+	cp $(shell pwd)/hardware/amlogic/bluetooth/mtk/mtkbt/bt_driver_sdio/btmtksdio.ko $(TARGET_OUT)/
+	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/amlogic/bluetooth/mtk/mtkbt/bt_driver_usb/ ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
+	cp $(shell pwd)/hardware/amlogic/bluetooth/mtk/mtkbt/bt_driver_usb/btmtk_usb.ko $(TARGET_OUT)/
 	$(rtk-usb-bt-modules)
