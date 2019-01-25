@@ -1,5 +1,3 @@
-import /vendor/etc/init/hw/init.amlogic.usb.rc
-
 on fs
 
 service rtl_supplicant /vendor/bin/hw/wpa_supplicant \
