@@ -318,7 +318,7 @@ protected:
 wifi_error wifi_get_valid_channels(wifi_interface_handle handle,
         int band, int max_channels, wifi_channel *channels, int *num_channels)
 {
-    if (strncmp(get_wifi_name(), "rtl", 3) == 0 || strncmp(get_wifi_name(), "mtk", 3) == 0) {
+    if (strncmp(get_wifi_name(), "rtl", 3) == 0 || strncmp(get_wifi_name(), "mtk", 3) == 0 || strncmp(get_wifi_name(), "qca", 3) == 0) {
         *num_channels = 12;
         return WIFI_SUCCESS;
     }
