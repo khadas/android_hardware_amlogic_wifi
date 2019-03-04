@@ -12,6 +12,7 @@ DEFAULT_WIFI_KERNEL_MODULES := \
 	$(PRODUCT_OUT)/obj/lib_vendor/btmtk_usb.ko \
 	$(PRODUCT_OUT)/obj/lib_vendor/btmtksdio.ko \
 	$(PRODUCT_OUT)/obj/lib_vendor/8822bs.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/8822cs.ko \
 	$(PRODUCT_OUT)/obj/lib_vendor/8723bs.ko \
 	$(PRODUCT_OUT)/obj/lib_vendor/8723ds.ko \
 	$(PRODUCT_OUT)/obj/lib_vendor/8723bu.ko \
