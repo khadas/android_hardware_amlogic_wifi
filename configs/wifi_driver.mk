@@ -233,4 +233,8 @@ multiwifi:
 	cp $(shell pwd)/hardware/amlogic/bluetooth/mtk/mtkbt/bt_driver_sdio/btmtksdio.ko $(TARGET_OUT)/
 	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/amlogic/bluetooth/mtk/mtkbt/bt_driver_usb/ ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
 	cp $(shell pwd)/hardware/amlogic/bluetooth/mtk/mtkbt/bt_driver_usb/btmtk_usb.ko $(TARGET_OUT)/
+#	$(MAKE)  KERDIR=$(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ  M=$(shell pwd)/hardware/wifi/atbm/atbm602x ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE)
+	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/atbm/atbm602x ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
+	cp $(shell pwd)/hardware/wifi/atbm/atbm602x/hal_apollo/atbm602x_usb.ko $(TARGET_OUT)/
+	$(CROSS_COMPILE)strip --strip-debug $(TARGET_OUT)/atbm602x_usb.ko
 	$(rtk-usb-bt-modules)
