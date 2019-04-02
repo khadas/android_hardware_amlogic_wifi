@@ -40,9 +40,12 @@
 #                rtl88x1au
 #                rtl8812au
 
-$(warning WIFI_BUILD_IN is $(WIFI_BUILD_IN))
-$(warning WIFI_MOULE is $(WIFI_MODULE))
-$(warning MULTI_WIFI_SUPPORT is $(MULTI_WIFI_SUPPORT))
+$(warning WIFI_MOUDLE is $(WIFI_MODULE))
+ifeq ($(WIFI_BUILD_IN), true)
+$(warning WIFI_BUILD_IN is true)
+else
+$(warning WIFI_BUILD_IN is false)
+endif
 
 BCM_USB_COMPOSITE ?= false
 ifeq ($(BCM_USB_COMPOSITE), true)
@@ -1250,8 +1253,11 @@ PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6330/Wi-Fi/fw_bcm
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6330/Wi-Fi/nvram_ap6330.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/40183/nvram.txt
 
 endif
-ifeq ($(MULTI_WIFI_SUPPORT), true)
 
+################################################################################## multiwifi
+ifeq ($(WIFI_MODULE), multiwifi)
+
+MULTI_WIFI_SUPPORT := true
 WIFI_DRIVER_MODULE_PATH := /vendor/lib/modules/
 WIFI_DRIVER_MODULE_NAME := dhd
 BOARD_WLAN_DEVICE := MediaTek

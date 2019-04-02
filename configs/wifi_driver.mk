@@ -4,86 +4,84 @@ CONFIG_DHD_USE_STATIC_BUF ?= y
 PRODUCT_OUT=out/target/product/$(TARGET_PRODUCT)
 TARGET_OUT=$(PRODUCT_OUT)/obj/lib_vendor
 
-define bcmwifi-modules
-	@echo "make wifi module KERNEL_ARCH is $(KERNEL_ARCH)"
-	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/broadcom/drivers/ap6xxx/bcmdhd.1.579.77.41.1.cn ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) CONFIG_BCMDHD_SDIO=y modules
-	mkdir -p $(TARGET_OUT)/
-	cp $(shell pwd)/hardware/wifi/broadcom/drivers/ap6xxx/bcmdhd.1.579.77.41.1.cn/dhd.ko $(TARGET_OUT)/
-	#cp $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ/net/wireless/cfg80211.ko $(TARGET_OUT)/
+define bcm-sdio-wifi
+	@echo "make bcm sdio wifi driver"
+	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/broadcom/drivers/ap6xxx/bcmdhd.100.10.315.x CONFIG_DHD_USE_STATIC_BUF=y CONFIG_BCMDHD_SDIO=y \
+	ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
+	cp $(shell pwd)/hardware/wifi/broadcom/drivers/ap6xxx/bcmdhd.100.10.315.x/dhd.ko $(TARGET_OUT)/
 endef
 
-define rtk-usb-bt-modules
-	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/amlogic/bluetooth/realtek/rtk_btusb ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) CONFIG_BT_RTKBTUSB=m modules
-	mkdir -p $(TARGET_OUT)/
-	cp $(shell pwd)/hardware/amlogic/bluetooth/realtek/rtk_btusb/rtk_btusb.ko $(TARGET_OUT)/
+define bcm-usb-wifi
+	@echo "make bcm usb wifi driver"
+	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/broadcom/drivers/ap6xxx/bcmdhd.100.10.315.x CONFIG_DHD_USE_STATIC_BUF=y CONFIG_BCMDHD_USB=y \
+	ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
+	cp $(shell pwd)/hardware/wifi/broadcom/drivers/ap6xxx/bcmdhd.100.10.315.x/bcmdhd.ko $(TARGET_OUT)/
 endef
 
-default: multiwifi
+BCMWIFI:
+	@echo "wifi module is bcmwifi"
+	$(bcm-sdio-wifi)
 
 AP6181:
 	@echo "wifi module is AP6181"
-	$(bcmwifi-modules)
+	$(bcm-sdio-wifi)
 AP6210:
 	@echo "wifi module is AP6210"
-	$(bcmwifi-modules)
+	$(bcm-sdio-wifi)
 AP6330:
 	@echo "wifi module is AP6330"
-	$(bcmwifi-modules)
+	$(bcm-sdio-wifi)
 AP6234:
 	@echo "wifi module is AP6234"
-	$(bcmwifi-modules)
+	$(bcm-sdio-wifi)
 AP6441:
 	@echo "wifi module is AP6441"
-	$(bcmwifi-modules)
+	$(bcm-sdio-wifi)
 AP6335:
 	@echo "wifi module is AP6335"
-	$(bcmwifi-modules)
+	$(bcm-sdio-wifi)
 AP6212:
 	@echo "wifi module is AP6212"
-	$(bcmwifi-modules)
+	$(bcm-sdio-wifi)
 AP62x2:
 	@echo "wifi module is AP62x2"
-	$(bcmwifi-modules)
+	$(bcm-sdio-wifi)
 AP6255:
 	@echo "wifi module is AP6255"
-	$(bcmwifi-modules)
+	$(bcm-sdio-wifi)
 bcm43341:
 	@echo "wifi module is bcm43341"
-	$(bcmwifi-modules)
+	$(bcm-sdio-wifi)
 bcm43241:
 	@echo "wifi module is bcm43241"
-	$(bcmwifi-modules)
+	$(bcm-sdio-wifi)
 bcm40181:
 	@echo "wifi module is bcm40181"
-	$(bcmwifi-modules)
+	$(bcm-sdio-wifi)
 bcm40183:
 	@echo "wifi module is bcm40183"
-	$(bcmwifi-modules)
+	$(bcm-sdio-wifi)
 bcm4354:
 	@echo "wifi module is bcm4354"
-	$(bcmwifi-modules)
+	$(bcm-sdio-wifi)
 bcm4356:
 	@echo "wifi module is bcm4356"
-	$(bcmwifi-modules)
+	$(bcm-sdio-wifi)
 bcm4358:
 	@echo "wifi module is bcm4358"
-	$(bcmwifi-modules)
+	$(bcm-sdio-wifi)
 bcm43458:
 	@echo "wifi module is bcm43458"
-	$(bcmwifi-modules)
-define bcmd-usb-wifi-modules
-	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/broadcom/drivers/ap6xxx/bcmdhd.1.579.77.41.1.cn ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) CONFIG_BCMDHD_USB=y CONFIG_DHD_USE_STATIC_BUF=y modules
-	cp $(shell pwd)/hardware/wifi/broadcom/drivers/ap6xxx/bcmdhd.1.579.77.41.1.cn/bcmdhd.ko $(TARGET_OUT)/
-	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/vendor/amlogic/common/broadcom/btusb/btusb_1_6_29_1/ ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
-	cp $(shell pwd)/vendor/amlogic/common/broadcom/btusb/btusb_1_6_29_1/btusb.ko $(TARGET_OUT)/
-	#cp $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ/net/wireless/cfg80211.ko $(TARGET_OUT)/
-endef
+	$(bcm-sdio-wifi)
 AP6269:
 	@echo "wifi module is AP6269"
-	$(bcmd-usb-wifi-modules)
+	$(bcm-usb-wifi)
 AP6242:
 	@echo "wifi module is AP6242"
-	$(bcmd-usb-wifi-modules)
+	$(bcm-usb-wifi)
+AP62x8:
+	@echo "wifi module is AP62x8"
+	$(bcm-usb-wifi)
 
 rtl8189es:
 	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/realtek/drivers/8189es/rtl8189ES ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
@@ -158,16 +156,16 @@ rtl8822bs:
 
 qca9377:
 	$(MAKE) -C $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/build ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) KERNELPATH=$(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ
-	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/rootfs-x86-android.build/lib/modules/wlan.ko $(TARGET_OUT)/wlan_9377
+	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/rootfs-x86-android.build/lib/modules/wlan.ko $(TARGET_OUT)/wlan_9377.ko
 qca6174:
-	$(MAKE) -C $(shell pwd)/hardware/wifi/qualcomm/drivers/qca6174/AIO/build KERNELPATH=$(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ
-	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca6174/AIO/rootfs-x86-android.build/lib/modules/wlan.ko $(TARGET_OUT)/
-	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca6174/AIO/rootfs-x86-android.build/lib/modules/cfg80211.ko $(TARGET_OUT)/qca80211.ko
-	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca6174/AIO/rootfs-x86-android.build/lib/modules/compat.ko $(TARGET_OUT)/
+	$(MAKE) -C $(shell pwd)/hardware/wifi/qualcomm/drivers/qca6174/AIO/build KERNELPATH=$(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE)
+	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca6174/AIO/rootfs-x86-android.build/lib/modules/wlan.ko $(TARGET_OUT)/wlan_6174.ko
 multiwifi:
 	@echo "make wifi module KERNEL_ARCH is $(KERNEL_ARCH)"
-	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/realtek/drivers/8189es/rtl8189ES ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
 	mkdir -p $(TARGET_OUT)/
+	$(bcm-sdio-wifi)
+	$(bcm-usb-wifi)
+	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/realtek/drivers/8189es/rtl8189ES ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
 	cp $(shell pwd)/hardware/wifi/realtek/drivers/8189es/rtl8189ES/8189es.ko $(TARGET_OUT)/
 #	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/realtek/drivers/8189ftv/rtl8189FS ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
 #	cp $(shell pwd)/hardware/wifi/realtek/drivers/8189ftv/rtl8189FS/8189fs.ko $(TARGET_OUT)/
@@ -187,8 +185,6 @@ multiwifi:
 #	cp $(shell pwd)/hardware/wifi/realtek/drivers/8812au/rtl8812AU/8812au.ko $(TARGET_OUT)/
 #	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/realtek/drivers/8192es/rtl8192ES ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
 #	cp $(shell pwd)/hardware/wifi/realtek/drivers/8192es/rtl8192ES/8192es.ko $(TARGET_OUT)/
-	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/broadcom/drivers/ap6xxx/bcmdhd.100.10.315.x ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) CONFIG_BCMDHD_SDIO=y CONFIG_DHD_USE_STATIC_BUF=y modules
-	cp $(shell pwd)/hardware/wifi/broadcom/drivers/ap6xxx/bcmdhd.100.10.315.x/dhd.ko $(TARGET_OUT)/
 #	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/mtk/drivers/mt7601 ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
 #	cp $(shell pwd)/hardware/wifi/mtk/drivers/mt7601/mt7601usta.ko $(TARGET_OUT)/
 #	cp $(shell pwd)/hardware/wifi/mtk/drivers/mt7601/mtprealloc.ko $(TARGET_OUT)/
@@ -200,13 +196,8 @@ multiwifi:
 	cp $(shell pwd)/hardware/wifi/realtek/drivers/8822cs/rtl88x2CS/8822cs.ko $(TARGET_OUT)/8822cs.ko
 	$(MAKE) -C $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/build ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) KERNELPATH=$(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ
 	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/rootfs-x86-android.build/lib/modules/wlan.ko $(TARGET_OUT)/wlan_9377.ko
-#	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/rootfs-x86-android.build/lib/modules/cfg80211.ko $(TARGET_OUT)/cfg80211_9377.ko
-#	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca9377/AIO/rootfs-x86-android.build/lib/modules/compat.ko $(TARGET_OUT)/compat_9377.ko
 	$(MAKE) -C $(shell pwd)/hardware/wifi/qualcomm/drivers/qca6174/AIO/build KERNELPATH=$(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE)
 	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca6174/AIO/rootfs-x86-android.build/lib/modules/wlan.ko $(TARGET_OUT)/wlan_6174.ko
-#	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca6174/AIO/rootfs-x86-android.build/lib/modules/cfg80211.ko $(TARGET_OUT)/cfg80211_6174.ko
-#	cp $(shell pwd)/hardware/wifi/qualcomm/drivers/qca6174/AIO/rootfs-x86-android.build/lib/modules/compat.ko $(TARGET_OUT)/compat_6174.ko
-#	#cp $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ/net/wireless/cfg80211.ko $(TARGET_OUT)/
 	$(MAKE) CROSS_COMPILE=$(CROSS_COMPILE) LINUX_SRC=$(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ DRIVER_DIR=$(shell pwd)/hardware/wifi/mtk/drivers/mt7668u ARCH=$(KERNEL_ARCH) -f $(shell pwd)/hardware/wifi/mtk/drivers/mt7668u/Makefile.ce
 	cp $(shell pwd)/hardware/wifi/mtk/drivers/mt7668u/wlan_mt76x8_usb.ko $(TARGET_OUT)/
 	$(CROSS_COMPILE)strip --strip-debug $(TARGET_OUT)/wlan_mt76x8_usb.ko
@@ -217,24 +208,13 @@ multiwifi:
 	cp $(shell pwd)/hardware/wifi/mtk/drivers/mt7601/mt7601usta.ko $(TARGET_OUT)/
 	cp $(shell pwd)/hardware/wifi/mtk/drivers/mt7601/mtprealloc.ko $(TARGET_OUT)/
 	$(CROSS_COMPILE)strip --strip-debug $(TARGET_OUT)/mt7601usta.ko
-#	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/broadcom/drivers/ap6xxx/bcmdhd-usb.1.363.110.17.x ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
-#	cp $(shell pwd)/hardware/wifi/broadcom/drivers/ap6xxx/bcmdhd-usb.1.363.110.17.x/bcmdhd.ko $(TARGET_OUT)/
 	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/realtek/drivers/8723bu/rtl8723BU ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
 	cp $(shell pwd)/hardware/wifi/realtek/drivers/8723bu/rtl8723BU/8723bu.ko $(TARGET_OUT)/
-	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/broadcom/drivers/ap6xxx/bcmdhd.100.10.315.x ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) CONFIG_BCMDHD_USB=y CONFIG_DHD_USE_STATIC_BUF=y modules
-	cp $(shell pwd)/hardware/wifi/broadcom/drivers/ap6xxx/bcmdhd.100.10.315.x/bcmdhd.ko $(TARGET_OUT)/
-	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/vendor/amlogic/common/broadcom/btusb/btusb_1_6_29_1/ ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
-	cp $(shell pwd)/vendor/amlogic/common/broadcom/btusb/btusb_1_6_29_1/btusb.ko $(TARGET_OUT)/
 	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ TopDIR=$(shell pwd)/hardware/wifi/realtek/drivers/8822bu/rtl8822BU M=$(shell pwd)/hardware/wifi/realtek/drivers/8822bu/rtl8822BU ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
 	cp $(shell pwd)/hardware/wifi/realtek/drivers/8822bu/rtl8822BU/8822bu.ko $(TARGET_OUT)/
 	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/icomm/drivers/ssv6xxx/ssv6x5x ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
 	cp $(shell pwd)/hardware/wifi/icomm/drivers/ssv6xxx/ssv6x5x/ssv6x5x.ko $(TARGET_OUT)/
-	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/amlogic/bluetooth/mtk/mtkbt/bt_driver_sdio/ ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
-	cp $(shell pwd)/hardware/amlogic/bluetooth/mtk/mtkbt/bt_driver_sdio/btmtksdio.ko $(TARGET_OUT)/
-	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/amlogic/bluetooth/mtk/mtkbt/bt_driver_usb/ ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
-	cp $(shell pwd)/hardware/amlogic/bluetooth/mtk/mtkbt/bt_driver_usb/btmtk_usb.ko $(TARGET_OUT)/
 #	$(MAKE)  KERDIR=$(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ  M=$(shell pwd)/hardware/wifi/atbm/atbm602x ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE)
 	$(MAKE) -C $(shell pwd)/$(PRODUCT_OUT)/obj/KERNEL_OBJ M=$(shell pwd)/hardware/wifi/atbm/atbm602x ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(CROSS_COMPILE) modules
 	cp $(shell pwd)/hardware/wifi/atbm/atbm602x/hal_apollo/atbm602x_usb.ko $(TARGET_OUT)/
 	$(CROSS_COMPILE)strip --strip-debug $(TARGET_OUT)/atbm602x_usb.ko
-	$(rtk-usb-bt-modules)
