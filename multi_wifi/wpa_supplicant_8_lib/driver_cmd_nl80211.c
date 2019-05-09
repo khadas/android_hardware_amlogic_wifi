@@ -22,7 +22,30 @@
 #ifdef ANDROID
 #include "android_drv.h"
 #endif
+#include <dlfcn.h>
+static int is_wifi_driver_loaded(const char *module_tag)
+{
+    FILE *proc;
+    char line[sizeof(module_tag)+10];
 
+    /*
+     * If the property says the driver is loaded, check to
+     * make sure that the property setting isn't just left
+     * over from a previous manual shutdown or a runtime
+     * crash.
+     */
+    if ((proc = fopen("/proc/modules", "r")) == NULL) {
+        return 0;
+    }
+    while ((fgets(line, sizeof(line), proc)) != NULL) {
+        if (strncmp(line, module_tag, strlen(module_tag)) == 0) {
+            fclose(proc);
+            return 1;
+        }
+    }
+    fclose(proc);
+    return 0;
+}
 typedef struct android_wifi_priv_cmd {
 #ifdef BCMDHD_64_BIT_IPC
 	u64 bufaddr;
@@ -89,12 +112,15 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 					      " cmd (%s)", bss->ifname, cmd);
 		}
 	}
-
-       if (os_strncasecmp(cmd, "BTCOEXMODE", 10) == 0 || os_strncasecmp(cmd, "MIRACAST", 8) == 0 ||
+       if ((os_strncasecmp(cmd, "BTCOEXMODE", 10) == 0 || os_strncasecmp(cmd, "MIRACAST", 8) == 0 ||
         os_strncasecmp(cmd, "WLS_BATCHING", 12) == 0 || os_strcasecmp(cmd, "BTCOEXSCAN-STOP") == 0 ||
         os_strncasecmp(cmd, "RXFILTER", 8) == 0 || os_strncasecmp(cmd, "SETSUSPENDMODE", 14) == 0 ||
-        os_strncasecmp(cmd, "SETBAND", 7) == 0)
-        return 0;
+        os_strncasecmp(cmd, "SETBAND", 7) == 0) && (!is_wifi_driver_loaded("dhd") && !is_wifi_driver_loaded("bcmdhd")))
+        	return 0;
+
+
+	if((is_wifi_driver_loaded("mt7601usta") || is_wifi_driver_loaded("mt7603usta")) && os_strncasecmp(cmd, "SET_AP_WPS_P2P_IE", 17) == 0)
+		return 0;
 	if (os_strcasecmp(cmd, "STOP") == 0) {
 		linux_set_iface_flags(drv->global->ioctl_sock, bss->ifname, 0);
 		wpa_msg(drv->ctx, MSG_INFO, WPA_EVENT_DRIVER_STATE "STOPPED");

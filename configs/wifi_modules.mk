@@ -32,8 +32,12 @@ DEFAULT_WIFI_KERNEL_MODULES := $(PRODUCT_OUT)/obj/lib_vendor/$(WIFI_KO).ko
 endif
 
 ######################################################################################## mtk 7601u
-ifeq ($(WIFI_MODULE),mt7601u)
-DEFAULT_WIFI_KERNEL_MODULES := $(PRODUCT_OUT)/obj/lib_vendor/mt7601usta.ko
+ifneq ($(filter mt7601u mt7603u,$(WIFI_MODULE)),)
+WIFI_KO := $(WIFI_MODULE)sta
+DEFAULT_WIFI_KERNEL_MODULES := \
+        $(PRODUCT_OUT)/obj/lib_vendor/$(WIFI_KO).ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/mtprealloc.ko \
+
 endif
 
 ######################################################################################## multiwifi
@@ -47,6 +51,7 @@ DEFAULT_WIFI_KERNEL_MODULES := \
 	$(PRODUCT_OUT)/obj/lib_vendor/8189es.ko \
 	$(PRODUCT_OUT)/obj/lib_vendor/8188eu.ko \
 	$(PRODUCT_OUT)/obj/lib_vendor/mt7601usta.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/mt7603usta.ko \
 	$(PRODUCT_OUT)/obj/lib_vendor/mtprealloc.ko \
 	$(PRODUCT_OUT)/obj/lib_vendor/8822bs.ko \
 	$(PRODUCT_OUT)/obj/lib_vendor/8822cs.ko \

@@ -1007,64 +1007,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi_rtk.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.amlogic.wifi.rc
 endif
 
-################################################################################## mt7601u
-ifeq ($(WIFI_MODULE),mt7601u)
-
-WIFI_DRIVER             := mt7601u
-WIFI_DRIVER_MODULE_PATH := /vendor/lib/modules/mt7601usta.ko
-WIFI_DRIVER_MODULE_NAME := mt7601usta
-BOARD_WIFI_VENDOR		:= mtk
-WPA_SUPPLICANT_VERSION  := VER_0_8_X
-BOARD_WPA_SUPPLICANT_DRIVER       := NL80211
-BOARD_WPA_SUPPLICANT_PRIVATE_LIB  := lib_driver_cmd_mtk
-BOARD_HOSTAPD_DRIVER             := NL80211
-BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_mtk
-BOARD_WLAN_DEVICE := mtk
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/iwpriv:$(TARGET_COPY_OUT_VENDOR)/bin/iwpriv
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/RT2870STA_7601.dat:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/RT2870STA_7601.dat
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/init.mtk.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.mtk.rc
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/wpa_supplicant.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant.conf
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/mt7601usta.ko:$(PRODUCT_OUT)/obj/lib_vendor/mt7601usta.ko
-PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.wifi.direct.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.direct.xml
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/mtprealloc.ko:$(PRODUCT_OUT)/obj/lib_vendor/mtprealloc.ko
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/dhcpcd.conf:$(TARGET_COPY_OUT_VENDOR)/etc/dhcpcd/dhcpcd.conf
-
-PRODUCT_PROPERTY_OVERRIDES += \
-	wifi.interface=wlan0
-
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi_rtk.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.amlogic.wifi.rc
-endif
-
-################################################################################## mt7603u
-ifeq ($(WIFI_MODULE),mt7603u)
-
-WIFI_DRIVER             := mt7603u
-WIFI_DRIVER_MODULE_PATH := /vendor/lib/modules/mt7603usta.ko
-WIFI_DRIVER_MODULE_NAME := mt7603usta
-BOARD_WIFI_VENDOR       := mtk
-WPA_SUPPLICANT_VERSION  := VER_0_8_X
-BOARD_WPA_SUPPLICANT_DRIVER       := NL80211
-BOARD_WPA_SUPPLICANT_PRIVATE_LIB  := lib_driver_cmd_mtk
-BOARD_HOSTAPD_DRIVER             := NL80211
-BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_mtk
-BOARD_WLAN_DEVICE := mtk
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/iwpriv:$(TARGET_COPY_OUT_VENDOR)/bin/iwpriv
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/RT2870STA_7601.dat:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/RT2870STA_7603.dat
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/init.mtk.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.mtk.rc
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/wpa_supplicant.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant.conf
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/mt7603usta.ko:$(PRODUCT_OUT)/obj/lib_vendor/mt7603usta.ko
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/mtprealloc.ko:$(PRODUCT_OUT)/obj/lib_vendor/mtprealloc.ko
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/dhcpcd.conf:$(TARGET_COPY_OUT_VENDOR)/etc/dhcpcd/dhcpcd.conf
-PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.wifi.direct.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.direct.xml
-
-PRODUCT_COPY_FILES += hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi_rtk.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.amlogic.wifi.rc
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    wifi.interface=wlan0
-
-endif
 ################################################################################## mt5931
 ifeq ($(WIFI_MODULE),mt5931)
 
@@ -1197,6 +1139,59 @@ PRODUCT_COPY_FILES += \
        hardware/wifi/mtk/drivers/mt7668/7668_firmware/WIFI_RAM_CODE2_SDIO_MT7668.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/WIFI_RAM_CODE2_SDIO_MT7668.bin \
        hardware/wifi/mtk/drivers/mt7668/7668_firmware/WIFI_RAM_CODE_MT7668.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/WIFI_RAM_CODE_MT7668.bin \
        hardware/wifi/mtk/drivers/mt7668/7668_firmware/mt7668_patch_e2_hdr.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/mt7668_patch_e2_hdr.bin
+PRODUCT_PACKAGES += \
+        wpa_supplicant_overlay.conf \
+        p2p_supplicant_overlay.conf
+
+# 89976: Add Realtek USB WiFi support
+PRODUCT_PROPERTY_OVERRIDES += \
+        wifi.interface=wlan0 \
+        wifi.direct.interface=p2p0
+
+endif
+
+################################################################################## mtk wifi
+ifneq ($(filter mt7601u mt7603u,$(WIFI_MODULE)),)
+WIFI_KO := $(WIFI_MODULE)sta
+WIFI_DRIVER             := $(WIFI_MODULE)
+BOARD_WIFI_VENDOR       := mtk
+ifneq ($(WIFI_BUILD_IN), true)
+WIFI_DRIVER_MODULE_PATH := /vendor/lib/modules/$(WIFI_KO).ko
+WIFI_DRIVER_MODULE_NAME := $(WIFI_KO)
+WIFI_DRIVER_MODULE_ARG  := ""
+$(warning WIFI_DRIVER_MODULE_PATH is $(WIFI_DRIVER_MODULE_PATH))
+$(warning WIFI_DRIVER_MODULE_NAME is $(WIFI_DRIVER_MODULE_NAME))
+$(warning WIFI_DRIVER_MODULE_ARG  is $(WIFI_DRIVER_MODULE_ARG))
+endif
+
+WPA_SUPPLICANT_VERSION           := VER_0_8_X
+BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_mtk
+BOARD_HOSTAPD_DRIVER             := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_mtk
+
+ifneq ($(WIFI_BUILD_IN), true)
+BOARD_WLAN_DEVICE := $(WIFI_MODULE)
+else
+BOARD_WLAN_DEVICE := MediaTek
+endif
+
+WIFI_FIRMWARE_LOADER      := ""
+WIFI_DRIVER_FW_PATH_PARAM := ""
+
+PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.wifi.direct.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.direct.xml
+ifeq ($(WIFI_BUILD_IN), true)
+$(shell rm hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi_buildin_$(WIFI_MODULE).rc)
+$(shell touch hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi_buildin_$(WIFI_MODULE).rc)
+$(shell echo "on boot" > hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi_buildin_$(WIFI_MODULE).rc)
+$(shell sed -i "1a\    insmod \/vendor\/lib/modules\/$(WIFI_KO).ko" hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi_buildin_$(WIFI_MODULE).rc)
+$(shell sed -i "1a\    insmod \/vendor\/lib/modules\/mtprealloc.ko" hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi_buildin_$(WIFI_MODULE).rc)
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi_buildin_$(WIFI_MODULE).rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.amlogic.wifi_buildin.rc
+endif
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/multi_wifi/config/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/configs/init_rc/init.amlogic.wifi_mtk.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.amlogic.wifi.rc
+PRODUCT_COPY_FILES += hardware/wifi/mtk/drivers/mt7601/MT7601USTA.dat:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/MT7601USTA.dat
+PRODUCT_COPY_FILES += hardware/amlogic/wifi/mediatek/RT2870STA_7601.dat:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/RT2870STA_7603.dat
 PRODUCT_PACKAGES += \
         wpa_supplicant_overlay.conf \
         p2p_supplicant_overlay.conf

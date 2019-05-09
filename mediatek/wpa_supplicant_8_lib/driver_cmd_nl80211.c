@@ -94,7 +94,7 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 	if (os_strncasecmp(cmd, "BTCOEXMODE", 10) == 0 ||
 		os_strncasecmp(cmd, "WLS_BATCHING", 12) == 0 || os_strcasecmp(cmd, "BTCOEXSCAN-STOP") == 0 ||
 		os_strncasecmp(cmd, "RXFILTER", 8) == 0 || os_strncasecmp(cmd, "SETSUSPENDMODE", 14) == 0 ||
-		os_strncasecmp(cmd, "SETBAND", 7) == 0)
+		os_strncasecmp(cmd, "SETBAND", 7) == 0 || os_strncasecmp(cmd, "SET_AP_WPS_P2P_IE", 17) == 0)
 		return 0;
 
 	if (os_strcasecmp(cmd, "STOP") == 0) {
