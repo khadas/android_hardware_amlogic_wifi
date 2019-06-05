@@ -1355,6 +1355,10 @@ PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6256/Wi-Fi/fw_bcm
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6256/Wi-Fi/fw_bcm43456c5_ag_apsta.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6255/fw_bcm43456c5_ag_apsta.bin
 PRODUCT_COPY_FILES += hardware/amlogic/wifi/bcm_ampak/config/AP6256/Wi-Fi/nvram_ap6256.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/6255/nvram_ap6256.txt
 PRODUCT_COPY_FILES += hardware/wifi/atbm/atbm602x/firmware/fw_usb.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/fw_usb.bin
+PRODUCT_COPY_FILES += hardware/wifi/icomm/drivers/ssv6xxx/ssv6x5x/image/ssv6x5x-sw.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/ssv6x5x/ssv6x5x-sw.bin
+PRODUCT_COPY_FILES += hardware/wifi/icomm/drivers/ssv6xxx/ssv6x5x/image/ssv6x5x-wifi.cfg:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/ssv6x5x/ssv6x5x-wifi.cfg
+PRODUCT_COPY_FILES += hardware/wifi/icomm/drivers/ssv6xxx/ssv6051/image/ssv6051-sw.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/ssv6051/ssv6051-sw.bin
+PRODUCT_COPY_FILES += hardware/wifi/icomm/drivers/ssv6xxx/ssv6051/ssv6051-wifi.cfg:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/ssv6051/ssv6051-wifi.cfg
 PRODUCT_COPY_FILES += \
        hardware/wifi/mtk/drivers/mt7668/7668_firmware/EEPROM_MT7668.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/EEPROM_MT7668.bin \
        hardware/wifi/mtk/drivers/mt7668/7668_firmware/mt7668_patch_e1_hdr.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/mt7668_patch_e1_hdr.bin \
