@@ -63,5 +63,6 @@ DEFAULT_WIFI_KERNEL_MODULES := \
 	$(PRODUCT_OUT)/obj/lib_vendor/wlan_6174.ko \
 	$(PRODUCT_OUT)/obj/lib_vendor/ssv6x5x.ko \
 	$(PRODUCT_OUT)/obj/lib_vendor/ssv6051.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/ssv_hwif_ctrl.ko \
 
 endif
