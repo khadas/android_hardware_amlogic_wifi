@@ -1,4 +1,4 @@
-#AP6236_NVRAM_V1.1_20170804
+#AP6236_NVRAM_V1.1.1_20180815
 # NVRAM file for BCM943430WLPTH, Bx Chip
 # 2.4 GHz, 20 MHz BW mode
 
@@ -63,3 +63,4 @@ muxenab=0x10
 spurconfig=0x3 
 
 AvVmidIQcal=0x2,0xa8
+glitch_based_crsmin=1

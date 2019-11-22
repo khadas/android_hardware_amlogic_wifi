@@ -1376,6 +1376,12 @@ PRODUCT_COPY_FILES += \
     hardware/amlogic/wifi/qcom/config/qca9377/wifi/wlan/cfg.dat:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca9377/wlan/cfg.dat \
     hardware/amlogic/wifi/qcom/config/qca9377/wifi/wlan/qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca9377/wlan/qcom_cfg.ini \
     hardware/amlogic/wifi/qcom/config/qca9377/wifi/wlan/qcom_wlan_nv.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca9377/wlan/qcom_wlan_nv.bin \
+    hardware/amlogic/wifi/qcom/config/qca9379/wifi/athwlan.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca9379/athwlan.bin \
+    hardware/amlogic/wifi/qcom/config/qca9379/wifi/otp.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca9379/otp.bin \
+    hardware/amlogic/wifi/qcom/config/qca9379/wifi/fakeboar.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca9379/fakeboar.bin \
+    hardware/amlogic/wifi/qcom/config/qca9379/wifi/utf.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca9379/utf.bin \
+    hardware/amlogic/wifi/qcom/config/qca9379/wifi/wlan/cfg.dat:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca9379/wlan/cfg.dat \
+    hardware/amlogic/wifi/qcom/config/qca9379/wifi/wlan/qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca9379/wlan/qcom_cfg.ini \
     hardware/amlogic/wifi/qcom/config/qca6174/wifi/bdwlan30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca6174/bdwlan30.bin \
     hardware/amlogic/wifi/qcom/config/qca6174/wifi/athwlan.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca6174/athwlan.bin \
     hardware/amlogic/wifi/qcom/config/qca6174/wifi/otp30.bin:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca6174/otp30.bin \

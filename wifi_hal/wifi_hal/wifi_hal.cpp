@@ -269,6 +269,8 @@ wifi_error wifi_initialize(wifi_handle *handle)
         ALOGE("Could not resolve nl80211 familty id");
         nl_socket_free(cmd_sock);
         nl_socket_free(event_sock);
+        free(info->event_cb);
+        free(info->cmd);
         free(info);
         return WIFI_ERROR_UNKNOWN;
     }
@@ -282,6 +284,8 @@ wifi_error wifi_initialize(wifi_handle *handle)
         nl_socket_free(cmd_sock);
         nl_socket_free(event_sock);
         pthread_mutex_destroy(&info->cb_lock);
+        free(info->event_cb);
+        free(info->cmd);
         free(info);
         return WIFI_ERROR_NOT_AVAILABLE;
     }
@@ -294,6 +298,13 @@ wifi_error wifi_initialize(wifi_handle *handle)
         nl_socket_free(cmd_sock);
         nl_socket_free(event_sock);
         pthread_mutex_destroy(&info->cb_lock);
+        free(info->event_cb);
+        free(info->cmd);
+        for (int i=0; i<info->num_interfaces; i++) {
+            free(info->interfaces[i]);
+            info->interfaces[i] = NULL;
+        }
+        free(info->interfaces);
         free(info);
         return WIFI_ERROR_NOT_AVAILABLE;
     }
@@ -339,6 +350,13 @@ static void internal_cleaned_up_handler(wifi_handle handle)
 
     (*cleaned_up_handler)(handle);
     pthread_mutex_destroy(&info->cb_lock);
+    free(info->event_cb);
+    free(info->cmd);
+    for (int i=0; i<info->num_interfaces; i++) {
+        free(info->interfaces[i]);
+        info->interfaces[i] = NULL;
+    }
+    free(info->interfaces);
     free(info);
 
     ALOGI("Internal cleanup completed");
@@ -1152,6 +1170,7 @@ static int get_interface(const char *name, interface_info *info)
     return WIFI_SUCCESS;
 }
 
+
 wifi_error wifi_init_interfaces(wifi_handle handle)
 {
     hal_info *info = (hal_info *)handle;
@@ -1180,8 +1199,9 @@ wifi_error wifi_init_interfaces(wifi_handle handle)
     if (d == 0)
         return WIFI_ERROR_UNKNOWN;
 
-    info->interfaces = (interface_info **)malloc(sizeof(interface_info *) * n);
-
+    info->num_interfaces = n;
+    info->interfaces = (interface_info **)malloc(sizeof(interface_info *) * info->num_interfaces);
+    memset(info->interfaces, 0, sizeof(interface_info *) * info->num_interfaces);
     int i = 0;
     while ((de = readdir(d))) {
         if (de->d_name[0] == '.')
@@ -1200,7 +1220,6 @@ wifi_error wifi_init_interfaces(wifi_handle handle)
 
     closedir(d);
 
-    info->num_interfaces = n;
     return WIFI_SUCCESS;
 }
 
