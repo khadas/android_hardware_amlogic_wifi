@@ -36,21 +36,18 @@
 
 int read_wifi(char *wifi_type)
 {
-    int fd = open("/data/vendor/wifi/wid_fp", O_RDONLY);
-    if (fd == -1) {
+    FILE *fd = fopen("/data/vendor/wifi/wid_fp", "r");
+    if (fd) {
+        fgets(wifi_type, 15, fd);
+    } else
         return -1;
-    }
-    int len = read(fd,wifi_type,15);
-    if (len == -1) {
-        close(fd);
-        return -1;
-    }
-    close(fd);
+
+    fclose(fd);
     return 0;
 }
 const char *get_wifi_name()
 {
-    char wifi_type[10];
+    char wifi_type[15];
     read_wifi(wifi_type);
     if (strstr(wifi_type, "bcm6330") != NULL) {
         return "bcm6330";
@@ -82,6 +79,8 @@ const char *get_wifi_name()
         return "qca6174";
     } else if(strstr(wifi_type, "rtl8723bs") != NULL) {
         return "rtl8723bs";
+    } else if(strncmp(wifi_type, "rtl", 3) == 0) {
+        return "rtl";
     } else if(strstr(wifi_type, "rtl8189es") != NULL) {
         return "rtl8189es";
     } else if(strstr(wifi_type, "rtl8821cs") != NULL) {

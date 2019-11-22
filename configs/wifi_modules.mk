@@ -45,5 +45,28 @@ ifeq ($(WIFI_MODULE),multiwifi)
 DEFAULT_WIFI_KERNEL_MODULES := \
 	$(PRODUCT_OUT)/obj/lib_vendor/dhd.ko \
 	$(PRODUCT_OUT)/obj/lib_vendor/bcmdhd.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/wlan_mt76x8_sdio.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/wlan_mt76x8_usb.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/8822bu.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/8189es.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/8189fs.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/8188eu.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/mt7601usta.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/mt7603usta.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/mtprealloc.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/8822bs.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/8822cs.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/8821cs.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/8821cu.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/8723bs.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/8723ds.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/8723bu.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/8723du.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/wlan_9377.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/wlan_9379.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/wlan_6174.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/ssv6x5x.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/ssv6051.ko \
+	$(PRODUCT_OUT)/obj/lib_vendor/ssv_hwif_ctrl.ko \
 
 endif
